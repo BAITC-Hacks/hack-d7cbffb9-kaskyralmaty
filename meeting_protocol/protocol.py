@@ -112,7 +112,7 @@ def resolve_context(audio: Path, participants: str | None = None, topic: str | N
 def replay(audio: Path, *, context: MeetingContext | None = None) -> Protocol:
     digest = audio_hash(audio)
     for path in sorted((ROOT / "data" / "replay").glob("*.json")):
-        protocol = Protocol.model_validate_json(path.read_text())
+        protocol = Protocol.model_validate_json(path.read_text(encoding="utf-8"))
         if protocol.source_sha256 == digest:
             if context is not None and context != protocol.context:
                 raise ValueError("Участники или тема отличаются от сохранённых: воспроизведение не пересчитывает протокол; нужен режим GPU")

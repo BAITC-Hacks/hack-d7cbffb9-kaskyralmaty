@@ -1,0 +1,8 @@
+# replay under a Windows-like locale (cp1251, PYTHONUTF8=0), commit base 98cf320 + utf-8 fix
+Воспроизведение — не проверка моделей
+Реплик: 47; поручений: 10; DOCX: outputs/meeting-1.docx
+Воспроизведение — не проверка моделей
+Реплик: 65; поручений: 8; DOCX: outputs/meeting-2.docx
+Документ №1: 47 реплик, 10 поручений
+Документ №2: 65 реплик, 8 поручений
+exit=0

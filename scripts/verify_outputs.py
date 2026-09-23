@@ -6,10 +6,10 @@ from docx import Document
 
 for number in (1, 2):
     prefix = Path(f"outputs/meeting-{number}")
-    result = json.loads(prefix.with_suffix(".json").read_text())
+    result = json.loads(prefix.with_suffix(".json").read_text(encoding="utf-8"))
     source = Path(f"docs/Трек 8 Инновации/Совещание №{number}.mp3")
     assert result["source_sha256"] == hashlib.sha256(source.read_bytes()).hexdigest()
-    preset = json.loads(Path('data/meeting-context.json').read_text())[result['source_sha256']]
+    preset = json.loads(Path('data/meeting-context.json').read_text(encoding='utf-8'))[result['source_sha256']]
     context = {key: preset[key] for key in ('participants', 'topic')}
     assert result["context"] == context, "Не сохранены тема и список участников"
     allowed = set(context['participants']) | {"Юридический департамент", "юридический департамент"}
