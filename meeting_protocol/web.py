@@ -19,95 +19,80 @@ processing = threading.Lock()
 results: "OrderedDict[str, tuple[Protocol, bool]]" = OrderedDict()
 MAX_RESULTS = 20
 
-STYLE = """
-:root{--bg:#f5f5ef;--card:#fff;--ink:#17302b;--muted:#5d6f6a;--line:#dfe3dc;--accent:#195e4b;--hl:#fff3b0;
---late:#b42318;--soon:#b54708;--ok:#1a7f37;--none:#667085}
-@media (prefers-color-scheme:dark){:root{--bg:#111816;--card:#1a2421;--ink:#e6eeeb;--muted:#9fb1ab;--line:#2c3a36;
---accent:#4fb393;--hl:#4a4217;--late:#f97066;--soon:#fdb022;--ok:#47cd89;--none:#98a2b3}}
-*{box-sizing:border-box}body{font:16px/1.5 system-ui;margin:0;padding:24px 16px;color:var(--ink);background:var(--bg)}
-main{max-width:1000px;margin:0 auto}section{background:var(--card);border-radius:14px;padding:20px;margin:16px 0}
-h1{margin:0 0 4px}h2{margin:0 0 12px;font-size:20px}.muted{color:var(--muted)}
-.bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.btn{display:inline-block;padding:10px 16px;border-radius:8px;
-background:var(--accent);color:#fff;text-decoration:none;font-weight:600}.btn.ghost{background:none;color:var(--accent);border:1px solid var(--accent)}
-.warn{background:var(--hl);padding:10px 14px;border-radius:8px}
-table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
-.scroll{overflow-x:auto}.badge{font-size:13px;font-weight:600;white-space:nowrap}
-.s-late{color:var(--late)}.s-soon{color:var(--soon)}.s-ok{color:var(--ok)}.s-none{color:var(--none)}
-.ref{margin-right:6px;color:var(--accent)}.seg{padding:6px 8px;border-radius:6px;scroll-margin-top:80px}
-.seg:target{background:var(--hl)}.who{font-weight:600}.t{color:var(--muted);font-variant-numeric:tabular-nums;margin-right:8px}
-"""
+UI = Path(__file__).parent / "ui"
 STATUS_CLASS = {"просрочено": "s-late", "скоро срок": "s-soon", "в работе": "s-ok", "без даты": "s-none"}
+PALETTE = ["#0f6b52", "#3b5bdb", "#c2255c", "#e8590c", "#7048e8", "#0c8599", "#5c940d", "#862e9c"]
+
+
+def asset(name: str) -> str:
+    return (UI / name).read_text(encoding="utf-8")
+
+
+def header(replay_mode: bool) -> str:
+    chip = '<span class="chip">Воспроизведение — не проверка моделей</span>' if replay_mode else '<span class="chip live">Локальные модели · GPU</span>'
+    return f'<header class="top"><div class="top-in"><a class="logo" href="/"><span class="logo-mark">Х</span>Хаттама</a><span class="spacer"></span>{chip}</div></header>'
+
+
+def initials(name: str) -> str:
+    return "".join(part[0] for part in name.split()[:2]).upper() or "?"
+
+
+def color(key: str) -> str:
+    return PALETTE[sum(map(ord, key)) % len(PALETTE)]
 
 
 def render_result(key: str, protocol: Protocol, replay_mode: bool, as_of: date) -> str:
-    rows = "".join(
-        f"<tr><td>{escape(a.responsible or 'Не указан')}</td><td>{escape(a.task)}</td>"
-        f"<td>{escape(a.deadline_text or 'Не указан')}</td>"
-        f"<td>{a.deadline_date.strftime('%d.%m.%Y') if a.deadline_date else '—'}</td>"
-        f"<td class='badge {STATUS_CLASS[a.status(as_of)]}'>{a.status(as_of)}</td>"
-        f"<td>{''.join(f'<a class=ref href=#seg-{i}>→ #{i}</a>' for i in a.evidence)}</td></tr>"
-        for a in protocol.assignments)
+    statuses = [a.status(as_of) for a in protocol.assignments]
+    tasks = "".join(
+        f"""<article class=task><div class=task-what>{escape(a.task)}</div>
+        <div class=task-when><span class="pill {STATUS_CLASS[st]}">{st}</span></div>
+        <div class=task-who><span class=avatar style="background:{color(a.responsible or '?')}">{escape(initials(a.responsible or '?'))}</span>{escape(a.responsible or 'Ответственный не указан')}</div>
+        <div class=task-when>{escape(a.deadline_text or 'Срок не указан')}{'<br><b>' + a.deadline_date.strftime('%d.%m.%Y') + '</b>' if a.deadline_date else ''}</div>
+        <div class=task-src><span class=muted>Источник:</span>{''.join(f'<a class=src href=#seg-{i}>→ #{i}</a>' for i in a.evidence)}</div></article>"""
+        for a, st in zip(protocol.assignments, statuses))
     transcript = "".join(
-        f"<div class=seg id=seg-{s.id}><span class=t>{int(s.start // 60):02d}:{int(s.start % 60):02d}</span>"
-        f"<span class=who>{escape(protocol.speaker_title(s.speaker))}:</span> {escape(s.text)} <span class=muted>#{s.id}</span></div>"
+        f"<div class=seg id=seg-{s.id}><span class=t>{int(s.start // 60):02d}:{int(s.start % 60):02d}</span><div>"
+        f"<span class=who style='color:{color(s.speaker or '?')}'>{escape(protocol.speaker_title(s.speaker))}</span>"
+        f"{'<span class=lang>KZ</span>' if s.language == 'kk' else ''} <span class=muted small>#{s.id}</span><br>{escape(s.text)}</div></div>"
         for s in protocol.segments)
-    speakers = "; ".join(escape(protocol.speaker_title(s.label)) for s in protocol.speakers) or "не определены"
-    notice = "<p class=warn>Воспроизведение заранее вычисленного результата — не проверка моделей.</p>" if replay_mode else ""
-    return f"""<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Протокол совещания</title><style>{STYLE}</style><main>
-    <section><h1>Протокол совещания</h1>
-    <p class=muted>{escape(protocol.source_name)} · дата встречи {protocol.meeting_date:%d.%m.%Y}{' · ' + escape(protocol.context.topic) if protocol.context.topic else ''}</p>
-    {notice}<div class=bar><a class=btn href="/result/{key}.docx">Скачать DOCX</a><a class="btn ghost" href="/">Новая запись</a></div></section>
-    <section><h2>Поручения ({len(protocol.assignments)})</h2><p class=muted>Статус на {as_of:%d.%m.%Y}: «скоро срок» — осталось не больше 3 дней.
-    Нажмите «→ #N», чтобы увидеть реплику, из которой взято поручение.</p>
-    <div class=scroll><table><tr><th>Кто</th><th>Что</th><th>Срок (как сказано)</th><th>Дата</th><th>Статус</th><th>Источник</th></tr>{rows}</table></div></section>
-    <section><h2>Саммари</h2><p>{escape(protocol.summary or 'Не сформировано')}</p></section>
-    <section><h2>Транскрипт</h2><p class=muted>Говорящие: {speakers}. Метки — по голосу, имена — по обращениям в разговоре.</p>{transcript}</section>
-    <p class=muted>Черновик ИИ: проверьте имена, сроки и содержание по записи.</p></main></html>"""
+    speakers = "".join(
+        f"<span class=speaker><span class=avatar style='background:{color(sp.label)}'>{escape(initials(sp.name or sp.label[-1:]))}</span>{escape(protocol.speaker_title(sp.label))}</span>"
+        for sp in protocol.speakers) or "<span class=muted>не определены</span>"
+    duration = protocol.segments[-1].end
+    notice = "<div class='notice'>▶ Воспроизведение заранее вычисленного результата — не проверка моделей.</div>" if replay_mode else ""
+    return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Протокол — {escape(protocol.source_name)}</title><style>{asset('style.css')}</style></head><body>{header(replay_mode)}<main>
+    <section class=hero><h1>{escape(protocol.context.topic or 'Протокол совещания')}</h1></section>
+    <div class=meta><span>📅 {protocol.meeting_date:%d.%m.%Y}</span><span>🎧 {escape(protocol.source_name)}</span><span>⏱ {int(duration // 60)} мин {int(duration % 60)} с</span></div>
+    {notice}
+    <div class=kpis><div class=kpi><b>{len(protocol.assignments)}</b><span>поручений</span></div>
+    <div class=kpi><b style="color:var(--soon)">{statuses.count('скоро срок')}</b><span>скоро срок (≤ 3 дней)</span></div>
+    <div class=kpi><b style="color:var(--late)">{statuses.count('просрочено')}</b><span>просрочено</span></div>
+    <div class=kpi><b>{len({s.speaker for s in protocol.segments if s.speaker})}</b><span>голосов в записи</span></div></div>
+    <div class=grid><div>
+    <section class=card><h2>Поручения <span class=count>{len(protocol.assignments)}</span><span class=spacer></span>
+    <a class=btn href="/result/{key}.docx">⬇ Скачать DOCX</a></h2>
+    <p class="muted small">Статус на {as_of:%d.%m.%Y}. Нажмите «→ #N», чтобы увидеть реплику, из которой взято поручение.</p>
+    <div class=tasks>{tasks or '<p class=muted>Поручения не найдены</p>'}</div></section>
+    <section class=card><h2>Саммари</h2><p style="margin:0">{escape(protocol.summary or 'Не сформировано')}</p></section>
+    </div><div class=sticky>
+    <section class=card><h2>Транскрипт <span class=count>{len(protocol.segments)}</span></h2>
+    <div class=speakers style="margin-bottom:12px">{speakers}</div>
+    <div class=transcript>{transcript}</div>
+    <p class="muted small">Голоса размечены автоматически, имена — по обращениям в разговоре. KZ — фрагмент распознан SeamlessM4T.</p></section>
+    </div></div>
+    <p class="muted small">Черновик ИИ: проверьте имена, сроки и содержание по записи. <a href="/">Обработать другую запись</a></p>
+    </main></body></html>"""
 
 
 @app.get("/", response_class=HTMLResponse)
 def index():
-    mode = os.environ.get("APP_MODE", "replay")
-    label = "Воспроизведение — не проверка моделей" if mode == "replay" else "Локальные модели на GPU"
+    replay_mode = os.environ.get("APP_MODE", "replay") == "replay"
     presets = json.dumps(meeting_presets(), ensure_ascii=False).replace("<", "\\u003c")
-    return f"""<!doctype html><html lang="ru"><meta charset="utf-8"><title>Протокол совещания</title>
-    <style>body{{font:18px system-ui;max-width:760px;margin:60px auto;padding:20px;color:#17302b;background:#f5f5ef}}form{{display:grid;gap:20px;padding:28px;background:white;border-radius:16px}}button{{padding:14px;background:#195e4b;color:white;border:0;border-radius:8px;font-size:18px}}</style>
-    <h1>Протокол совещания</h1><p>{label}</p>
-    <p>Запись → транскрипт с говорящими → поручения «кто / что / срок» → DOCX.</p>
-    <p style="background:#fff3b0;padding:10px 14px;border-radius:8px">Встреча записывается и транскрибируется ИИ — объявите об этом участникам перед началом записи.</p>
-    <form action="/protocol" method="post" enctype="multipart/form-data">
-    <label>Аудиозапись <input id="audio" name="audio" type="file" accept="audio/*" required></label>
-    <label>Дата встречи <input name="meeting_date" type="date" value="2026-09-23" required></label>
-    <label>Тема <input id="topic" name="topic" maxlength="1000" style="width:100%"></label>
-    <label>Участники <textarea id="participants" name="participants" rows="6" style="width:100%" placeholder="Каждое ФИО с новой строки"></textarea></label>
-    <small>Укажите участников и известных ответственных, в том числе не выступавших. Тема и имена передаются только агенту для разбора, не в распознавание речи. Для двух комплектных MP3 поля заполняются по эталонным протоколам; фамилии, которых нет в источнике, не добавлены.</small>
-    <p id="context-note" aria-live="polite"></p>
-    <button id="submit">Получить протокол</button><p>Обработка может занять несколько минут. В режиме воспроизведения доступны только два комплектных MP3; изменение темы или участников требует GPU.</p></form>
-    <script>
-    const presets = {presets};
-    let selection = 0;
-    document.getElementById('audio').addEventListener('change', async event => {{
-      const current = ++selection;
-      const file = event.target.files[0];
-      const submit = document.getElementById('submit');
-      submit.disabled = true;
-      try {{
-        let preset;
-        if (file && file.size <= 100 * 1024 * 1024) {{
-          const hash = await crypto.subtle.digest('SHA-256', await file.arrayBuffer());
-          const digest = Array.from(new Uint8Array(hash), b => b.toString(16).padStart(2, '0')).join('');
-          preset = presets[digest];
-        }}
-        if (current !== selection) return;
-        document.getElementById('topic').value = preset?.topic || '';
-        document.getElementById('participants').value = (preset?.participants || []).join('\\n');
-        document.getElementById('context-note').textContent = preset ? 'Тема и имена заполнены: ' + preset.label + '. Проверьте перед отправкой.' : 'Введите тему и участников своей встречи.';
-      }} catch {{
-        if (current === selection) document.getElementById('context-note').textContent = 'Не удалось заполнить поля автоматически; введите тему и участников вручную.';
-      }} finally {{ if (current === selection) submit.disabled = false; }}
-    }});
-    </script></html>"""
+    return (asset("index.html").replace("__STYLE__", asset("style.css")).replace("__SCRIPT__", asset("app.js"))
+            .replace("__PRESETS__", presets).replace("__REPLAY__", "true" if replay_mode else "false")
+            .replace("__MODE_CLASS__", "" if replay_mode else "live")
+            .replace("__MODE_LABEL__", "Воспроизведение — не проверка моделей" if replay_mode else "Локальные модели · GPU"))
 
 
 @app.get("/health")

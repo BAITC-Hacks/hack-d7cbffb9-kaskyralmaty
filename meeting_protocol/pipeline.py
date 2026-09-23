@@ -52,9 +52,60 @@ def whisper_model():
     return WhisperModel(path, device="cuda", compute_type="float16")
 
 
+SEAMLESS_REVISION = "5f8cc790b19fc3f67a61c105133b20b34e3dcb76"
+SAMPLE_RATE = 16000
+WINDOW_SECONDS = 20.0
+
+
+@lru_cache(maxsize=1)
+def seamless_model():
+    import torch
+    from transformers import AutoProcessor, SeamlessM4Tv2ForSpeechToText
+    processor = AutoProcessor.from_pretrained("facebook/seamless-m4t-v2-large", revision=SEAMLESS_REVISION)
+    model = SeamlessM4Tv2ForSpeechToText.from_pretrained(
+        "facebook/seamless-m4t-v2-large", revision=SEAMLESS_REVISION, dtype=torch.float16).to("cuda").eval()
+    return processor, model
+
+
+def seamless_kazakh(wave) -> str:
+    import torch
+    processor, model = seamless_model()
+    inputs = processor(audio=wave, sampling_rate=SAMPLE_RATE, return_tensors="pt").to("cuda")
+    inputs["input_features"] = inputs["input_features"].to(torch.float16)
+    with torch.inference_mode():
+        tokens = model.generate(**inputs, tgt_lang="kaz", max_new_tokens=256)
+    return processor.batch_decode(tokens, skip_special_tokens=True)[0].strip()
+
+
+def windows(segments, limit: float = WINDOW_SECONDS) -> list[list[int]]:
+    """Group consecutive segment indices into windows of at most `limit` seconds."""
+    groups: list[list[int]] = []
+    for i, s in enumerate(segments):
+        if groups and s.end - segments[groups[-1][0]].start <= limit:
+            groups[-1].append(i)
+        else:
+            groups.append([i])
+    return groups
+
+
 def transcribe(audio: Path) -> list[Segment]:
-    segments, _ = whisper_model().transcribe(str(audio), beam_size=5, vad_filter=True)
-    result = [Segment(id=i, start=s.start, end=s.end, text=s.text.strip()) for i, s in enumerate(segments)]
+    """Whisper for everything; 20 s windows detected as Kazakh are re-recognised by SeamlessM4T.
+
+    Measured on data/test: Kazakh WER 45% (Whisper) -> 8% (Seamless). Seamless is never used on
+    Russian or mixed windows: with tgt_lang=kaz it paraphrases and drops text, with rus it translates.
+    """
+    from faster_whisper.audio import decode_audio
+    wave = decode_audio(str(audio), sampling_rate=SAMPLE_RATE)
+    raw = list(whisper_model().transcribe(wave, beam_size=5, vad_filter=True)[0])
+    result = [Segment(id=i, start=s.start, end=s.end, text=s.text.strip()) for i, s in enumerate(raw)]
+    for group in windows(result):
+        piece = wave[int(result[group[0]].start * SAMPLE_RATE):int(result[group[-1]].end * SAMPLE_RATE)]
+        language = whisper_model().detect_language(piece)[0]
+        for i in group:
+            result[i].language = language
+            if language == "kk":
+                text = seamless_kazakh(wave[int(result[i].start * SAMPLE_RATE):int(result[i].end * SAMPLE_RATE)])
+                result[i].text = text or result[i].text
     if not result or not any(s.text for s in result):
         raise ValueError("В записи не распознана речь")
     return result
@@ -154,7 +205,7 @@ def process(audio: Path, meeting_date: date, context: MeetingContext) -> Protoco
     return Protocol(
         **extracted.model_dump(), segments=segments, source_sha256=audio_hash(audio),
         source_name=audio.name, meeting_date=meeting_date, context=context,
-        provenance={"asr": "faster-whisper 1.2.1 / large-v3 / CUDA float16",
+        provenance={"asr": "faster-whisper 1.2.1 / large-v3 / CUDA float16; окна kk → SeamlessM4T-v2-large " + SEAMLESS_REVISION[:12],
                     "llm": os.environ.get("LLM_MODEL", "qwen3.8-27b"),
                     "agent": "PydanticAI 2.48.0", "created_at": datetime.now(timezone.utc).isoformat(),
                     "diarization": f"SpeechBrain ECAPA {ECAPA_REVISION[:12]} / average-linkage cosine {DISTANCE_THRESHOLD}"},

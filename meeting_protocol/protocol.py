@@ -18,6 +18,7 @@ class Segment(BaseModel):
     end: float = Field(ge=0)
     text: str
     speaker: str | None = None
+    language: str | None = Field(default=None, description="Язык окна по Whisper: kk распознаётся SeamlessM4T, остальное — Whisper")
 
 
 class Assignment(BaseModel):

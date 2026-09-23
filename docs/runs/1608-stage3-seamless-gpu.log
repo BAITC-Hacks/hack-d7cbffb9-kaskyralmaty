@@ -1,0 +1,20 @@
+# 2026-09-23 16:08:42 stage 3: Seamless for kk windows; GPU run of 2 MP3 + kz_01 + mix_01; evaluation
+ Image meeting-dev-app Built 
+ Container meeting-dev-app-1 Started 
+Реальный запуск ASR и LLM
+Реплик: 17; поручений: 3; DOCX: outputs/kz_01.docx
+kz_01: 62.80 s
+Реальный запуск ASR и LLM
+Реплик: 26; поручений: 3; DOCX: outputs/mix_01.docx
+mix_01: 18.57 s
+Реальный запуск ASR и LLM
+Реплик: 47; поручений: 10; DOCX: outputs/meeting-1.docx
+meeting-1: 47.39 s
+Реальный запуск ASR и LLM
+Реплик: 65; поручений: 8; DOCX: outputs/meeting-2.docx
+meeting-2: 44.20 s
+Документ №1: 47 реплик, 10 поручений
+Документ №2: 65 реплик, 8 поручений
+kz_01: WER 11.1%; языки окон ['kk']; поручения: найдено 3/3 (recall), верных 3/3 (precision)
+mix_01: WER 36.3%; языки окон ['ru']; поручения: найдено 3/4 (recall), верных 3/3 (precision)
+done

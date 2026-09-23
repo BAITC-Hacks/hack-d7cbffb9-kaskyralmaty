@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Хаттама — протокол совещания</title>
+<style>__STYLE__</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <a class="logo" href="/"><span class="logo-mark">Х</span>Хаттама</a>
+  <span class="spacer"></span>
+  <span class="chip __MODE_CLASS__">__MODE_LABEL__</span>
+</div></header>
+<main>
+  <section class="hero">
+    <h1>Протокол совещания — без ручной работы секретаря</h1>
+    <p>Запись встречи на русском, казахском или вперемешку → транскрипт с говорящими → поручения «кто / что / срок» со ссылкой на исходную реплику → DOCX. Всё обрабатывается локально, данные не уходят во внешние сервисы.</p>
+  </section>
+
+  <div class="grid">
+    <form id="form" class="card" action="/protocol" method="post" enctype="multipart/form-data">
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab" role="tab" aria-selected="true" data-tab="upload">Загрузить файл</button>
+        <button type="button" class="tab" role="tab" aria-selected="false" data-tab="record">Записать встречу</button>
+      </div>
+
+      <div data-panel="upload">
+        <label class="drop" id="drop">
+          <input id="audio" name="audio" type="file" accept="audio/*,video/webm">
+          <strong id="drop-title">Перетащите запись или выберите файл</strong>
+          <span class="muted small" id="drop-sub">MP3, M4A, WAV, WEBM · до 100 МБ</span>
+        </label>
+      </div>
+
+      <div data-panel="record" hidden>
+        <div class="notice">⚠️ <div><b>Встреча записывается и транскрибируется ИИ.</b> Объявите об этом участникам до начала записи.</div></div>
+        <label class="check"><input type="checkbox" id="consent"> Я объявил(а) участникам о записи и ИИ-транскрибации</label>
+        <label class="check"><input type="checkbox" id="with-tab" checked> Записывать и звук собеседников — вкладку Meet/Teams/Zoom в браузере или экран (Chrome/Edge: отметьте «Поделиться звуком»)</label>
+        <div class="rec" id="rec">
+          <div class="rec-row">
+            <span class="dot"></span><span class="timer" id="timer">00:00</span>
+            <span class="spacer"></span>
+            <button type="button" class="btn" id="rec-start" disabled>● Начать запись</button>
+            <button type="button" class="btn danger" id="rec-stop" hidden>■ Остановить</button>
+          </div>
+          <div class="meter"><i id="level"></i></div>
+          <div id="rec-note" class="muted small" aria-live="polite">Для записи нужен режим GPU: в режиме воспроизведения обрабатываются только два комплектных MP3.</div>
+        </div>
+      </div>
+
+      <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+      <label class="field">Дата встречи <input name="meeting_date" type="date" value="2026-09-23" required></label>
+      <label class="field">Тема <input id="topic" name="topic" type="text" maxlength="1000" placeholder="Например: оперативное совещание по производству"></label>
+      <label class="field">Участники и возможные ответственные
+        <textarea id="participants" name="participants" placeholder="Каждое ФИО с новой строки"></textarea>
+        <span class="muted small" style="font-weight:400">Помогают агенту правильно написать имена: распознавание речи часто их искажает. Передаются только агенту, не в распознавание.</span>
+      </label>
+      <p id="context-note" class="muted small" aria-live="polite"></p>
+      <div id="error" class="notice error" hidden></div>
+      <button id="submit" class="btn wide" disabled>Получить протокол</button>
+      <div class="steps" id="steps">
+        <div class="step"><span class="spin"></span>Распознаём речь (RU — Whisper, KZ — SeamlessM4T)</div>
+        <div class="step"><span class="spin"></span>Разделяем голоса и узнаём участников</div>
+        <div class="step"><span class="spin"></span>Агент извлекает поручения и сроки, проверяет по репликам</div>
+        <p class="muted small">Обычно 30–90 секунд на 5 минут записи.</p>
+      </div>
+    </form>
+
+    <aside class="card">
+      <h2>Как это работает</h2>
+      <div class="how">
+        <div><b>1</b><span>Запись с совещания: файл или прямо из браузера — микрофон и звук Meet/Teams/Zoom.</span></div>
+        <div><b>2</b><span>Локальное распознавание речи: русская речь — Whisper, казахская — SeamlessM4T.</span></div>
+        <div><b>3</b><span>Голоса разделяются, агент узнаёт участников по обращениям в разговоре.</span></div>
+        <div><b>4</b><span>Поручения «кто / что / срок» с датой, статусом и ссылкой на реплику, из которой они взяты.</span></div>
+        <div><b>5</b><span>Проверка секретарём на странице и выгрузка протокола в DOCX.</span></div>
+      </div>
+      <p class="muted small" style="margin-bottom:0">Черновик ИИ требует проверки человеком. Аудио и текст не покидают сервер.</p>
+    </aside>
+  </div>
+</main>
+<script>
+const PRESETS = __PRESETS__;
+const REPLAY = __REPLAY__;
+__SCRIPT__
+</script>
+</body>
+</html>
