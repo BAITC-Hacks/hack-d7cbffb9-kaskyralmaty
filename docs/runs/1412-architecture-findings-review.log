@@ -1,0 +1,68 @@
+# Варианты агентного движка для протоколирования встреч
+
+Дата проверки: 23 сентября 2026. Статус: исследование, предложение к обсуждению; стек не выбран. Установка и запуск не выполнялись. HANDOFF.md не использован как подтверждение работающего сервера или готового стека.
+
+## Вывод
+
+Готовый OSS-движок позволяет переиспользовать цикл «модель → инструмент → результат → следующий шаг». Он не заменяет нашу систему: распознавание речи, подключение к встречам, сущности поручений, проверка по стенограмме, интерфейс согласования и экспорт остаются предметной разработкой. Это архитектурный вывод из документированных границ трёх решений ниже, а не результат нагрузочного теста.
+
+Предложение: для встроенного агента внутри системы сначала рассмотреть **PydanticAI**: он непосредственно моделирует типизированный результат и проверяет его. **Hermes Agent** имеет смысл, если нужен также самостоятельный универсальный ассистент с памятью, готовыми инструментами и каналами общения. **smolagents ToolCallingAgent** — компактная альтернатива, когда важнее простой цикл вызовов инструментов. Все три можно направить на собственный сервер модели.
+
+## Сравнение
+
+| Вопрос | Hermes Agent | PydanticAI | smolagents |
+|---|---|---|---|
+| Форма | Готовый ассистент, также Python API и HTTP API | Библиотека для встраивания в приложение | Библиотека для встраивания |
+| Лицензия кода | MIT [H1] | MIT [P1] | Apache-2.0 [S1] |
+| Собственная модель | Custom endpoint, OpenAI-compatible Chat Completions [H3] | OpenAIChatModel + OpenAIProvider(base_url=...), отдельные провайдеры для локальных серверов [P2] | OpenAIModel(api_base=...), также локальные модели [S2] |
+| Инструменты | Готовые toolsets, их разрешающий список; цикл агента уже есть [H2, H4] | Python-функции как инструменты, схемы аргументов [P3] | ToolCallingAgent вызывает JSON-инструменты; CodeAgent пишет Python [S3] |
+| Структурированный результат | Python chat() возвращает строку; run_conversation() — словарь с ответом/историей/метаданными. В проверенных руководствах не подтверждён готовый типизированный контракт финального протокола [H2, H5] | output_type, Tool/Native/Prompted Output, валидация и повтор при ошибке [P4] | final_answer_checks для проверки финального ответа; схему протокола и её проверку задаём сами [S3] |
+
+Словарь результата Hermes и JSON вызова инструмента smolagents сами по себе не доказывают соответствие содержимого нашей схеме поручения. Наличие структурированного вывода также не доказывает фактическую точность: правильность исполнителя, срока и цитаты нужно проверять отдельно.
+
+## Что реально переиспользуем
+
+**Hermes.** Документирован импорт AIAgent из run_agent, вызовы chat()/run_conversation(), управление toolsets, история и сохранение траекторий. Для каждого параллельного задания нужен отдельный экземпляр; общий экземпляр не потокобезопасен. Есть HTTP API для собственного frontend. Память, cron и каналы сообщений уже входят в продукт [H2, H4, H5]. Наша интеграция должна добавить узкие предметные инструменты: найти фрагмент встречи, проверить поручение, сохранить черновик, экспортировать согласованный результат. Встраиваемость подтверждена; стоимость адаптации не измерена.
+
+**PydanticAI.** Берём библиотечный цикл, регистрацию функций и контроль схемы результата. Native Output зависит от поддержки JSON Schema сервером и моделью; Tool Output — от tool calling; Prompted Output доступнее, но менее надёжен. Совместимый endpoint ещё не гарантирует правильные настройки модели: документация отдельно описывает model profile [P2–P4]. Это наиболее прямое соответствие задаче «получить проверяемый протокол» — наша рекомендация по устройству API, а не измеренное превосходство качества.
+
+**smolagents.** Берём многошаговый цикл, лимит шагов, список инструментов и проверки финального ответа. Для нашего сценария предлагаем сравнивать именно ToolCallingAgent: CodeAgent предполагает выполнение сгенерированного Python и добавляет отдельную задачу изоляции исполнения [S3]. Типы поручений, хранилище и проверки фактов всё равно наши.
+
+## Локальный контур и оставшаяся работа
+
+Для всех вариантов предлагаем явно задать собственный endpoint модели и только нужные локальные инструменты. В Hermes отдельно проверить вспомогательные модели, fallback-провайдеры и backend каждого инструмента. Актуальная официальная документация говорит, что auxiliary с provider=auto следует основной модели; отдельные настройки могут изменить маршрут. Web-инструменты могут использовать внешний Firecrawl [H3]. Не следует переносить старые утверждения о defaults из сторонних копий документации.
+
+ASR, диаризация, Jitsi/Zoom-подключение и захват аудио не были предметом этого исследования. Ни один вариант здесь не принят за готовый коннектор к встрече. Агентный runtime не является самой LLM; лицензии и вычислительные требования выбранной модели и ASR проверяются отдельно.
+
+До выбора предложен короткий сравнительный эксперимент на одной локальной модели: одинаковая стенограмма → одинаковая схема поручения → вызов разрешённого инструмента → корректное завершение/ошибка. Измерить валидность схемы, точность извлечения, задержку, повторные вызовы и отсутствие внешней отправки данных. Эксперимент пока не запущен.
+
+## Первичные источники
+
+- [H1 — Hermes LICENSE](https://github.com/NousResearch/hermes-agent/blob/main/LICENSE)
+- [H2 — Hermes как Python-библиотека](https://hermes-agent.nousresearch.com/docs/guides/python-library)
+- [H3 — Hermes: провайдеры, self-hosted endpoints, auxiliary и fallback](https://hermes-agent.nousresearch.com/docs/integrations/providers)
+- [H4 — официальный репозиторий Hermes Agent](https://github.com/NousResearch/hermes-agent)
+- [H5 — Hermes API Server](https://hermes-agent.nousresearch.com/docs/user-guide/features/api-server)
+- [P1 — PydanticAI LICENSE](https://github.com/pydantic/pydantic-ai/blob/main/LICENSE)
+- [P2 — PydanticAI: совместимые endpoint и model profiles](https://pydantic.dev/docs/ai/models/openai/)
+- [P3 — PydanticAI: function tools](https://pydantic.dev/docs/ai/tools-toolsets/tools/)
+- [P4 — PydanticAI: режимы структурированного результата](https://pydantic.dev/docs/ai/core-concepts/output/)
+- [S1 — smolagents LICENSE](https://github.com/huggingface/smolagents/blob/main/LICENSE)
+- [S2 — smolagents: модели и api_base](https://huggingface.co/docs/smolagents/reference/models)
+- [S3 — smolagents: агенты и final_answer_checks](https://huggingface.co/docs/smolagents/reference/agents)
+ M .scratch/meeting-protocol/spec.md
+ M docs/LOG.md
+?? .DS_Store
+?? .scratch/meeting-protocol/agent-options.md
+?? .scratch/meeting-protocol/architecture.md
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+?? docs/runs/1402-track8-setup-commit.log
+?? docs/runs/1409-architecture-research-context.log
+?? docs/runs/1410-agent-options-context.log
+?? docs/runs/1410-agent-options-instructions.log
+?? docs/runs/1411-agent-options-existing.log
+?? docs/runs/1412-agent-options-write-check.log
+?? docs/runs/1412-architecture-findings-review.log
+?? docs/runs/1412-architecture-proposal-write.log

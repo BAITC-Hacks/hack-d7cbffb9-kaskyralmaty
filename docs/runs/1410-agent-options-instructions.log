@@ -1,0 +1,50 @@
+---
+name: research
+description: Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo. Use when the user wants a topic researched, docs or API facts gathered, or reading legwork delegated to a background agent.
+---
+
+Spin up a **background agent** to do the research, so you keep working while it reads.
+
+Its job:
+
+1. Investigate the question against **primary sources** (official docs, source code, specs, first-party APIs), not a secondary write-up of them. Follow every claim back to the source that owns it.
+2. Write the findings to a single Markdown file, citing each claim's source.
+3. Save it where the repo already keeps such notes; match the existing convention, and if there is none, put it somewhere sensible and say where.
+# Domain docs
+
+## Перед исследованием кода
+
+Прочитай корневой `CONTEXT.md` и относящиеся к задаче ADR из `docs/adr/`. Если появится `CONTEXT-MAP.md`, следуй его ссылкам на контексты и учитывай ADR соответствующих контекстов.
+
+При отсутствии документов продолжай работу. Создавай их через domain-modeling по мере появления согласованных терминов и решений.
+
+## Структура
+
+Single-context: один `CONTEXT.md` в корне, архитектурные решения в `docs/adr/`.
+
+## Терминология и решения
+
+Используй термины из CONTEXT.md в задачах, коде и проверках. Недостающие понятия отмечай для domain-modeling. Противоречие существующему ADR укажи явно с объяснением; пересмотр решения требует отдельного согласования.
+# Issue tracker: Local Markdown
+
+Задачи и спецификации хранятся в `.scratch/`.
+
+- Одна функциональность: `.scratch/<feature-slug>/`.
+- Спецификация: `spec.md` внутри этой директории.
+- Каждая задача: `issues/<NN>-<slug>.md`, нумерация с 01.
+- Статус triage: строка `Status:` в начале задачи; значения определены в `triage-labels.md`.
+- Обсуждение дописывается в конец под `## Comments`.
+
+«Опубликовать в трекере» означает создать локальный Markdown-файл.
+«Получить задачу» означает прочитать файл по указанному пути.
+
+## Wayfinder
+
+- Карта: `.scratch/<effort>/map.md`, разделы Notes, Decisions-so-far и Fog.
+- Дочерние задачи: `issues/NN-<slug>.md`.
+- `Type:`: research / prototype / grilling / task.
+- В workflow wayfinder `Status:` отражает claimed / resolved; это состояния выполнения, отдельные от triage.
+- `Blocked by: NN, NN` перечисляет зависимости. Задача доступна, когда все зависимости resolved.
+- Следующая задача: первая по номеру незавершённая, свободная задача без открытых зависимостей.
+- Перед работой сохранить `Status: claimed`.
+- По завершении добавить `## Answer`, установить resolved, дописать краткий результат и ссылку в Decisions-so-far карты.
