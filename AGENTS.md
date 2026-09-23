@@ -82,3 +82,17 @@ I hold the clock, you do not. I will tell you:
 - "stop": no further changes.
 
 If I have not announced "candidate" and the repository looks ready, ask me whether to declare one. Do not declare it yourself.
+
+## Agent skills
+
+### Issue tracker
+Задачи и спецификации хранятся локально в `.scratch/`.
+Перед работой с ними прочитай `docs/agents/issue-tracker.md`.
+
+### Triage labels
+Используются пять стандартных статусов.
+Перед triage прочитай `docs/agents/triage-labels.md`.
+
+### Domain docs
+Single-context: `CONTEXT.md` и `docs/adr/` в корне.
+Перед исследованием кода прочитай `docs/agents/domain.md`.

@@ -1,0 +1,12 @@
+Полный текст исходного ТЗ совпадает с содержимым docs/CASE.md: все непустые абзацы присутствуют.
+Протокол №1: все 10 табличных поручений перенесены без изменения ячеек.
+Протокол №2: все 6 табличных поручений перенесены без изменения ячеек.
+Матрицы требований полны; спорные трактовки и предлагаемые проверки выделены отдельно.
+ M docs/LOG.md
+?? .DS_Store
+?? .scratch/
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+?? docs/runs/1400-track8-spec-write.log
+?? docs/runs/1401-track8-spec-verification.log
