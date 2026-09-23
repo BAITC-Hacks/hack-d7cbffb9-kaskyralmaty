@@ -1,0 +1,503 @@
+docs/runs/1315-case-text.log:6: trailing whitespace.
++Участникам предоставляются координаты и исторические данные работы ВЭС с марта 2023 года до 31 января 2026 года включительно. 
+docs/runs/1315-case-text.log:48: trailing whitespace.
++ 
+docs/runs/1315-case-text.log:53: trailing whitespace.
++Партнёр: ТОО «Электрокомплект» (ekt.kz). 
+docs/runs/1315-case-text.log:147: trailing whitespace.
++транспорт; 
+docs/runs/1315-case-text.log:148: trailing whitespace.
++озеленение; 
+docs/runs/1315-case-text.log:149: trailing whitespace.
++социальная инфраструктура; 
+docs/runs/1315-case-text.log:150: trailing whitespace.
++безопасность; 
+docs/runs/1315-case-text.log:151: trailing whitespace.
++городской сервис. 
+docs/runs/1315-case-text.log:154: trailing whitespace.
++фиксированный виртуальный бюджет; 
+docs/runs/1315-case-text.log:155: trailing whitespace.
++набор показателей по условным районам города; 
+docs/runs/1315-case-text.log:156: trailing whitespace.
++перечень возможных мероприятий и их условная стоимость; 
+docs/runs/1315-case-text.log:157: trailing whitespace.
++показатели по пяти направлениям городского развития. 
+docs/runs/1315-case-text.log:161: trailing whitespace.
++единый виртуальный бюджет для всех пользователей; 
+docs/runs/1315-case-text.log:162: trailing whitespace.
++возможность принять решения по 5 заданным направлениям; 
+docs/runs/1315-case-text.log:163: trailing whitespace.
++автоматический контроль превышения бюджета; 
+docs/runs/1315-case-text.log:164: trailing whitespace.
++AI-анализ принятых решений; 
+docs/runs/1315-case-text.log:165: trailing whitespace.
++расчет итогового Astana Quality of Life Score; 
+docs/runs/1315-case-text.log:166: trailing whitespace.
++объяснение сильных сторон, рисков и возможных последствий выбранного сценария. 
+docs/runs/1315-case-text.log:168: trailing whitespace.
++сравнение результатов нескольких команд; 
+docs/runs/1315-case-text.log:169: trailing whitespace.
++визуализация изменений показателей районов; 
+docs/runs/1315-case-text.log:170: trailing whitespace.
++AI-рекомендации по улучшению выбранного сценария; 
+docs/runs/1315-case-text.log:171: trailing whitespace.
++моделирование неожиданных городских событий, требующих перераспределения бюджета; 
+docs/runs/1315-case-text.log:172: trailing whitespace.
++автоматическая генерация краткой презентации решения команды. 
+docs/runs/1315-case-text.log:175: trailing whitespace.
++Все команды начинают с одинакового виртуального бюджета и исходных данных. 
+docs/runs/1315-case-text.log:176: trailing whitespace.
++Система не позволяет превысить установленный бюджет. 
+docs/runs/1315-case-text.log:177: trailing whitespace.
++Принятые решения влияют на итоговые показатели модели. 
+docs/runs/1315-case-text.log:178: trailing whitespace.
++AI формирует понятное объяснение итогового результата и основных компромиссов. 
+docs/runs/1315-case-text.log:427: trailing whitespace.
++ 
+docs/runs/1315-case-text.log:440: trailing whitespace.
++Внутренний контур 
+docs/runs/1315-case-text.log:479: trailing whitespace.
++6.  Данные. 
+docs/runs/1315-case-text.log:502: trailing whitespace.
++9. Ограничения. 
+docs/runs/1315-case-text.log:504: trailing whitespace.
++Учесть: 
+docs/runs/1315-case-text.log:510: trailing whitespace.
++10. Артефакты. Репозиторий: да. README: да. 
+docs/runs/1315-case-text.log:532: trailing whitespace.
++ 
+docs/runs/1315-cases-4-9.log:150: trailing whitespace.
++ 
+docs/runs/1315-cases-4-9.log:151: trailing whitespace.
++ 
+docs/runs/1315-cases-4-9.log:156: trailing whitespace.
++Партнёр: ТОО «Электрокомплект» (ekt.kz). 
+docs/runs/1315-cases-4-9.log:514: trailing whitespace.
++Внутренний контур 
+docs/runs/1315-cases-4-9.log:533: trailing whitespace.
++Задача. Разработать голосового AI-робота с веб-интерфейсом симуляции, который заменяет классификатор намерений на LLM-слой, понимающий контекст диалога, и выдаёт голосовой ответ клиенту плюс трассировку для супервизора: какой сценарий выбран, почему, за какое время. 
+docs/runs/1315-cases-4-9.log:577: trailing whitespace.
++8. Артефакты. Репозиторий: да. README: да. 
+docs/runs/1315-customer-cases-rest.log:2: trailing whitespace.
++### Треки/Трек 4 Телекомуникация/HackAlem AI_ Beeline Tariff Marketing Campaigns Case (1).docx 
+docs/runs/1315-customer-cases-rest.log:6: trailing whitespace.
++### Треки/Трек 4 Телекомуникация/HackAlem AI_ Beeline Tariff Marketing Campaigns Case.docx 
+docs/runs/1315-customer-cases-rest.log:152: trailing whitespace.
++ 
+docs/runs/1315-customer-cases-rest.log:153: trailing whitespace.
++ 
+docs/runs/1315-customer-cases-rest.log:155: trailing whitespace.
++### Треки/Трек 5 Логистика/HackAlem AI_ Автоматизация формирования заказов поставщикам.docx 
+docs/runs/1315-customer-cases-rest.log:159: trailing whitespace.
++Партнёр: ТОО «Электрокомплект» (ekt.kz). 
+docs/runs/1315-customer-cases-rest.log:193: trailing whitespace.
++### Треки/Трек 6 Креативные индустрии/HackAlem AI_ Хакатон-задача_ умный подбор подрядчиков.docx 
+docs/runs/1315-customer-cases-rest.log:274: trailing whitespace.
++### Треки/Трек 7 Образование/HackAlem AI_ кейс по геймификации практических заданий.docx 
+docs/runs/1315-customer-cases-rest.log:449: trailing whitespace.
++### Треки/Трек 8 Инновации/HackAlem AI_ Система автопротоколирования совещаний с фиксацией поручений.docx 
+docs/runs/1315-customer-cases-rest.log:509: trailing whitespace.
++### Треки/Трек 9 Коммуникации/HackAlem AI_ Voice Router - гибридный голосовой AI-робот с LLM-слоем выбора сценария.docx 
+docs/runs/1315-customer-cases-rest.log:521: trailing whitespace.
++Внутренний контур 
+docs/runs/1315-customer-cases-rest.log:540: trailing whitespace.
++Задача. Разработать голосового AI-робота с веб-интерфейсом симуляции, который заменяет классификатор намерений на LLM-слой, понимающий контекст диалога, и выдаёт голосовой ответ клиенту плюс трассировку для супервизора: какой сценарий выбран, почему, за какое время. 
+docs/runs/1315-customer-cases-rest.log:584: trailing whitespace.
++8. Артефакты. Репозиторий: да. README: да. 
+docs/runs/1315-customer-cases.log:2: trailing whitespace.
++### Треки/Трек 1 Энергетика/HackAlem AI_ Agentic AI для прогнозирования выработки ВЭС.docx 
+docs/runs/1315-customer-cases.log:7: trailing whitespace.
++Участникам предоставляются координаты и исторические данные работы ВЭС с марта 2023 года до 31 января 2026 года включительно. 
+docs/runs/1315-customer-cases.log:49: trailing whitespace.
++ 
+docs/runs/1315-customer-cases.log:51: trailing whitespace.
++### Треки/Трек 10 Торговля/HackAlem AI_ ИИ-ассистент для чата на сайте ekt.kz.docx 
+docs/runs/1315-customer-cases.log:55: trailing whitespace.
++Партнёр: ТОО «Электрокомплект» (ekt.kz). 
+docs/runs/1315-customer-cases.log:88: trailing whitespace.
++### Треки/Трек 11 Спец-трек Казактелеком/HackAlem AI_ ИИ-агент «Анализ организационной структуры и функционала».docx 
+docs/runs/1315-customer-cases.log:144: trailing whitespace.
++### Треки/Трек 12 Спец-трек Astana Innovations/HackAlem AI_ «Аким на 5 часов» - AI-симулятор управления городом.docx 
+docs/runs/1315-customer-cases.log:151: trailing whitespace.
++транспорт; 
+docs/runs/1315-customer-cases.log:152: trailing whitespace.
++озеленение; 
+docs/runs/1315-customer-cases.log:153: trailing whitespace.
++социальная инфраструктура; 
+docs/runs/1315-customer-cases.log:154: trailing whitespace.
++безопасность; 
+docs/runs/1315-customer-cases.log:155: trailing whitespace.
++городской сервис. 
+docs/runs/1315-customer-cases.log:158: trailing whitespace.
++фиксированный виртуальный бюджет; 
+docs/runs/1315-customer-cases.log:159: trailing whitespace.
++набор показателей по условным районам города; 
+docs/runs/1315-customer-cases.log:160: trailing whitespace.
++перечень возможных мероприятий и их условная стоимость; 
+docs/runs/1315-customer-cases.log:161: trailing whitespace.
++показатели по пяти направлениям городского развития. 
+docs/runs/1315-customer-cases.log:165: trailing whitespace.
++единый виртуальный бюджет для всех пользователей; 
+docs/runs/1315-customer-cases.log:166: trailing whitespace.
++возможность принять решения по 5 заданным направлениям; 
+docs/runs/1315-customer-cases.log:167: trailing whitespace.
++автоматический контроль превышения бюджета; 
+docs/runs/1315-customer-cases.log:168: trailing whitespace.
++AI-анализ принятых решений; 
+docs/runs/1315-customer-cases.log:169: trailing whitespace.
++расчет итогового Astana Quality of Life Score; 
+docs/runs/1315-customer-cases.log:170: trailing whitespace.
++объяснение сильных сторон, рисков и возможных последствий выбранного сценария. 
+docs/runs/1315-customer-cases.log:172: trailing whitespace.
++сравнение результатов нескольких команд; 
+docs/runs/1315-customer-cases.log:173: trailing whitespace.
++визуализация изменений показателей районов; 
+docs/runs/1315-customer-cases.log:174: trailing whitespace.
++AI-рекомендации по улучшению выбранного сценария; 
+docs/runs/1315-customer-cases.log:175: trailing whitespace.
++моделирование неожиданных городских событий, требующих перераспределения бюджета; 
+docs/runs/1315-customer-cases.log:176: trailing whitespace.
++автоматическая генерация краткой презентации решения команды. 
+docs/runs/1315-customer-cases.log:179: trailing whitespace.
++Все команды начинают с одинакового виртуального бюджета и исходных данных. 
+docs/runs/1315-customer-cases.log:180: trailing whitespace.
++Система не позволяет превысить установленный бюджет. 
+docs/runs/1315-customer-cases.log:181: trailing whitespace.
++Принятые решения влияют на итоговые показатели модели. 
+docs/runs/1315-customer-cases.log:182: trailing whitespace.
++AI формирует понятное объяснение итогового результата и основных компромиссов. 
+docs/runs/1315-customer-cases.log:206: trailing whitespace.
++### Треки/Трек 2  Финансы/HackAlem AI_ Граф денег_ восстановление финансовой структуры организованной группы по транзакционной сети.docx 
+docs/runs/1315-customer-cases.log:432: trailing whitespace.
++ 
+docs/runs/1315-customer-cases.log:434: trailing whitespace.
++### Треки/Трек 3 Управление/HackAlem AI_ Career Quest - платформа геймификации жизненного цикла сотрудника..docx 
+docs/runs/1315-customer-cases.log:446: trailing whitespace.
++Внутренний контур 
+docs/runs/1315-customer-cases.log:485: trailing whitespace.
++6.  Данные. 
+docs/runs/1315-customer-cases.log:508: trailing whitespace.
++9. Ограничения. 
+docs/runs/1315-customer-cases.log:510: trailing whitespace.
++Учесть: 
+docs/runs/1315-customer-cases.log:516: trailing whitespace.
++10. Артефакты. Репозиторий: да. README: да. 
+docs/runs/1315-customer-cases.log:538: trailing whitespace.
++ 
+docs/runs/1315-customer-cases.log:540: trailing whitespace.
++### Треки/Трек 4 Телекомуникация/HackAlem AI_ Beeline Tariff Marketing Campaigns Case (1).docx 
+docs/runs/1315-customer-cases.log:541: new blank line at EOF.
+docs/runs/1315-customer-sol.log:355: trailing whitespace.
++Участникам предоставляются координаты и исторические данные работы ВЭС с марта 2023 года до 31 января 2026 года включительно. 
+docs/runs/1315-customer-sol.log:397: trailing whitespace.
++ 
+docs/runs/1315-customer-sol.log:402: trailing whitespace.
++Партнёр: ТОО «Электрокомплект» (ekt.kz). 
+docs/runs/1315-customer-sol.log:496: trailing whitespace.
++транспорт; 
+docs/runs/1315-customer-sol.log:497: trailing whitespace.
++озеленение; 
+docs/runs/1315-customer-sol.log:498: trailing whitespace.
++социальная инфраструктура; 
+docs/runs/1315-customer-sol.log:499: trailing whitespace.
++безопасность; 
+docs/runs/1315-customer-sol.log:500: trailing whitespace.
++городской сервис. 
+docs/runs/1315-customer-sol.log:503: trailing whitespace.
++фиксированный виртуальный бюджет; 
+docs/runs/1315-customer-sol.log:504: trailing whitespace.
++набор показателей по условным районам города; 
+docs/runs/1315-customer-sol.log:505: trailing whitespace.
++перечень возможных мероприятий и их условная стоимость; 
+docs/runs/1315-customer-sol.log:506: trailing whitespace.
++показатели по пяти направлениям городского развития. 
+docs/runs/1315-customer-sol.log:510: trailing whitespace.
++единый виртуальный бюджет для всех пользователей; 
+docs/runs/1315-customer-sol.log:511: trailing whitespace.
++возможность принять решения по 5 заданным направлениям; 
+docs/runs/1315-customer-sol.log:512: trailing whitespace.
++автоматический контроль превышения бюджета; 
+docs/runs/1315-customer-sol.log:513: trailing whitespace.
++AI-анализ принятых решений; 
+docs/runs/1315-customer-sol.log:514: trailing whitespace.
++расчет итогового Astana Quality of Life Score; 
+docs/runs/1315-customer-sol.log:515: trailing whitespace.
++объяснение сильных сторон, рисков и возможных последствий выбранного сценария. 
+docs/runs/1315-customer-sol.log:517: trailing whitespace.
++сравнение результатов нескольких команд; 
+docs/runs/1315-customer-sol.log:518: trailing whitespace.
++визуализация изменений показателей районов; 
+docs/runs/1315-customer-sol.log:519: trailing whitespace.
++AI-рекомендации по улучшению выбранного сценария; 
+docs/runs/1315-customer-sol.log:520: trailing whitespace.
++моделирование неожиданных городских событий, требующих перераспределения бюджета; 
+docs/runs/1315-customer-sol.log:521: trailing whitespace.
++автоматическая генерация краткой презентации решения команды. 
+docs/runs/1315-customer-sol.log:524: trailing whitespace.
++Все команды начинают с одинакового виртуального бюджета и исходных данных. 
+docs/runs/1315-customer-sol.log:525: trailing whitespace.
++Система не позволяет превысить установленный бюджет. 
+docs/runs/1315-customer-sol.log:526: trailing whitespace.
++Принятые решения влияют на итоговые показатели модели. 
+docs/runs/1315-customer-sol.log:527: trailing whitespace.
++AI формирует понятное объяснение итогового результата и основных компромиссов. 
+docs/runs/1315-customer-sol.log:776: trailing whitespace.
++ 
+docs/runs/1315-customer-sol.log:789: trailing whitespace.
++Внутренний контур 
+docs/runs/1315-customer-sol.log:828: trailing whitespace.
++6.  Данные. 
+docs/runs/1315-customer-sol.log:851: trailing whitespace.
++9. Ограничения. 
+docs/runs/1315-customer-sol.log:853: trailing whitespace.
++Учесть: 
+docs/runs/1315-customer-sol.log:859: trailing whitespace.
++10. Артефакты. Репозиторий: да. README: да. 
+docs/runs/1315-customer-sol.log:881: trailing whitespace.
++ 
+docs/runs/1315-customer-sol.log:1040: trailing whitespace.
++ 
+docs/runs/1315-customer-sol.log:1041: trailing whitespace.
++ 
+docs/runs/1315-customer-sol.log:1046: trailing whitespace.
++Партнёр: ТОО «Электрокомплект» (ekt.kz). 
+docs/runs/1315-customer-sol.log:1404: trailing whitespace.
++Внутренний контур 
+docs/runs/1315-customer-sol.log:1423: trailing whitespace.
++Задача. Разработать голосового AI-робота с веб-интерфейсом симуляции, который заменяет классификатор намерений на LLM-слой, понимающий контекст диалога, и выдаёт голосовой ответ клиенту плюс трассировку для супервизора: какой сценарий выбран, почему, за какое время. 
+docs/runs/1315-customer-sol.log:1467: trailing whitespace.
++8. Артефакты. Репозиторий: да. README: да. 
+docs/runs/1315-feasibility-requirements.log:6: trailing whitespace.
++Участникам предоставляются координаты и исторические данные работы ВЭС с марта 2023 года до 31 января 2026 года включительно. 
+docs/runs/1315-feasibility-requirements.log:48: trailing whitespace.
++ 
+docs/runs/1315-feasibility-requirements.log:53: trailing whitespace.
++Партнёр: ТОО «Электрокомплект» (ekt.kz). 
+docs/runs/1315-feasibility-requirements.log:147: trailing whitespace.
++транспорт; 
+docs/runs/1315-feasibility-requirements.log:148: trailing whitespace.
++озеленение; 
+docs/runs/1315-feasibility-requirements.log:149: trailing whitespace.
++социальная инфраструктура; 
+docs/runs/1315-feasibility-requirements.log:150: trailing whitespace.
++безопасность; 
+docs/runs/1315-feasibility-requirements.log:151: trailing whitespace.
++городской сервис. 
+docs/runs/1315-feasibility-requirements.log:154: trailing whitespace.
++фиксированный виртуальный бюджет; 
+docs/runs/1315-feasibility-requirements.log:155: trailing whitespace.
++набор показателей по условным районам города; 
+docs/runs/1315-feasibility-requirements.log:156: trailing whitespace.
++перечень возможных мероприятий и их условная стоимость; 
+docs/runs/1315-feasibility-requirements.log:157: trailing whitespace.
++показатели по пяти направлениям городского развития. 
+docs/runs/1315-feasibility-requirements.log:161: trailing whitespace.
++единый виртуальный бюджет для всех пользователей; 
+docs/runs/1315-feasibility-requirements.log:162: trailing whitespace.
++возможность принять решения по 5 заданным направлениям; 
+docs/runs/1315-feasibility-requirements.log:163: trailing whitespace.
++автоматический контроль превышения бюджета; 
+docs/runs/1315-feasibility-requirements.log:164: trailing whitespace.
++AI-анализ принятых решений; 
+docs/runs/1315-feasibility-requirements.log:165: trailing whitespace.
++расчет итогового Astana Quality of Life Score; 
+docs/runs/1315-feasibility-requirements.log:166: trailing whitespace.
++объяснение сильных сторон, рисков и возможных последствий выбранного сценария. 
+docs/runs/1315-feasibility-requirements.log:168: trailing whitespace.
++сравнение результатов нескольких команд; 
+docs/runs/1315-feasibility-requirements.log:169: trailing whitespace.
++визуализация изменений показателей районов; 
+docs/runs/1315-feasibility-requirements.log:170: trailing whitespace.
++AI-рекомендации по улучшению выбранного сценария; 
+docs/runs/1315-feasibility-requirements.log:171: trailing whitespace.
++моделирование неожиданных городских событий, требующих перераспределения бюджета; 
+docs/runs/1315-feasibility-requirements.log:172: trailing whitespace.
++автоматическая генерация краткой презентации решения команды. 
+docs/runs/1315-feasibility-requirements.log:175: trailing whitespace.
++Все команды начинают с одинакового виртуального бюджета и исходных данных. 
+docs/runs/1315-feasibility-requirements.log:176: trailing whitespace.
++Система не позволяет превысить установленный бюджет. 
+docs/runs/1315-feasibility-requirements.log:177: trailing whitespace.
++Принятые решения влияют на итоговые показатели модели. 
+docs/runs/1315-feasibility-requirements.log:178: trailing whitespace.
++AI формирует понятное объяснение итогового результата и основных компромиссов. 
+docs/runs/1315-feasibility-requirements.log:427: trailing whitespace.
++ 
+docs/runs/1315-feasibility-requirements.log:440: trailing whitespace.
++Внутренний контур 
+docs/runs/1315-feasibility-requirements.log:479: trailing whitespace.
++6.  Данные. 
+docs/runs/1315-feasibility-requirements.log:502: trailing whitespace.
++9. Ограничения. 
+docs/runs/1315-feasibility-requirements.log:504: trailing whitespace.
++Учесть: 
+docs/runs/1315-feasibility-requirements.log:510: trailing whitespace.
++10. Артефакты. Репозиторий: да. README: да. 
+docs/runs/1315-feasibility-requirements.log:532: trailing whitespace.
++ 
+docs/runs/1315-feasibility-requirements.log:679: trailing whitespace.
++ 
+docs/runs/1315-feasibility-requirements.log:680: trailing whitespace.
++ 
+docs/runs/1315-feasibility-requirements.log:685: trailing whitespace.
++Партнёр: ТОО «Электрокомплект» (ekt.kz). 
+docs/runs/1315-feasibility-requirements.log:1043: trailing whitespace.
++Внутренний контур 
+docs/runs/1315-feasibility-requirements.log:1062: trailing whitespace.
++Задача. Разработать голосового AI-робота с веб-интерфейсом симуляции, который заменяет классификатор намерений на LLM-слой, понимающий контекст диалога, и выдаёт голосовой ответ клиенту плюс трассировку для супервизора: какой сценарий выбран, почему, за какое время. 
+docs/runs/1315-feasibility-requirements.log:1106: trailing whitespace.
++8. Артефакты. Репозиторий: да. README: да. 
+docs/runs/1315-read-11-12-2.log:62: trailing whitespace.
++транспорт; 
+docs/runs/1315-read-11-12-2.log:63: trailing whitespace.
++озеленение; 
+docs/runs/1315-read-11-12-2.log:64: trailing whitespace.
++социальная инфраструктура; 
+docs/runs/1315-read-11-12-2.log:65: trailing whitespace.
++безопасность; 
+docs/runs/1315-read-11-12-2.log:66: trailing whitespace.
++городской сервис. 
+docs/runs/1315-read-11-12-2.log:69: trailing whitespace.
++фиксированный виртуальный бюджет; 
+docs/runs/1315-read-11-12-2.log:70: trailing whitespace.
++набор показателей по условным районам города; 
+docs/runs/1315-read-11-12-2.log:71: trailing whitespace.
++перечень возможных мероприятий и их условная стоимость; 
+docs/runs/1315-read-11-12-2.log:72: trailing whitespace.
++показатели по пяти направлениям городского развития. 
+docs/runs/1315-read-11-12-2.log:76: trailing whitespace.
++единый виртуальный бюджет для всех пользователей; 
+docs/runs/1315-read-11-12-2.log:77: trailing whitespace.
++возможность принять решения по 5 заданным направлениям; 
+docs/runs/1315-read-11-12-2.log:78: trailing whitespace.
++автоматический контроль превышения бюджета; 
+docs/runs/1315-read-11-12-2.log:79: trailing whitespace.
++AI-анализ принятых решений; 
+docs/runs/1315-read-11-12-2.log:80: trailing whitespace.
++расчет итогового Astana Quality of Life Score; 
+docs/runs/1315-read-11-12-2.log:81: trailing whitespace.
++объяснение сильных сторон, рисков и возможных последствий выбранного сценария. 
+docs/runs/1315-read-11-12-2.log:83: trailing whitespace.
++сравнение результатов нескольких команд; 
+docs/runs/1315-read-11-12-2.log:84: trailing whitespace.
++визуализация изменений показателей районов; 
+docs/runs/1315-read-11-12-2.log:85: trailing whitespace.
++AI-рекомендации по улучшению выбранного сценария; 
+docs/runs/1315-read-11-12-2.log:86: trailing whitespace.
++моделирование неожиданных городских событий, требующих перераспределения бюджета; 
+docs/runs/1315-read-11-12-2.log:87: trailing whitespace.
++автоматическая генерация краткой презентации решения команды. 
+docs/runs/1315-read-11-12-2.log:90: trailing whitespace.
++Все команды начинают с одинакового виртуального бюджета и исходных данных. 
+docs/runs/1315-read-11-12-2.log:91: trailing whitespace.
++Система не позволяет превысить установленный бюджет. 
+docs/runs/1315-read-11-12-2.log:92: trailing whitespace.
++Принятые решения влияют на итоговые показатели модели. 
+docs/runs/1315-read-11-12-2.log:93: trailing whitespace.
++AI формирует понятное объяснение итогового результата и основных компромиссов. 
+docs/runs/1315-read-11-12-2.log:342: trailing whitespace.
++ 
+docs/runs/1315-read-5-8.log:4: trailing whitespace.
++Партнёр: ТОО «Электрокомплект» (ekt.kz). 
+docs/runs/1316-customer-sol.log:330: trailing whitespace.
++Ограничения: данные синтетические, за пределы хакатона не выносятся. Расширение собственными данными разрешено при сохранении схемы. Правило роста навыка задано в датасете: у каждой активности в events.json указано, какие навыки она развивает, на сколько уровней (gain) и до какого максимума (max_level). Подробности в README стартового кита. Данные 
+docs/runs/1316-customer-sol.log:529: trailing whitespace.
++Сейчас менеджер отдела закупа рассчитывает потребность в пополнении склада вручную, консолидируя данные в Excel. Из-за трудоёмкости такого детального анализа расчёт проводится нечасто и не в режиме реального времени, из-за чего возникают избыточные запасы по одним позициям и дефицит по другим, а разовые крупные заказы (в том числе продажи большого 
+docs/runs/1316-customer-sol.log:545: trailing whitespace.
++1) Расчёт базовой потребности в пополнении по каждому артикулу с учётом всех предусмотренных данных (история продаж, текущие остатки, товары в пути, категории товаров, прогноз по приросту) — проверка: на тестовом наборе данных формируется корректный список позиций с рекомендуемым количеством, и расчёт не игнорирует ни один из переданных источников 
+docs/runs/1316-customer-sol.log:641: trailing whitespace.
++Команде необходимо создать работающий MVP, который помогает представителю бизнеса превратить первоначальное описание своей потребности или задачи в полноценную карточку, оценивает качество её заполнения и размещает задачу в открытом каталоге. Студенты самостоятельно выбирают интересные задачи и подают предложения, а представитель бизнеса принимает 
+docs/runs/1316-customer-sol.log:924: trailing whitespace.
++Опционально. Гибридная архитектура — быстрый путь для очевидных запросов, LLM для сложных, с измеримым выигрышем по задержке; достижение ориентира в 500 мс; удержание контекста и возврат к прерванной теме; переспросить вместо угадывания и передать оператору вместе с контекстом; извлечение параметров из речи; потоковая обработка; определение эмоции 
+docs/runs/1316-customer-sol.log:1114: trailing whitespace.
++### 3 HackAlem AI_ Career Quest - платформа геймификации жизненного цикла сотрудника..docx 
+docs/runs/1316-customer-sol.log:1187: trailing whitespace.
++### 4 HackAlem AI_ Beeline Tariff Marketing Campaigns Case.docx 
+docs/runs/1316-customer-sol.log:1272: trailing whitespace.
++### 5 HackAlem AI_ Автоматизация формирования заказов поставщикам.docx 
+docs/runs/1316-customer-sol.log:1309: trailing whitespace.
++### 6 HackAlem AI_ Хакатон-задача_ умный подбор подрядчиков.docx 
+docs/runs/1316-customer-sol.log:1389: trailing whitespace.
++### 7 HackAlem AI_ кейс по геймификации практических заданий.docx 
+docs/runs/1316-customer-sol.log:1500: trailing whitespace.
++### 8 HackAlem AI_ Система автопротоколирования совещаний с фиксацией поручений.docx 
+docs/runs/1316-customer-sol.log:1559: trailing whitespace.
++### 9 HackAlem AI_ Voice Router - гибридный голосовой AI-робот с LLM-слоем выбора сценария.docx 
+docs/runs/1316-customer-sol.log:1616: trailing whitespace.
++### 5 HackAlem AI_ Автоматизация формирования заказов поставщикам.docx 
+docs/runs/1316-customer-sol.log:1653: trailing whitespace.
++### 6 HackAlem AI_ Хакатон-задача_ умный подбор подрядчиков.docx 
+docs/runs/1316-customer-sol.log:1733: trailing whitespace.
++### 7 HackAlem AI_ кейс по геймификации практических заданий.docx 
+docs/runs/1316-feasibility-sol.log:8: trailing whitespace.
++транспорт; 
+docs/runs/1316-feasibility-sol.log:9: trailing whitespace.
++озеленение; 
+docs/runs/1316-feasibility-sol.log:10: trailing whitespace.
++социальная инфраструктура; 
+docs/runs/1316-feasibility-sol.log:11: trailing whitespace.
++безопасность; 
+docs/runs/1316-feasibility-sol.log:12: trailing whitespace.
++городской сервис. 
+docs/runs/1316-feasibility-sol.log:15: trailing whitespace.
++фиксированный виртуальный бюджет; 
+docs/runs/1316-feasibility-sol.log:16: trailing whitespace.
++набор показателей по условным районам города; 
+docs/runs/1316-feasibility-sol.log:17: trailing whitespace.
++перечень возможных мероприятий и их условная стоимость; 
+docs/runs/1316-feasibility-sol.log:18: trailing whitespace.
++показатели по пяти направлениям городского развития. 
+docs/runs/1316-feasibility-sol.log:22: trailing whitespace.
++единый виртуальный бюджет для всех пользователей; 
+docs/runs/1316-feasibility-sol.log:23: trailing whitespace.
++возможность принять решения по 5 заданным направлениям; 
+docs/runs/1316-feasibility-sol.log:24: trailing whitespace.
++автоматический контроль превышения бюджета; 
+docs/runs/1316-feasibility-sol.log:25: trailing whitespace.
++AI-анализ принятых решений; 
+docs/runs/1316-feasibility-sol.log:26: trailing whitespace.
++расчет итогового Astana Quality of Life Score; 
+docs/runs/1316-feasibility-sol.log:27: trailing whitespace.
++объяснение сильных сторон, рисков и возможных последствий выбранного сценария. 
+docs/runs/1316-feasibility-sol.log:29: trailing whitespace.
++сравнение результатов нескольких команд; 
+docs/runs/1316-feasibility-sol.log:30: trailing whitespace.
++визуализация изменений показателей районов; 
+docs/runs/1316-feasibility-sol.log:31: trailing whitespace.
++AI-рекомендации по улучшению выбранного сценария; 
+docs/runs/1316-feasibility-sol.log:32: trailing whitespace.
++моделирование неожиданных городских событий, требующих перераспределения бюджета; 
+docs/runs/1316-feasibility-sol.log:33: trailing whitespace.
++автоматическая генерация краткой презентации решения команды. 
+docs/runs/1316-feasibility-sol.log:36: trailing whitespace.
++Все команды начинают с одинакового виртуального бюджета и исходных данных. 
+docs/runs/1316-feasibility-sol.log:37: trailing whitespace.
++Система не позволяет превысить установленный бюджет. 
+docs/runs/1316-feasibility-sol.log:38: trailing whitespace.
++Принятые решения влияют на итоговые показатели модели. 
+docs/runs/1316-feasibility-sol.log:39: trailing whitespace.
++AI формирует понятное объяснение итогового результата и основных компромиссов. 
+docs/runs/1316-feasibility-sol.log:289: trailing whitespace.
++ 
+docs/runs/1316-feasibility-sol.log:303: trailing whitespace.
++Внутренний контур 
+docs/runs/1316-feasibility-sol.log:342: trailing whitespace.
++6.  Данные. 
+docs/runs/1316-feasibility-sol.log:365: trailing whitespace.
++9. Ограничения. 
+docs/runs/1316-feasibility-sol.log:367: trailing whitespace.
++Учесть: 
+docs/runs/1316-feasibility-sol.log:373: trailing whitespace.
++10. Артефакты. Репозиторий: да. README: да. 
+docs/runs/1316-feasibility-sol.log:395: trailing whitespace.
++ 
+docs/runs/1316-feasibility-sol.log:593: trailing whitespace.
++TRACK12 DATA Треки/Трек 12 Спец-трек Astana Innovations/Датасет районов.docx 
+docs/runs/1316-feasibility-sol.log:1063: trailing whitespace.
++ 
+docs/runs/1316-feasibility-sol.log:1064: trailing whitespace.
++ 
+docs/runs/1316-feasibility-sol.log:1224: trailing whitespace.
++Задача. Разработать голосового AI-робота с веб-интерфейсом симуляции, который заменяет классификатор намерений на LLM-слой, понимающий контекст диалога, и выдаёт голосовой ответ клиенту плюс трассировку для супервизора: какой сценарий выбран, почему, за какое время. 
+docs/runs/1316-feasibility-sol.log:1268: trailing whitespace.
++8. Артефакты. Репозиторий: да. README: да. 

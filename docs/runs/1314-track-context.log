@@ -1,0 +1,5 @@
+d59ff3a Initial commit
+# hack-d7cbffb9-kaskyralmaty
+Hackathon team repository for KaskyrAlmaty
+AGENTS.md:71:When a role from the skill produces findings (QA, Security, auditors, Customer, emotional agent), give me the findings as a short list with your proposed action per item. I decide what is fixed, what is documented as a limitation, and what is dropped.
+/usr/local/bin/python3
