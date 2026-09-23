@@ -27,9 +27,16 @@ class Assignment(BaseModel):
     evidence: list[int] = Field(min_length=1)
 
 
+class SpeakerName(BaseModel):
+    label: str = Field(description="Метка диаризации, например SPEAKER_2")
+    name: str | None = Field(description="Имя из списка участников; null, если в транскрипте нет явного признака")
+    evidence: list[int] = Field(default_factory=list, description="Номера реплик, из которых следует имя")
+
+
 class Extraction(BaseModel):
     assignments: list[Assignment]
     summary: str
+    speakers: list[SpeakerName] = Field(default_factory=list)
 
 
 class MeetingContext(BaseModel):
@@ -61,7 +68,16 @@ class Protocol(Extraction):
         for assignment in self.assignments:
             if not set(assignment.evidence) <= ids:
                 raise ValueError("Поручение ссылается на отсутствующую реплику")
+        labels = {segment.speaker for segment in self.segments}
+        if any(speaker.label not in labels or not set(speaker.evidence) <= ids for speaker in self.speakers):
+            raise ValueError("Имя говорящего ссылается на отсутствующую метку или реплику")
         return self
+
+    def speaker_title(self, label: str | None) -> str:
+        if not label:
+            return "Говорящий не определён"
+        name = next((s.name for s in self.speakers if s.label == label and s.name), None)
+        return f"{label} ({name})" if name else label
 
 
 def audio_hash(path: Path) -> str:
@@ -104,7 +120,10 @@ def export_docx(protocol: Protocol, *, replay_mode: bool = False) -> bytes:
         doc.add_paragraph("Участники и упомянутые ответственные: " + "; ".join(protocol.context.participants))
     if replay_mode:
         doc.add_paragraph("Воспроизведение заранее вычисленного результата — не проверка моделей.")
-    doc.add_paragraph("Черновик ИИ: проверьте имена, сроки и содержание по записи. Диаризация в этапе 1 ещё не реализована.")
+    doc.add_paragraph("Черновик ИИ: проверьте имена, сроки и содержание по записи.")
+    if protocol.speakers:
+        doc.add_paragraph("Говорящие: " + "; ".join(protocol.speaker_title(s.label) for s in protocol.speakers)
+                          + ". Метки получены автоматически по голосу, имена — по обращениям в разговоре.")
     doc.add_heading("Саммари", 1)
     doc.add_paragraph(protocol.summary or "Не сформировано")
     doc.add_heading("Поручения", 1)
@@ -118,7 +137,7 @@ def export_docx(protocol: Protocol, *, replay_mode: bool = False) -> bytes:
             cell.text = value
     doc.add_heading("Транскрипт", 1)
     for segment in protocol.segments:
-        doc.add_paragraph(f"[{segment.id}; {segment.start:.1f}–{segment.end:.1f} с] {segment.speaker or 'Говорящий не определён'}: {segment.text}")
+        doc.add_paragraph(f"[{segment.id}; {segment.start:.1f}–{segment.end:.1f} с] {protocol.speaker_title(segment.speaker)}: {segment.text}")
     doc.add_heading("Происхождение", 1)
     doc.add_paragraph(f"SHA-256: {protocol.source_sha256}")
     for key, value in protocol.provenance.items():

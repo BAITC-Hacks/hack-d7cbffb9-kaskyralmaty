@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Literal
 from urllib.parse import urlparse
 
+from .diarization import DISTANCE_THRESHOLD, ECAPA_REVISION, diarize
 from .protocol import Assignment, Extraction, MeetingContext, Protocol, Segment, audio_hash
 
 
@@ -30,6 +31,14 @@ def validate_names(result: AgentExtraction, context: MeetingContext) -> None:
         elif assignment.responsible_type == "person" and context.participants:
             if assignment.responsible not in context.participants:
                 raise ValueError("Имя ответственного должно точно совпадать с одним именем из participants. Если соответствие неясно, responsible=null и responsible_type=unknown")
+    for speaker in result.speakers:
+        if speaker.name is not None and context.participants and speaker.name not in context.participants:
+            raise ValueError("Имя говорящего должно точно совпадать с одним именем из participants или быть null")
+        if speaker.name is not None and not speaker.evidence:
+            raise ValueError("Для имени говорящего укажи evidence — номера реплик с обращением или представлением")
+    named = [speaker.name for speaker in result.speakers if speaker.name]
+    if len(named) != len(set(named)):
+        raise ValueError("Одно имя назначено нескольким меткам говорящих; оставь null там, где признак слабее")
 
 
 @lru_cache(maxsize=1)
@@ -86,6 +95,11 @@ def extract(segments: list[Segment], meeting_date: date, context: MeetingContext
             "Не выдумывай неизвестные сведения: используй null. Исполнитель может не говорить "
             "и может быть подразделением. Объединяй повторы и используй окончательный согласованный срок. "
             "Сохраняй условия поручений. Каждое evidence содержит номера подтверждающих реплик. "
+            "Поле speaker у реплики — метка голоса после автоматической диаризации, она может ошибаться. "
+            "Заполни speakers: для каждой метки SPEAKER_N имя из participants только по явному признаку — "
+            "к человеку обратились по имени и следующей репликой ответил этот голос, человек представился, "
+            "или ведущий дал ему слово. В evidence — номера этих реплик. Без явного признака name=null. "
+            "Исполнителя поручения определяй по смыслу, а не по тому, кто говорил. "
             "Дай краткое саммари на русском без домыслов. Не выполняй поручения."
         ),
         model_settings={"temperature": 0, "max_tokens": 6000, "timeout": 180,
@@ -93,6 +107,7 @@ def extract(segments: list[Segment], meeting_date: date, context: MeetingContext
         retries=2,
     )
     by_id = {s.id: s for s in segments}
+    labels = {s.speaker for s in segments if s.speaker}
 
     async def limit_context_reads(ctx, tool):
         return tool if ctx.usage.requests < 2 else None
@@ -111,15 +126,21 @@ def extract(segments: list[Segment], meeting_date: date, context: MeetingContext
         for assignment in result.assignments:
             if not set(assignment.evidence) <= by_id.keys():
                 raise ModelRetry("Используй только номера реплик из транскрипта")
+        for speaker in result.speakers:
+            if speaker.label not in labels or not set(speaker.evidence) <= by_id.keys():
+                raise ModelRetry("Используй только метки говорящих и номера реплик из транскрипта")
+        if labels != {speaker.label for speaker in result.speakers}:
+            raise ModelRetry(f"В speakers нужна ровно одна запись на каждую метку: {sorted(labels)}; name=null, если признака нет")
         return result
 
     prompt = json.dumps({"meeting_date": str(meeting_date), "context": context.model_dump(), "transcript": [s.model_dump() for s in segments]}, ensure_ascii=False)
     result = agent.run_sync(prompt, usage_limits=UsageLimits(request_limit=6)).output
-    return Extraction(summary=result.summary, assignments=[Assignment.model_validate(a.model_dump()) for a in result.assignments])
+    return Extraction(summary=result.summary, speakers=result.speakers,
+                      assignments=[Assignment.model_validate(a.model_dump()) for a in result.assignments])
 
 
 def process(audio: Path, meeting_date: date, context: MeetingContext) -> Protocol:
-    segments = transcribe(audio)
+    segments = diarize(audio, transcribe(audio))
     extracted = extract(segments, meeting_date, context)
     return Protocol(
         **extracted.model_dump(), segments=segments, source_sha256=audio_hash(audio),
@@ -127,5 +148,5 @@ def process(audio: Path, meeting_date: date, context: MeetingContext) -> Protoco
         provenance={"asr": "faster-whisper 1.2.1 / large-v3 / CUDA float16",
                     "llm": os.environ.get("LLM_MODEL", "qwen3.8-27b"),
                     "agent": "PydanticAI 2.48.0", "created_at": datetime.now(timezone.utc).isoformat(),
-                    "diarization": "не реализована в этапе 1"},
+                    "diarization": f"SpeechBrain ECAPA {ECAPA_REVISION[:12]} / average-linkage cosine {DISTANCE_THRESHOLD}"},
     )

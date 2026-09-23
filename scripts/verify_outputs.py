@@ -17,6 +17,10 @@ for number in (1, 2):
     assert len(result["segments"]) > 5, "Отсутствует транскрипт всей встречи"
     assert result["segments"][-1]["end"] > 150, "Протокол покрывает лишь начало встречи"
     assert result["assignments"], "Поручения не извлечены"
+    assert all(s["speaker"] for s in result["segments"]), "Не у всех реплик есть метка говорящего"
+    assert len({s["speaker"] for s in result["segments"]}) >= 3, "Диаризация не различила голоса"
+    assert sum(bool(s["name"]) for s in result["speakers"]) >= 3, "Говорящие не сопоставлены с участниками"
+    assert all(s["name"] is None or s["name"] in context["participants"] for s in result["speakers"]), "Имя говорящего не из списка"
     assert sum(bool(a["responsible"]) for a in result["assignments"]) >= 3, "Пропущены явно названные исполнители"
     assert sum(bool(a["deadline_text"]) for a in result["assignments"]) >= 3, "Пропущены явно названные сроки"
     doc = Document(prefix.with_suffix(".docx"))

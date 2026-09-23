@@ -1,0 +1,35 @@
+# 2026-09-23 15:50:31 stage 2 diarization: sync to Brev, rebuild app, GPU run of both MP3
+        source: /ephemeral/cache/huggingface
+        target: /models
+--
+        source: /home/ubuntu/hack-d7cbffb9-kaskyralmaty/outputs
+        target: /app/outputs
+--
+        source: /home/ubuntu/hack-d7cbffb9-kaskyralmaty/docs
+        target: /app/docs
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+ Image meeting-dev-app Built 
+ Container meeting-dev-app-1 Starting 
+ Container meeting-dev-app-1 Started 
+meeting-dev-app-1 Up Less than a second
+meeting-dev-llm-1 Up 24 minutes (healthy)
+Реальный запуск ASR и LLM
+Реплик: 47; поручений: 10; DOCX: outputs/meeting-1.docx
+meeting-1: 39.87 s
+Реальный запуск ASR и LLM
+Реплик: 65; поручений: 8; DOCX: outputs/meeting-2.docx
+meeting-2: 31.72 s
+Документ №1: 47 реплик, 10 поручений
+Документ №2: 65 реплик, 8 поручений
+# 2026-09-23 15:57:47 rerun after requiring one speakers entry per label
+ Image meeting-dev-app Built 
+ Container meeting-dev-app-1 Started 
+Реальный запуск ASR и LLM
+Реплик: 47; поручений: 10; DOCX: outputs/meeting-1.docx
+meeting-1: 61.00 s
+Реальный запуск ASR и LLM
+Реплик: 65; поручений: 8; DOCX: outputs/meeting-2.docx
+meeting-2: 31.27 s
+Документ №1: 47 реплик, 10 поручений
+Документ №2: 65 реплик, 8 поручений

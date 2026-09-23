@@ -99,6 +99,7 @@ def test_context_reaches_agent_but_not_asr(monkeypatch, tmp_path):
         return Extraction(summary='Договор', assignments=[Assignment(task='Подготовить договор', responsible=context.participants[0], deadline_text=None, evidence=[0])])
 
     monkeypatch.setattr(pipeline, 'transcribe', asr)
+    monkeypatch.setattr(pipeline, 'diarize', lambda path, found: found)
     monkeypatch.setattr(pipeline, 'extract', agent)
     result = pipeline.process(audio, date(2026, 9, 23), context)
     assert seen['context'] == context
@@ -154,3 +155,42 @@ def test_web_gpu_forwards_form_fields(monkeypatch):
                                data={'meeting_date': '2026-09-23', 'participants': 'Динара\nАйбек', 'topic': 'Договор'})
     assert response.status_code == 200
     assert seen['context'] == MeetingContext(participants=['Динара', 'Айбек'], topic='Договор')
+
+
+def test_speaker_name_must_match_roster_and_be_unique():
+    from meeting_protocol.pipeline import AgentExtraction, validate_names
+    from meeting_protocol.protocol import SpeakerName
+    context = MeetingContext(participants=['Ботагоз Нурлановна', 'Ерлан'])
+    result = AgentExtraction(summary='', assignments=[], speakers=[SpeakerName(label='SPEAKER_2', name='Батагус', evidence=[1])])
+    with pytest.raises(ValueError, match='говорящего'):
+        validate_names(result, context)
+    result.speakers = [SpeakerName(label='SPEAKER_2', name='Ботагоз Нурлановна', evidence=[1]),
+                       SpeakerName(label='SPEAKER_3', name='Ботагоз Нурлановна', evidence=[4])]
+    with pytest.raises(ValueError, match='нескольким меткам'):
+        validate_names(result, context)
+    result.speakers = [SpeakerName(label='SPEAKER_2', name='Ботагоз Нурлановна', evidence=[1]),
+                       SpeakerName(label='SPEAKER_3', name=None, evidence=[])]
+    validate_names(result, context)
+
+
+def test_docx_shows_named_speakers():
+    from meeting_protocol.protocol import SpeakerName
+    protocol = Protocol(
+        source_sha256="b" * 64, source_name="r.mp3", meeting_date=date(2026, 9, 23),
+        segments=[Segment(id=0, start=0, end=2, text="Ботагоз, вам слово.", speaker="SPEAKER_1"),
+                  Segment(id=1, start=2, end=5, text="По химическому направлению.", speaker="SPEAKER_2")],
+        assignments=[], summary="", provenance={}, speakers=[SpeakerName(label="SPEAKER_2", name="Ботагоз Нурлановна", evidence=[0, 1])],
+    )
+    text = "\n".join(p.text for p in Document(BytesIO(export_docx(protocol))).paragraphs)
+    assert "SPEAKER_2 (Ботагоз Нурлановна): По химическому направлению." in text
+    assert "SPEAKER_1: Ботагоз, вам слово." in text
+
+
+def test_clustering_separates_distinct_voices():
+    np = pytest.importorskip("numpy")
+    from meeting_protocol.diarization import cluster
+    rng = np.random.default_rng(0)
+    a, b = rng.normal(size=192), rng.normal(size=192)
+    vectors = [a + rng.normal(scale=0.1, size=192) for _ in range(4)] + [b + rng.normal(scale=0.1, size=192) for _ in range(3)]
+    labels = cluster(vectors)
+    assert len(set(labels[:4])) == 1 and len(set(labels[4:])) == 1 and labels[0] != labels[4]
