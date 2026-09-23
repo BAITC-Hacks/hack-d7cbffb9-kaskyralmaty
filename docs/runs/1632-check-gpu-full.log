@@ -26,3 +26,6 @@ PASS gpu: реальный запуск ASR и LLM
  Container meeting-check-222007-llm-1 Removing 
  Container meeting-check-222007-llm-1 Removed 
  Network meeting-check-222007_default Removing 
+ Network meeting-check-222007_default Removed 
+ Container meeting-dev-app-1 Started 
+done
