@@ -59,6 +59,17 @@ drop.addEventListener('drop', (e) => {
 const consent = $('consent'), startBtn = $('rec-start'), stopBtn = $('rec-stop'), note = $('rec-note');
 if (REPLAY) { consent.disabled = true; } else { note.textContent = 'Отметьте согласие, затем начните запись.'; }
 consent.addEventListener('change', () => { startBtn.disabled = !consent.checked; });
+// Browsers restore checkbox state on reload: sync the start button with it.
+window.addEventListener('pageshow', () => { startBtn.disabled = REPLAY || !consent.checked; });
+// Leaving or reloading the page releases the microphone and the shared tab.
+window.addEventListener('pagehide', () => stopStreams());
+
+function resetRecorderUi(message) {
+  $('rec').classList.remove('recording');
+  startBtn.hidden = false; stopBtn.hidden = true;
+  startBtn.disabled = REPLAY || !consent.checked;
+  if (message) note.textContent = message;
+}
 let recorder, streams = [], context, timer, started;
 
 function stopStreams() {
@@ -84,6 +95,8 @@ startBtn.addEventListener('click', async () => {
       try {
         const display = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
         streams.push(display);
+        // «Прекратить доступ» in the browser bar ends the recording like our Stop button.
+        display.getTracks().forEach((t) => t.addEventListener('ended', () => recorder && recorder.state !== 'inactive' && recorder.stop()));
         if (display.getAudioTracks().length) {
           const tab = context.createMediaStreamSource(new MediaStream(display.getAudioTracks()));
           tab.connect(mix); tab.connect(analyser);
@@ -104,8 +117,7 @@ startBtn.addEventListener('click', async () => {
       const blob = new Blob(chunks, { type: recorder.mimeType || 'audio/webm' });
       recorded = new File([blob], `meeting-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}.webm`, { type: blob.type });
       stopStreams();
-      $('rec').classList.remove('recording');
-      startBtn.hidden = false; stopBtn.hidden = true;
+      resetRecorderUi();
       note.textContent = `Запись готова: ${$('timer').textContent}, ${(blob.size / 1048576).toFixed(1)} МБ. Заполните участников и нажмите «Получить протокол».`;
       submit.disabled = false;
     };
@@ -123,10 +135,15 @@ startBtn.addEventListener('click', async () => {
     startBtn.hidden = true; stopBtn.hidden = false; submit.disabled = true;
   } catch (error) {
     stopStreams();
+    resetRecorderUi();
     note.textContent = `Не удалось начать запись: ${error.message}. Разрешите доступ к микрофону.`;
   }
 });
-stopBtn.addEventListener('click', () => recorder && recorder.state !== 'inactive' && recorder.stop());
+stopBtn.addEventListener('click', () => {
+  if (recorder && recorder.state !== 'inactive') { recorder.stop(); return; }
+  stopStreams();
+  resetRecorderUi('Запись сброшена. Можно начать заново.');
+});
 
 // Async submit: stay on the page and show readable errors instead of raw JSON
 form.addEventListener('submit', async (e) => {
