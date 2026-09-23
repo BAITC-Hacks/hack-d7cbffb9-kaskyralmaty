@@ -8,8 +8,9 @@
   --radius: 16px; --shadow: 0 1px 2px rgba(16,24,20,.06), 0 8px 24px rgba(16,24,20,.06);
   color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+/* Light is the default; the dark palette applies only with <html data-theme="dark">. */
+@media all {
+  :root[data-theme="dark"] {
     --bg: #0e1412; --surface: #161e1b; --surface-2: #1c2622; --ink: #e7eeeb; --muted: #97a8a2;
     --line: #26332e; --accent: #3fb68f; --accent-ink: #06140f; --accent-soft: #173229;
     --hl: #4a3f12; --late: #ff7b72; --late-soft: #3a1a18; --soon: #f5a524; --soon-soft: #3a2a10;
