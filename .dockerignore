@@ -1,0 +1,9 @@
+.git
+.env
+.venv
+.cache
+outputs
+.DS_Store
+docs
+.agents
+.scratch

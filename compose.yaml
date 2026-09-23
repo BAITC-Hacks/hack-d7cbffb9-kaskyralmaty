@@ -1,0 +1,43 @@
+services:
+  llm:
+    image: vllm/vllm-openai@sha256:8a69ffad015f138d7170c4ddc429e230a3bc1c1719f67e14324749df200a4b90
+    gpus: all
+    ipc: host
+    command:
+      - nvidia/Qwen3.8-27B-NVFP4
+      - --served-model-name=qwen3.8-27b
+      - --max-model-len=32768
+      - --max-num-seqs=8
+      - --kv-cache-dtype=fp8
+      - --gpu-memory-utilization=0.45
+      - --reasoning-parser=qwen3
+      - --enable-auto-tool-choice
+      - --tool-call-parser=qwen3_xml
+    volumes:
+      - ${LLM_CACHE_DIR:-./.cache/llm}:/root/.cache/huggingface
+    environment:
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      DO_NOT_TRACK: "1"
+      VLLM_NO_USAGE_STATS: "1"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/models"]
+      interval: 10s
+      timeout: 5s
+      retries: 90
+  app:
+    build: .
+    gpus: all
+    ports: ["127.0.0.1:8001:8001"]
+    environment:
+      APP_MODE: gpu
+      LLM_BASE_URL: http://llm:8000/v1
+      LLM_MODEL: qwen3.8-27b
+      HF_HUB_DISABLE_TELEMETRY: "1"
+      DO_NOT_TRACK: "1"
+    volumes:
+      - ${ASR_CACHE_DIR:-./.cache/asr}:/models
+      - ./outputs:/app/outputs
+      - ./docs:/app/docs:ro
+    depends_on:
+      llm:
+        condition: service_healthy
