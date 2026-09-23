@@ -1,0 +1,191 @@
+# 2026-09-23T12:13:44Z check.sh all on eldest-yellow-basilisk, source ~/fresh at d0056de, caches from the cold run
+Note: switching to 'd0056de3171bf94721449d0e5262e136d7a0110a'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+Проверяется коммит d0056de3171bf94721449d0e5262e136d7a0110a; режим all
+Using CPython 3.11.13
+Creating virtual environment at: .venv
+Resolved 95 packages in 0.81ms
+Installed 41 packages in 17ms
+ + annotated-doc==0.0.5
+ + annotated-types==0.8.0
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + charset-normalizer==3.5.1
+ + click==8.5.0
+ + fastapi==0.141.1
+ + genai-prices==0.1.8
+ + griffelib==2.3.0
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpcore2==2.13.1
+ + httpx==0.28.1
+ + httpx2==2.13.1
+ + idna==3.20
+ + iniconfig==2.3.0
+ + jiter==0.17.0
+ + logfire-api==5.1.0
+ + lxml==6.1.3
+ + openai==3.19.0
+ + opentelemetry-api==1.44.0
+ + packaging==26.3
+ + pluggy==1.6.0
+ + pydantic==2.13.5
+ + pydantic-ai-slim==2.48.0
+ + pydantic-core==2.46.5
+ + pydantic-graph==2.48.0
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + python-docx==1.2.0
+ + python-multipart==0.0.32
+ + regex==2026.9.10
+ + requests==2.34.2
+ + sniffio==1.3.1
+ + starlette==1.7.0
+ + tiktoken==0.14.0
+ + truststore==0.10.4
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + urllib3==2.8.0
+ + uvicorn==0.53.0
+Воспроизведение — не проверка моделей
+Реплик: 47; поручений: 10; DOCX: outputs/meeting-1.docx
+Воспроизведение — не проверка моделей
+Реплик: 65; поручений: 8; DOCX: outputs/meeting-2.docx
+............s..s.                                                        [100%]
+15 passed, 2 skipped in 0.81s
+Документ №1: 47 реплик, 10 поручений
+Документ №2: 65 реплик, 8 поручений
+PASS replay: не проверка моделей
+ Image meeting-check-48581-app Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 528B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 673B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.18@sha256:3adc3706091ce7c2fe595e669628caedd6d951551b92b258b7e7dbe06d9440bc
+#3 DONE 0.6s
+
+#4 [internal] load metadata for docker.io/library/python:3.11.13-slim-bookworm@sha256:86adf8dbadc3d6e82ee5dd2c74bec2e1c2467cdad47886280501df722372d2e1
+#4 DONE 0.9s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 103B done
+#5 DONE 0.0s
+
+#6 [uv 1/1] FROM ghcr.io/astral-sh/uv:0.12.18@sha256:3adc3706091ce7c2fe595e669628caedd6d951551b92b258b7e7dbe06d9440bc
+#6 resolve ghcr.io/astral-sh/uv:0.12.18@sha256:3adc3706091ce7c2fe595e669628caedd6d951551b92b258b7e7dbe06d9440bc 0.0s done
+#6 DONE 0.0s
+
+#7 [stage-1 1/8] FROM docker.io/library/python:3.11.13-slim-bookworm@sha256:86adf8dbadc3d6e82ee5dd2c74bec2e1c2467cdad47886280501df722372d2e1
+#7 resolve docker.io/library/python:3.11.13-slim-bookworm@sha256:86adf8dbadc3d6e82ee5dd2c74bec2e1c2467cdad47886280501df722372d2e1 0.0s done
+#7 DONE 0.0s
+
+#8 [internal] load build context
+#8 transferring context: 1.45MB done
+#8 DONE 0.0s
+
+#9 [stage-1 3/8] WORKDIR /app
+#9 CACHED
+
+#10 [stage-1 4/8] COPY pyproject.toml uv.lock .python-version ./
+#10 CACHED
+
+#11 [stage-1 2/8] COPY --from=uv /uv /usr/local/bin/uv
+#11 CACHED
+
+#12 [stage-1 5/8] RUN uv sync --locked --extra gpu --no-dev
+#12 CACHED
+
+#13 [stage-1 6/8] COPY meeting_protocol ./meeting_protocol
+#13 DONE 0.2s
+
+#14 [stage-1 7/8] COPY scripts ./scripts
+#14 DONE 0.0s
+
+#15 [stage-1 8/8] COPY data ./data
+#15 DONE 0.0s
+
+#16 exporting to image
+#16 exporting layers 0.2s done
+#16 exporting manifest sha256:f0ba7d9a0d954ce1aee454e693d92159fda967d2aa828bc8d47cfaeaf0419546 0.0s done
+#16 exporting config sha256:2aa09a70ac2b481351e8423a39ce330260ff54c4c99fab14fe26a67f130a6c4d 0.0s done
+#16 exporting attestation manifest sha256:c98b42e552149c805804fd0d689f98703e9711da6a0df4f18cc55259633a9811 0.0s done
+#16 exporting manifest list sha256:e16df8bf0a7a5047478181991358c68637ea0303c97bc6b18622c78bf0635d75 0.0s done
+#16 naming to docker.io/library/meeting-check-48581-app:latest done
+#16 unpacking to docker.io/library/meeting-check-48581-app:latest 0.1s done
+#16 DONE 0.3s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+ Image meeting-check-48581-app Built 
+ Network meeting-check-48581_default Creating 
+ Network meeting-check-48581_default Creating 
+ Network meeting-check-48581_default Created 
+ Network meeting-check-48581_default Created 
+ Container meeting-check-48581-llm-1 Creating 
+ Container meeting-check-48581-llm-1 Created 
+ Container meeting-check-48581-llm-1 Starting 
+ Container meeting-check-48581-llm-1 Started 
+ Container meeting-check-48581-llm-1 Waiting 
+ Container meeting-check-48581-llm-1 Healthy 
+ Container meeting-check-48581-llm-1 Running 
+ Container meeting-check-48581-llm-1 Waiting 
+ Container meeting-check-48581-llm-1 Healthy 
+ Container meeting-check-48581-app-run-24fd8c984a27 Creating 
+ Container meeting-check-48581-app-run-24fd8c984a27 Created 
+Fetching 7 files:   0%|          | 0/7 [00:00<?, ?it/s]Fetching 7 files: 100%|██████████| 7/7 [00:00<00:00, 5131.99it/s]
+/app/.venv/lib/python3.11/site-packages/speechbrain/utils/torch_audio_backend.py:57: UserWarning: torchaudio._backend.list_audio_backends has been deprecated. This deprecation is part of a large refactoring effort to transition TorchAudio into a maintenance phase. The decoding and encoding capabilities of PyTorch for both audio and video are being consolidated into TorchCodec. Please see https://github.com/pytorch/audio/issues/3902 for more information. It will be removed from the 2.9 release. 
+  available_backends = torchaudio.list_audio_backends()
+/app/.venv/lib/python3.11/site-packages/speechbrain/utils/torch_audio_backend.py:57: UserWarning: torchaudio._backend.list_audio_backends has been deprecated. This deprecation is part of a large refactoring effort to transition TorchAudio into a maintenance phase. The decoding and encoding capabilities of PyTorch for both audio and video are being consolidated into TorchCodec. Please see https://github.com/pytorch/audio/issues/3902 for more information. It will be removed from the 2.9 release. 
+  available_backends = torchaudio.list_audio_backends()
+/app/.venv/lib/python3.11/site-packages/speechbrain/utils/autocast.py:188: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  wrapped_fwd = torch.cuda.amp.custom_fwd(fwd, cast_inputs=cast_inputs)
+Реальный запуск ASR и LLM
+Реплик: 47; поручений: 10; DOCX: outputs/meeting-1.docx
+ Container meeting-check-48581-llm-1 Running 
+ Container meeting-check-48581-llm-1 Waiting 
+ Container meeting-check-48581-llm-1 Healthy 
+ Container meeting-check-48581-app-run-158df1f74970 Creating 
+ Container meeting-check-48581-app-run-158df1f74970 Created 
+Fetching 7 files:   0%|          | 0/7 [00:00<?, ?it/s]Fetching 7 files: 100%|██████████| 7/7 [00:00<00:00, 5042.96it/s]
+/app/.venv/lib/python3.11/site-packages/speechbrain/utils/torch_audio_backend.py:57: UserWarning: torchaudio._backend.list_audio_backends has been deprecated. This deprecation is part of a large refactoring effort to transition TorchAudio into a maintenance phase. The decoding and encoding capabilities of PyTorch for both audio and video are being consolidated into TorchCodec. Please see https://github.com/pytorch/audio/issues/3902 for more information. It will be removed from the 2.9 release. 
+  available_backends = torchaudio.list_audio_backends()
+/app/.venv/lib/python3.11/site-packages/speechbrain/utils/torch_audio_backend.py:57: UserWarning: torchaudio._backend.list_audio_backends has been deprecated. This deprecation is part of a large refactoring effort to transition TorchAudio into a maintenance phase. The decoding and encoding capabilities of PyTorch for both audio and video are being consolidated into TorchCodec. Please see https://github.com/pytorch/audio/issues/3902 for more information. It will be removed from the 2.9 release. 
+  available_backends = torchaudio.list_audio_backends()
+/app/.venv/lib/python3.11/site-packages/speechbrain/utils/autocast.py:188: FutureWarning: `torch.cuda.amp.custom_fwd(args...)` is deprecated. Please use `torch.amp.custom_fwd(args..., device_type='cuda')` instead.
+  wrapped_fwd = torch.cuda.amp.custom_fwd(fwd, cast_inputs=cast_inputs)
+Реальный запуск ASR и LLM
+Реплик: 65; поручений: 8; DOCX: outputs/meeting-2.docx
+ Container meeting-check-48581-llm-1 Running 
+ Container meeting-check-48581-llm-1 Waiting 
+ Container meeting-check-48581-llm-1 Healthy 
+ Container meeting-check-48581-app-run-a42e459ea586 Creating 
+ Container meeting-check-48581-app-run-a42e459ea586 Created 
+Документ №1: 47 реплик, 10 поручений
+Документ №2: 65 реплик, 8 поручений
+PASS gpu: реальный запуск ASR и LLM
+ Container meeting-check-48581-llm-1 Stopping 
+ Container meeting-check-48581-llm-1 Stopped 
+ Container meeting-check-48581-llm-1 Removing 
+ Container meeting-check-48581-llm-1 Removed 
+ Network meeting-check-48581_default Removing 
+ Network meeting-check-48581_default Removed 
+check.sh exit=0
