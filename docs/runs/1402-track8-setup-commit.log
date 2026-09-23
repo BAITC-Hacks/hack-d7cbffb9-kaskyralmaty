@@ -1,0 +1,21 @@
+$ git add -- AGENTS.md .scratch/meeting-protocol/spec.md docs/agents/issue-tracker.md docs/agents/triage-labels.md docs/agents/domain.md docs/runs/1355-skills-setup-exploration.log docs/runs/1357-track8-documentation-rules.log docs/runs/1357-track8-full-documents.log docs/runs/1357-track8-source-inventory.log docs/runs/1400-track8-spec-write.log docs/runs/1401-track8-spec-verification.log docs/runs/1402-skills-setup-write.log docs/runs/1402-track8-handoff-review.log
+$ git diff --cached --check -- AGENTS.md .scratch/meeting-protocol/spec.md docs/agents/issue-tracker.md docs/agents/triage-labels.md docs/agents/domain.md
+$ git commit --only -m Уточнено ТЗ трека 8 и настроены локальные задачи; реализация ещё не проверена -- AGENTS.md .scratch/meeting-protocol/spec.md docs/agents/issue-tracker.md docs/agents/triage-labels.md docs/agents/domain.md docs/runs/1355-skills-setup-exploration.log docs/runs/1357-track8-documentation-rules.log docs/runs/1357-track8-full-documents.log docs/runs/1357-track8-source-inventory.log docs/runs/1400-track8-spec-write.log docs/runs/1401-track8-spec-verification.log docs/runs/1402-skills-setup-write.log docs/runs/1402-track8-handoff-review.log
+[main fc1e166] Уточнено ТЗ трека 8 и настроены локальные задачи; реализация ещё не проверена
+ 9 files changed, 428 insertions(+), 1 deletion(-)
+ create mode 100644 .scratch/meeting-protocol/spec.md
+ create mode 100644 docs/agents/domain.md
+ create mode 100644 docs/agents/issue-tracker.md
+ create mode 100644 docs/agents/triage-labels.md
+ create mode 100644 docs/runs/1400-track8-spec-write.log
+ create mode 100644 docs/runs/1401-track8-spec-verification.log
+ create mode 100644 docs/runs/1402-skills-setup-write.log
+ create mode 100644 docs/runs/1402-track8-handoff-review.log
+2026-09-23 14:02 | сделано: полный разбор ТЗ и протоколов трека 8, матрица покрытия, локальный трекер и правила навыков | не сделано: проверка аудио, реализация, принятие плана, push этого коммита | коммит fc1e166
+$ git status --short
+ M docs/LOG.md
+?? .DS_Store
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+?? docs/runs/1402-track8-setup-commit.log

@@ -1,0 +1,58 @@
+ M docs/LOG.md
+ M docs/runs/1425-scope-commit-result.log
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+?? docs/runs/1402-track8-setup-commit.log
+?? docs/runs/1413-architecture-research-commit.log
+?? docs/runs/1419-meeting-decisions-commit.log
+?? docs/runs/1421-audio-input-planning.log
+?? docs/runs/1434-plan-commit-result.log
+?? docs/runs/1542-context-verification-push.log
+?? docs/runs/1545-push-all-inspection.log
+ docs/LOG.md                            |  1 +
+ docs/runs/1425-scope-commit-result.log | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+)
+diff --git a/docs/LOG.md b/docs/LOG.md
+index 3e09797..04245f3 100644
+--- a/docs/LOG.md
++++ b/docs/LOG.md
+@@ -13,3 +13,4 @@
+ 2026-09-23 15:13 | сделано: создание outputs пользователем до Docker; уточнён запас диска | не сделано: завершение свежей GPU-проверки | коммит b308222
+ 2026-09-23 15:21 | сделано: этап 1, check.sh all на Brev PASS, оба MP3 → поручения → DOCX, replay без GPU, оба ASR smoke PASS, доказательства сохранены; далее запуски только Brev | не сделано: M6, нормализация сроков/R4, браузерная запись/R3, оценка языков; Hermes не принят | коммит 7ca1c04
+ 2026-09-23 15:40 | сделано: Участники и Тема в CLI/форме только для LLM, реальные результаты 10/8 поручений с именами из списка, meeting-dev без рестарта vLLM, 10 тестов на Brev | не сделано: свежая replay-проверка этого коммита, M6 и остальной этап 2 | коммит 2be64b0
++2026-09-23 15:41 | сделано: check.sh replay свежего клона 2be64b0 PASS, 10 тестов, реальные dev-прогоны двух MP3 и DOCX, подтверждён один vLLM без рестарта; README и PLAN обновлены | не сделано: M6, сроки/R4, браузер/R3, полный check.sh gpu этапа 2 | коммит 6d104dc
+diff --git a/docs/runs/1425-scope-commit-result.log b/docs/runs/1425-scope-commit-result.log
+index e69de29..431ca22 100644
+--- a/docs/runs/1425-scope-commit-result.log
++++ b/docs/runs/1425-scope-commit-result.log
+@@ -0,0 +1,19 @@
++ .scratch/meeting-protocol/spec.md       |  23 ++
++ docs/runs/1423-scope-context.log        | 481 ++++++++++++++++++++++++++++++++
++ docs/runs/1423-scope-decisions.log      | 475 +++++++++++++++++++++++++++++++
++ docs/runs/1423-scope-inventory.log      |  49 ++++
++ docs/runs/1423-scope-open-decisions.log | 159 +++++++++++
++ docs/runs/1424-scope-source-check.log   |  60 ++++
++ docs/runs/1425-scope-commit-result.log  |   0
++ docs/runs/1425-scope-proposal-write.log |   1 +
++ 8 files changed, 1248 insertions(+)
++[main bfdc15b] Предложен объём протоколирования; план и стек ожидают согласования
++ 8 files changed, 1248 insertions(+)
++ create mode 100644 docs/runs/1423-scope-context.log
++ create mode 100644 docs/runs/1423-scope-decisions.log
++ create mode 100644 docs/runs/1423-scope-inventory.log
++ create mode 100644 docs/runs/1423-scope-open-decisions.log
++ create mode 100644 docs/runs/1424-scope-source-check.log
++ create mode 100644 docs/runs/1425-scope-commit-result.log
++ create mode 100644 docs/runs/1425-scope-proposal-write.log
++2026-09-23 14:25 | сделано: сверено исходное ТЗ, предложены продукт и порядок реализации в spec.md | не сделано: утверждение объёма, план, стек, код, push | коммит bfdc15b
+docs/runs/1359-commit-push-result.log
+docs/runs/1359-push-result.log
+docs/runs/1359-push-verification.log
+docs/runs/1402-track8-setup-commit.log
+docs/runs/1413-architecture-research-commit.log
+docs/runs/1419-meeting-decisions-commit.log
+docs/runs/1421-audio-input-planning.log
+docs/runs/1434-plan-commit-result.log
+docs/runs/1542-context-verification-push.log
+docs/runs/1545-push-all-inspection.log

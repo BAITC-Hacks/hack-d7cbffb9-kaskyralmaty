@@ -1,0 +1,555 @@
+     229 docs/runs/1359-commit-push-result.log
+       3 docs/runs/1359-push-result.log
+       7 docs/runs/1359-push-verification.log
+      21 docs/runs/1402-track8-setup-commit.log
+      16 docs/runs/1413-architecture-research-commit.log
+      11 docs/runs/1419-meeting-decisions-commit.log
+     236 docs/runs/1421-audio-input-planning.log
+      11 docs/runs/1434-plan-commit-result.log
+       9 docs/runs/1542-context-verification-push.log
+      58 docs/runs/1545-push-all-inspection.log
+       0 docs/runs/1546-push-all-log-review.log
+     601 total
+ .agents/skills/ask-matt/PHASE-BOUNDARIES.md        |  55 +++
+ .agents/skills/ask-matt/SKILL.md                   |  90 +++++
+ .agents/skills/ask-matt/agents/openai.yaml         |   5 +
+ .agents/skills/code-review/SKILL.md                |  87 +++++
+ .agents/skills/code-review/agents/openai.yaml      |   3 +
+ .agents/skills/codebase-design/DEEPENING.md        |  37 ++
+ .agents/skills/codebase-design/DESIGN-IT-TWICE.md  |  44 +++
+ .agents/skills/codebase-design/SKILL.md            | 114 ++++++
+ .agents/skills/codebase-design/agents/openai.yaml  |   3 +
+ .agents/skills/diagnosing-bugs/SKILL.md            | 138 ++++++++
+ .agents/skills/diagnosing-bugs/agents/openai.yaml  |   3 +
+ .../diagnosing-bugs/scripts/hitl-loop.template.sh  |  44 +++
+ .agents/skills/domain-modeling/ADR-FORMAT.md       |  47 +++
+ .agents/skills/domain-modeling/CONTEXT-FORMAT.md   |  60 ++++
+ .agents/skills/domain-modeling/SKILL.md            |  74 ++++
+ .agents/skills/domain-modeling/agents/openai.yaml  |   3 +
+ .agents/skills/grill-me/SKILL.md                   |   7 +
+ .agents/skills/grill-me/agents/openai.yaml         |   5 +
+ .agents/skills/grill-with-docs/SKILL.md            |   7 +
+ .agents/skills/grill-with-docs/agents/openai.yaml  |   5 +
+ .agents/skills/grilling/SKILL.md                   |  28 ++
+ .agents/skills/grilling/agents/openai.yaml         |   3 +
+ .agents/skills/handoff/SKILL.md                    |  16 +
+ .agents/skills/handoff/agents/openai.yaml          |   5 +
+ .agents/skills/implement/SKILL.md                  |  15 +
+ .agents/skills/implement/agents/openai.yaml        |   5 +
+ .../improve-codebase-architecture/HTML-REPORT.md   | 123 +++++++
+ .../skills/improve-codebase-architecture/SKILL.md  |  71 ++++
+ .../agents/openai.yaml                             |   5 +
+ .agents/skills/prototype/LOGIC.md                  |  67 ++++
+ .agents/skills/prototype/SKILL.md                  |  26 ++
+ .agents/skills/prototype/UI.md                     | 112 ++++++
+ .agents/skills/prototype/agents/openai.yaml        |   3 +
+ .agents/skills/research/SKILL.md                   |  12 +
+ .agents/skills/research/agents/openai.yaml         |   3 +
+ .agents/skills/resolving-merge-conflicts/SKILL.md  |  14 +
+ .../resolving-merge-conflicts/agents/openai.yaml   |   3 +
+ .agents/skills/setup-matt-pocock-skills/SKILL.md   | 116 +++++++
+ .../setup-matt-pocock-skills/agents/openai.yaml    |   5 +
+ .agents/skills/setup-matt-pocock-skills/domain.md  |  51 +++
+ .../issue-tracker-github.md                        |  45 +++
+ .../issue-tracker-gitlab.md                        |  46 +++
+ .../issue-tracker-local.md                         |  30 ++
+ .../setup-matt-pocock-skills/triage-labels.md      |  15 +
+ .agents/skills/tdd/SKILL.md                        |  38 ++
+ .agents/skills/tdd/agents/openai.yaml              |   3 +
+ .agents/skills/tdd/mocking.md                      |  59 ++++
+ .agents/skills/tdd/tests.md                        |  77 +++++
+ .agents/skills/teach/GLOSSARY-FORMAT.md            |  35 ++
+ .agents/skills/teach/LEARNING-RECORD-FORMAT.md     |  46 +++
+ .agents/skills/teach/MISSION-FORMAT.md             |  31 ++
+ .agents/skills/teach/RESOURCES-FORMAT.md           |  32 ++
+ .agents/skills/teach/SKILL.md                      | 140 ++++++++
+ .agents/skills/teach/agents/openai.yaml            |   5 +
+ .agents/skills/to-questionnaire/SKILL.md           |  54 +++
+ .agents/skills/to-questionnaire/agents/openai.yaml |   5 +
+ .agents/skills/to-spec/SKILL.md                    |  75 ++++
+ .agents/skills/to-spec/agents/openai.yaml          |   5 +
+ .agents/skills/to-tickets/SKILL.md                 | 105 ++++++
+ .agents/skills/to-tickets/agents/openai.yaml       |   5 +
+ .agents/skills/triage/AGENT-BRIEF.md               | 207 +++++++++++
+ .agents/skills/triage/OUT-OF-SCOPE.md              | 105 ++++++
+ .agents/skills/triage/SKILL.md                     | 112 ++++++
+ .agents/skills/triage/agents/openai.yaml           |   5 +
+ .agents/skills/wait-what/SKILL.md                  |   7 +
+ .agents/skills/wait-what/agents/openai.yaml        |   5 +
+ .agents/skills/wayfinder/SKILL.md                  | 128 +++++++
+ .agents/skills/wayfinder/agents/openai.yaml        |   5 +
+ .agents/skills/wizard/SKILL.md                     |  44 +++
+ .agents/skills/wizard/agents/openai.yaml           |   3 +
+ .agents/skills/wizard/template.sh                  | 204 +++++++++++
+ .../skills/writing-for-agents/SKILL-MECHANICS.md   |  22 ++
+ .agents/skills/writing-for-agents/SKILL.md         |  81 +++++
+ .../skills/writing-for-agents/agents/openai.yaml   |   3 +
+ .claude/skills/ask-matt                            |   1 +
+ .claude/skills/code-review                         |   1 +
+ .claude/skills/codebase-design                     |   1 +
+ .claude/skills/diagnosing-bugs                     |   1 +
+ .claude/skills/domain-modeling                     |   1 +
+ .claude/skills/grill-me                            |   1 +
+ .claude/skills/grill-with-docs                     |   1 +
+ .claude/skills/grilling                            |   1 +
+ .claude/skills/handoff                             |   1 +
+ .claude/skills/implement                           |   1 +
+ .claude/skills/improve-codebase-architecture       |   1 +
+ .claude/skills/prototype                           |   1 +
+ .claude/skills/research                            |   1 +
+ .claude/skills/resolving-merge-conflicts           |   1 +
+ .claude/skills/setup-matt-pocock-skills            |   1 +
+ .claude/skills/tdd                                 |   1 +
+ .claude/skills/teach                               |   1 +
+ .claude/skills/to-questionnaire                    |   1 +
+ .claude/skills/to-spec                             |   1 +
+ .claude/skills/to-tickets                          |   1 +
+ .claude/skills/triage                              |   1 +
+ .claude/skills/wait-what                           |   1 +
+ .claude/skills/wayfinder                           |   1 +
+ .claude/skills/wizard                              |   1 +
+ .claude/skills/writing-for-agents                  |   1 +
+ AGENTS.md                                          |  84 +++++
+ docs/HANDOFF.md                                    | 114 ++++++
+ docs/LOG.md                                        |   1 +
+ docs/runs/1319-selection-commit-result.log         |  32 ++
+ docs/runs/1319-selection-record.log                |   1 +
+ docs/runs/1339-brev-env-check.log                  |  14 +
+ docs/runs/1347-vllm-start.log                      | 114 ++++++
+ docs/runs/1351-vllm-status.log                     |  11 +
+ docs/runs/1355-skills-setup-exploration.log        | 318 +++++++++++++++++
+ docs/runs/1357-track8-documentation-rules.log      |  84 +++++
+ docs/runs/1357-track8-full-documents.log           | 296 ++++++++++++++++
+ docs/runs/1357-track8-source-inventory.log         | 309 +++++++++++++++++
+ docs/runs/1358-commit-push-review.log              | 381 +++++++++++++++++++++
+ docs/runs/1358-commit-push-validation.log          |   3 +
+ skills-lock.json                                   | 155 +++++++++
+ 114 files changed, 5238 insertions(+)
+[main 85c51a3] docs: сохранены навыки, материалы трека 8 и журналы; реализация и проверка запуска ещё не готовы
+ 114 files changed, 5238 insertions(+)
+ create mode 100644 .agents/skills/ask-matt/PHASE-BOUNDARIES.md
+ create mode 100644 .agents/skills/ask-matt/SKILL.md
+ create mode 100644 .agents/skills/ask-matt/agents/openai.yaml
+ create mode 100644 .agents/skills/code-review/SKILL.md
+ create mode 100644 .agents/skills/code-review/agents/openai.yaml
+ create mode 100644 .agents/skills/codebase-design/DEEPENING.md
+ create mode 100644 .agents/skills/codebase-design/DESIGN-IT-TWICE.md
+ create mode 100644 .agents/skills/codebase-design/SKILL.md
+ create mode 100644 .agents/skills/codebase-design/agents/openai.yaml
+ create mode 100644 .agents/skills/diagnosing-bugs/SKILL.md
+ create mode 100644 .agents/skills/diagnosing-bugs/agents/openai.yaml
+ create mode 100644 .agents/skills/diagnosing-bugs/scripts/hitl-loop.template.sh
+ create mode 100644 .agents/skills/domain-modeling/ADR-FORMAT.md
+ create mode 100644 .agents/skills/domain-modeling/CONTEXT-FORMAT.md
+ create mode 100644 .agents/skills/domain-modeling/SKILL.md
+ create mode 100644 .agents/skills/domain-modeling/agents/openai.yaml
+ create mode 100644 .agents/skills/grill-me/SKILL.md
+ create mode 100644 .agents/skills/grill-me/agents/openai.yaml
+ create mode 100644 .agents/skills/grill-with-docs/SKILL.md
+ create mode 100644 .agents/skills/grill-with-docs/agents/openai.yaml
+ create mode 100644 .agents/skills/grilling/SKILL.md
+ create mode 100644 .agents/skills/grilling/agents/openai.yaml
+ create mode 100644 .agents/skills/handoff/SKILL.md
+ create mode 100644 .agents/skills/handoff/agents/openai.yaml
+ create mode 100644 .agents/skills/implement/SKILL.md
+ create mode 100644 .agents/skills/implement/agents/openai.yaml
+ create mode 100644 .agents/skills/improve-codebase-architecture/HTML-REPORT.md
+ create mode 100644 .agents/skills/improve-codebase-architecture/SKILL.md
+ create mode 100644 .agents/skills/improve-codebase-architecture/agents/openai.yaml
+ create mode 100644 .agents/skills/prototype/LOGIC.md
+ create mode 100644 .agents/skills/prototype/SKILL.md
+ create mode 100644 .agents/skills/prototype/UI.md
+ create mode 100644 .agents/skills/prototype/agents/openai.yaml
+ create mode 100644 .agents/skills/research/SKILL.md
+ create mode 100644 .agents/skills/research/agents/openai.yaml
+ create mode 100644 .agents/skills/resolving-merge-conflicts/SKILL.md
+ create mode 100644 .agents/skills/resolving-merge-conflicts/agents/openai.yaml
+ create mode 100644 .agents/skills/setup-matt-pocock-skills/SKILL.md
+ create mode 100644 .agents/skills/setup-matt-pocock-skills/agents/openai.yaml
+ create mode 100644 .agents/skills/setup-matt-pocock-skills/domain.md
+ create mode 100644 .agents/skills/setup-matt-pocock-skills/issue-tracker-github.md
+ create mode 100644 .agents/skills/setup-matt-pocock-skills/issue-tracker-gitlab.md
+ create mode 100644 .agents/skills/setup-matt-pocock-skills/issue-tracker-local.md
+ create mode 100644 .agents/skills/setup-matt-pocock-skills/triage-labels.md
+ create mode 100644 .agents/skills/tdd/SKILL.md
+ create mode 100644 .agents/skills/tdd/agents/openai.yaml
+ create mode 100644 .agents/skills/tdd/mocking.md
+ create mode 100644 .agents/skills/tdd/tests.md
+ create mode 100644 .agents/skills/teach/GLOSSARY-FORMAT.md
+ create mode 100644 .agents/skills/teach/LEARNING-RECORD-FORMAT.md
+ create mode 100644 .agents/skills/teach/MISSION-FORMAT.md
+ create mode 100644 .agents/skills/teach/RESOURCES-FORMAT.md
+ create mode 100644 .agents/skills/teach/SKILL.md
+ create mode 100644 .agents/skills/teach/agents/openai.yaml
+ create mode 100644 .agents/skills/to-questionnaire/SKILL.md
+ create mode 100644 .agents/skills/to-questionnaire/agents/openai.yaml
+ create mode 100644 .agents/skills/to-spec/SKILL.md
+ create mode 100644 .agents/skills/to-spec/agents/openai.yaml
+ create mode 100644 .agents/skills/to-tickets/SKILL.md
+ create mode 100644 .agents/skills/to-tickets/agents/openai.yaml
+ create mode 100644 .agents/skills/triage/AGENT-BRIEF.md
+ create mode 100644 .agents/skills/triage/OUT-OF-SCOPE.md
+ create mode 100644 .agents/skills/triage/SKILL.md
+ create mode 100644 .agents/skills/triage/agents/openai.yaml
+ create mode 100644 .agents/skills/wait-what/SKILL.md
+ create mode 100644 .agents/skills/wait-what/agents/openai.yaml
+ create mode 100644 .agents/skills/wayfinder/SKILL.md
+ create mode 100644 .agents/skills/wayfinder/agents/openai.yaml
+ create mode 100644 .agents/skills/wizard/SKILL.md
+ create mode 100644 .agents/skills/wizard/agents/openai.yaml
+ create mode 100644 .agents/skills/wizard/template.sh
+ create mode 100644 .agents/skills/writing-for-agents/SKILL-MECHANICS.md
+ create mode 100644 .agents/skills/writing-for-agents/SKILL.md
+ create mode 100644 .agents/skills/writing-for-agents/agents/openai.yaml
+ create mode 120000 .claude/skills/ask-matt
+ create mode 120000 .claude/skills/code-review
+ create mode 120000 .claude/skills/codebase-design
+ create mode 120000 .claude/skills/diagnosing-bugs
+ create mode 120000 .claude/skills/domain-modeling
+ create mode 120000 .claude/skills/grill-me
+ create mode 120000 .claude/skills/grill-with-docs
+ create mode 120000 .claude/skills/grilling
+ create mode 120000 .claude/skills/handoff
+ create mode 120000 .claude/skills/implement
+ create mode 120000 .claude/skills/improve-codebase-architecture
+ create mode 120000 .claude/skills/prototype
+ create mode 120000 .claude/skills/research
+ create mode 120000 .claude/skills/resolving-merge-conflicts
+ create mode 120000 .claude/skills/setup-matt-pocock-skills
+ create mode 120000 .claude/skills/tdd
+ create mode 120000 .claude/skills/teach
+ create mode 120000 .claude/skills/to-questionnaire
+ create mode 120000 .claude/skills/to-spec
+ create mode 120000 .claude/skills/to-tickets
+ create mode 120000 .claude/skills/triage
+ create mode 120000 .claude/skills/wait-what
+ create mode 120000 .claude/skills/wayfinder
+ create mode 120000 .claude/skills/wizard
+ create mode 120000 .claude/skills/writing-for-agents
+ create mode 100644 AGENTS.md
+ create mode 100644 docs/HANDOFF.md
+ create mode 100644 docs/runs/1319-selection-record.log
+ create mode 100644 docs/runs/1339-brev-env-check.log
+ create mode 100644 docs/runs/1347-vllm-start.log
+ create mode 100644 docs/runs/1351-vllm-status.log
+ create mode 100644 docs/runs/1355-skills-setup-exploration.log
+ create mode 100644 docs/runs/1357-track8-documentation-rules.log
+ create mode 100644 docs/runs/1357-track8-full-documents.log
+ create mode 100644 docs/runs/1357-track8-source-inventory.log
+ create mode 100644 docs/runs/1358-commit-push-review.log
+ create mode 100644 docs/runs/1358-commit-push-validation.log
+ create mode 100644 skills-lock.json
+Записан коммит 85c51a3
+To https://github.com/BAITC-Hacks/hack-d7cbffb9-kaskyralmaty.git
+   d59ff3a..85c51a3  main -> main
+85c51a3249c1ea65ac2ee77111bb28dcf9440cb1
+85c51a3249c1ea65ac2ee77111bb28dcf9440cb1	refs/heads/main
+ M docs/LOG.md
+?? .DS_Store
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+$ git add -- AGENTS.md .scratch/meeting-protocol/spec.md docs/agents/issue-tracker.md docs/agents/triage-labels.md docs/agents/domain.md docs/runs/1355-skills-setup-exploration.log docs/runs/1357-track8-documentation-rules.log docs/runs/1357-track8-full-documents.log docs/runs/1357-track8-source-inventory.log docs/runs/1400-track8-spec-write.log docs/runs/1401-track8-spec-verification.log docs/runs/1402-skills-setup-write.log docs/runs/1402-track8-handoff-review.log
+$ git diff --cached --check -- AGENTS.md .scratch/meeting-protocol/spec.md docs/agents/issue-tracker.md docs/agents/triage-labels.md docs/agents/domain.md
+$ git commit --only -m Уточнено ТЗ трека 8 и настроены локальные задачи; реализация ещё не проверена -- AGENTS.md .scratch/meeting-protocol/spec.md docs/agents/issue-tracker.md docs/agents/triage-labels.md docs/agents/domain.md docs/runs/1355-skills-setup-exploration.log docs/runs/1357-track8-documentation-rules.log docs/runs/1357-track8-full-documents.log docs/runs/1357-track8-source-inventory.log docs/runs/1400-track8-spec-write.log docs/runs/1401-track8-spec-verification.log docs/runs/1402-skills-setup-write.log docs/runs/1402-track8-handoff-review.log
+[main fc1e166] Уточнено ТЗ трека 8 и настроены локальные задачи; реализация ещё не проверена
+ 9 files changed, 428 insertions(+), 1 deletion(-)
+ create mode 100644 .scratch/meeting-protocol/spec.md
+ create mode 100644 docs/agents/domain.md
+ create mode 100644 docs/agents/issue-tracker.md
+ create mode 100644 docs/agents/triage-labels.md
+ create mode 100644 docs/runs/1400-track8-spec-write.log
+ create mode 100644 docs/runs/1401-track8-spec-verification.log
+ create mode 100644 docs/runs/1402-skills-setup-write.log
+ create mode 100644 docs/runs/1402-track8-handoff-review.log
+2026-09-23 14:02 | сделано: полный разбор ТЗ и протоколов трека 8, матрица покрытия, локальный трекер и правила навыков | не сделано: проверка аудио, реализация, принятие плана, push этого коммита | коммит fc1e166
+$ git status --short
+ M docs/LOG.md
+?? .DS_Store
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+?? docs/runs/1402-track8-setup-commit.log
+$ git add -- .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md .scratch/meeting-protocol/agent-options.md docs/runs/1409-architecture-research-context.log docs/runs/1410-agent-options-context.log docs/runs/1410-agent-options-instructions.log docs/runs/1411-agent-options-existing.log docs/runs/1412-agent-options-write-check.log docs/runs/1412-architecture-findings-review.log docs/runs/1412-architecture-proposal-write.log docs/runs/1413-architecture-scope-correction.log
+$ git diff --cached --check -- .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md .scratch/meeting-protocol/agent-options.md
+$ git commit --only -m Исследованы агенты и подключение встреч; архитектура и стек ещё не выбраны -- .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md .scratch/meeting-protocol/agent-options.md docs/runs/1409-architecture-research-context.log docs/runs/1410-agent-options-context.log docs/runs/1410-agent-options-instructions.log docs/runs/1411-agent-options-existing.log docs/runs/1412-agent-options-write-check.log docs/runs/1412-architecture-findings-review.log docs/runs/1412-architecture-proposal-write.log docs/runs/1413-architecture-scope-correction.log
+[main bf1d014] Исследованы агенты и подключение встреч; архитектура и стек ещё не выбраны
+ 11 files changed, 301 insertions(+)
+ create mode 100644 .scratch/meeting-protocol/agent-options.md
+ create mode 100644 .scratch/meeting-protocol/architecture.md
+ create mode 100644 docs/runs/1409-architecture-research-context.log
+ create mode 100644 docs/runs/1410-agent-options-context.log
+ create mode 100644 docs/runs/1410-agent-options-instructions.log
+ create mode 100644 docs/runs/1411-agent-options-existing.log
+ create mode 100644 docs/runs/1412-agent-options-write-check.log
+ create mode 100644 docs/runs/1412-architecture-findings-review.log
+ create mode 100644 docs/runs/1412-architecture-proposal-write.log
+ create mode 100644 docs/runs/1413-architecture-scope-correction.log
+2026-09-23 14:13 | сделано: исследованы Hermes/PydanticAI/smolagents и Jitsi/Zoom, описана архитектура, исправлена атрибуция требований | не сделано: выбор стека/плана, проверка gRPC-реализации (ожидается ссылка), запуск и push | коммит bf1d014
+$ git add -- CONTEXT.md .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md docs/runs/1414-ask-matt-resume.log docs/runs/1415-grill-with-docs-context.log docs/runs/1417-meeting-decisions-context.log docs/runs/1418-meeting-decisions-write.log
+$ git diff --cached --check -- CONTEXT.md .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md
+$ git commit --only -m Зафиксированы ответы о сервисе и агенте; способы интеграции ещё не выбраны -- CONTEXT.md .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md docs/runs/1414-ask-matt-resume.log docs/runs/1415-grill-with-docs-context.log docs/runs/1417-meeting-decisions-context.log docs/runs/1418-meeting-decisions-write.log
+[main b95b8f2] Зафиксированы ответы о сервисе и агенте; способы интеграции ещё не выбраны
+ 7 files changed, 395 insertions(+), 22 deletions(-)
+ create mode 100644 CONTEXT.md
+ create mode 100644 docs/runs/1414-ask-matt-resume.log
+ create mode 100644 docs/runs/1415-grill-with-docs-context.log
+ create mode 100644 docs/runs/1417-meeting-decisions-context.log
+ create mode 100644 docs/runs/1418-meeting-decisions-write.log
+2026-09-23 14:19 | сделано: записаны решения о результате после встречи и разделении сервиса/агента, словарь, ограничения платформ; Jitsi-only код исключён как основа | не сделано: выбор движка и интеграций, план и реализация | коммит b95b8f2
+---
+name: to-spec
+description: "Turn the current conversation into a spec and publish it to the project issue tracker: no interview, just synthesis of what you've already discussed."
+disable-model-invocation: true
+---
+
+This skill takes the current conversation context and codebase understanding and produces a spec. Do NOT interview the user; just synthesize what you already know.
+
+The issue tracker and triage label vocabulary should have been provided to you. If not, tell the user to run `/setup-matt-pocock-skills`.
+
+## Process
+
+1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching.
+
+2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
+
+Check with the user that these seams match their expectations.
+
+3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+
+<spec-template>
+
+## Problem Statement
+
+The problem that the user is facing, from the user's perspective.
+
+## Solution
+
+The solution to the problem, from the user's perspective.
+
+## User Stories
+
+A LONG, numbered list of user stories. Each user story should be in the format of:
+
+1. As an <actor>, I want a <feature>, so that <benefit>
+
+<user-story-example>
+1. As a mobile bank customer, I want to see balance on my accounts, so that I can make better informed decisions about my spending
+</user-story-example>
+
+This list of user stories should be extremely extensive and cover all aspects of the feature.
+
+## Implementation Decisions
+
+A list of implementation decisions that were made. This can include:
+
+- The modules that will be built/modified
+- The interfaces of those modules that will be modified
+- Technical clarifications from the developer
+- Architectural decisions
+- Schema changes
+- API contracts
+- Specific interactions
+
+Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
+
+Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
+
+## Testing Decisions
+
+A list of testing decisions that were made. Include:
+
+- A description of what makes a good test (only test external behavior, not implementation details)
+- Which modules will be tested
+- Prior art for the tests (i.e. similar types of tests in the codebase)
+
+## Out of Scope
+
+A description of the things that are out of scope for this spec.
+
+## Further Notes
+
+Any further notes about the feature.
+
+</spec-template>
+---
+name: to-tickets
+description: Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker (edges as text in one file per ticket locally, or native blocking links on a real tracker).
+disable-model-invocation: true
+---
+
+# To Tickets
+
+Break a plan, spec, or conversation into a set of **tickets**: tracer-bullet vertical slices, each declaring the tickets that **block** it.
+
+The issue tracker and triage label vocabulary should have been provided to you. If not, tell the user to run `/setup-matt-pocock-skills`.
+
+## Process
+
+### 1. Gather context
+
+Work from whatever is already in the conversation context. If the user passes a reference (a spec path, an issue number or URL) as an argument, fetch it and read its full body and comments.
+
+### 2. Explore the codebase (optional)
+
+If you have not already explored the codebase, do so to understand the current state of the code. Ticket titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
+
+Look for opportunities to prefactor the code to make the implementation easier. "Make the change easy, then make the easy change."
+
+### 3. Draft vertical slices
+
+Break the work into **tracer bullet** tickets.
+
+<vertical-slice-rules>
+
+- Each slice cuts a narrow but COMPLETE path through every layer (schema, API, UI, tests): vertical, NOT a horizontal slice of one layer
+- A completed slice is demoable or verifiable on its own
+- Each slice is sized to fit in a single fresh context window
+- Any prefactoring should be done first
+
+</vertical-slice-rules>
+
+Give each ticket its **blocking edges**: the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
+
+**Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change (rename a column, retype a shared symbol) whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket; green is promised only there.
+
+### 4. Quiz the user
+
+Present the proposed breakdown as a numbered list. For each ticket, show:
+
+- **Title**: short descriptive name
+- **Blocked by**: which other tickets (if any) must complete first
+- **What it delivers**: the end-to-end behaviour this ticket makes work
+
+Ask the user:
+
+- Does the granularity feel right? (too coarse / too fine)
+- Are the blocking edges correct: does each ticket only depend on tickets that genuinely gate it?
+- Should any tickets be merged or split further?
+
+Iterate until the user approves the breakdown.
+
+### 5. Publish the tickets to the configured tracker
+
+Publish the approved tickets. **How** depends on the tracker `/setup-matt-pocock-skills` configured; the tickets are the same either way, only the shape of the blocking edges changes:
+
+- **Local files** → write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below: one ticket per file, never a single combined file.
+- **A real issue tracker (GitHub, Linear, …)** → publish one issue per ticket in dependency order (blockers first) so each ticket's blocking edges can reference real identifiers. Use the platform's native blocking / sub-issue relationship where it has one; otherwise set each ticket's "Blocked by" to the blocking issues. Apply the `ready-for-agent` triage label unless instructed otherwise; the tickets are agent-grabbable by construction.
+
+Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
+
+Do NOT close or modify any parent issue.
+
+<local-ticket-template>
+
+# <NN>: <Ticket title>
+
+**What to build:** the end-to-end behaviour this ticket makes work, from the user's perspective, not a layer-by-layer implementation list.
+
+**Blocked by:** the numbers/titles of the tickets that gate this one, or "None (can start immediately)".
+
+**Status:** ready-for-agent
+
+- [ ] Acceptance criterion 1
+- [ ] Acceptance criterion 2
+
+</local-ticket-template>
+
+<issue-template>
+
+## Parent
+
+A reference to the parent issue on the tracker (if the source was an existing issue, otherwise omit this section).
+
+## What to build
+
+The end-to-end behaviour this ticket makes work, from the user's perspective, not layer-by-layer implementation.
+
+## Acceptance criteria
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+
+## Blocked by
+
+- A reference to each blocking ticket, or "None (can start immediately)".
+
+</issue-template>
+
+In either form, avoid specific file paths or code snippets: they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts, not a working demo, just the important bits.
+# ADR Format
+
+ADRs live in `docs/adr/` and use sequential numbering: `0001-slug.md`, `0002-slug.md`, etc.
+
+Create the `docs/adr/` directory lazily: only when the first ADR is needed.
+
+## Template
+
+```md
+# {Short title of the decision}
+
+{1-3 sentences: what's the context, what did we decide, and why.}
+```
+
+That's it. An ADR can be a single paragraph. The value is in recording *that* a decision was made and *why*, not in filling out sections.
+
+## Optional sections
+
+Only include these when they add genuine value. Most ADRs won't need them.
+
+- **Status** frontmatter (`proposed | accepted | deprecated | superseded by ADR-NNNN`): useful when decisions are revisited
+- **Considered Options**: only when the rejected alternatives are worth remembering
+- **Consequences**: only when non-obvious downstream effects need to be called out
+
+## Numbering
+
+Scan `docs/adr/` for the highest existing number and increment by one.
+
+## When to offer an ADR
+
+All three of these must be true:
+
+1. **Hard to reverse**: the cost of changing your mind later is meaningful
+2. **Surprising without context**: a future reader will look at the code and wonder "why on earth did they do it this way?"
+3. **The result of a real trade-off**: there were genuine alternatives and you picked one for specific reasons
+
+If a decision is easy to reverse, skip it: you'll just reverse it. If it's not surprising, nobody will wonder why. If there was no real alternative, there's nothing to record beyond "we did the obvious thing."
+
+### What qualifies
+
+- **Architectural shape.** "We're using a monorepo." "The write model is event-sourced, the read model is projected into Postgres."
+- **Integration patterns between contexts.** "Ordering and Billing communicate via domain events, not synchronous HTTP."
+- **Technology choices that carry lock-in.** Database, message bus, auth provider, deployment target. Not every library: just the ones that would take a quarter to swap out.
+- **Boundary and scope decisions.** "Customer data is owned by the Customer context; other contexts reference it by ID only." The explicit no-s are as valuable as the yes-s.
+- **Deliberate deviations from the obvious path.** "We're using manual SQL instead of an ORM because X." Anything where a reasonable reader would assume the opposite. These stop the next engineer from "fixing" something that was deliberate.
+- **Constraints not visible in the code.** "We can't use AWS because of compliance requirements." "Response times must be under 200ms because of the partner API contract."
+- **Rejected alternatives when the rejection is non-obvious.** If you considered GraphQL and picked REST for subtle reasons, record it; otherwise someone will suggest GraphQL again in six months.
+ M docs/LOG.md
+?? .DS_Store
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+?? docs/runs/1402-track8-setup-commit.log
+?? docs/runs/1413-architecture-research-commit.log
+?? docs/runs/1419-meeting-decisions-commit.log
+?? docs/runs/1421-audio-input-planning.log
+Проверены расписание, принятые решения и ограничения; реализация не запускалась.
+ docs/PLAN.md                        | 94 +++++++++++++++++++++++++++++++++++++
+ docs/runs/1432-plan-source-read.log | 76 ++++++++++++++++++++++++++++++
+ docs/runs/1433-plan-write.log       |  1 +
+ 3 files changed, 171 insertions(+)
+[main b07d7b4] Подготовлен план до кандидата 16:45; расписание ожидает подтверждения
+ 3 files changed, 171 insertions(+)
+ create mode 100644 docs/PLAN.md
+ create mode 100644 docs/runs/1432-plan-source-read.log
+ create mode 100644 docs/runs/1433-plan-write.log
+2026-09-23 14:34 | сделано: проект docs/PLAN.md с утверждённым объёмом и стеком, записью браузера и воспроизведением; кандидат запланирован до 16:45 | не сделано: ок на расписание, этап 1, проверка Blackwell, push | коммит b07d7b4
+[main 6d104dc] Зафиксировать проверку контекста имён на Brev; этап 2 продолжается
+ 5 files changed, 86 insertions(+)
+ create mode 100644 docs/runs/1540-context-commit.log
+ create mode 100644 docs/runs/1541-fresh-context-replay.log
+ create mode 100644 docs/runs/1541-single-vllm-guard.log
+To https://github.com/BAITC-Hacks/hack-d7cbffb9-kaskyralmaty.git
+   7ca1c04..6d104dc  main -> main
+6d104dc39e4071e5b319b5f3341995576a303222
+6d104dc39e4071e5b319b5f3341995576a303222	refs/heads/main

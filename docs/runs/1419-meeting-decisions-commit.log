@@ -1,0 +1,11 @@
+$ git add -- CONTEXT.md .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md docs/runs/1414-ask-matt-resume.log docs/runs/1415-grill-with-docs-context.log docs/runs/1417-meeting-decisions-context.log docs/runs/1418-meeting-decisions-write.log
+$ git diff --cached --check -- CONTEXT.md .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md
+$ git commit --only -m Зафиксированы ответы о сервисе и агенте; способы интеграции ещё не выбраны -- CONTEXT.md .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md docs/runs/1414-ask-matt-resume.log docs/runs/1415-grill-with-docs-context.log docs/runs/1417-meeting-decisions-context.log docs/runs/1418-meeting-decisions-write.log
+[main b95b8f2] Зафиксированы ответы о сервисе и агенте; способы интеграции ещё не выбраны
+ 7 files changed, 395 insertions(+), 22 deletions(-)
+ create mode 100644 CONTEXT.md
+ create mode 100644 docs/runs/1414-ask-matt-resume.log
+ create mode 100644 docs/runs/1415-grill-with-docs-context.log
+ create mode 100644 docs/runs/1417-meeting-decisions-context.log
+ create mode 100644 docs/runs/1418-meeting-decisions-write.log
+2026-09-23 14:19 | сделано: записаны решения о результате после встречи и разделении сервиса/агента, словарь, ограничения платформ; Jitsi-only код исключён как основа | не сделано: выбор движка и интеграций, план и реализация | коммит b95b8f2

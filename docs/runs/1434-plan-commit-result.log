@@ -1,0 +1,11 @@
+Проверены расписание, принятые решения и ограничения; реализация не запускалась.
+ docs/PLAN.md                        | 94 +++++++++++++++++++++++++++++++++++++
+ docs/runs/1432-plan-source-read.log | 76 ++++++++++++++++++++++++++++++
+ docs/runs/1433-plan-write.log       |  1 +
+ 3 files changed, 171 insertions(+)
+[main b07d7b4] Подготовлен план до кандидата 16:45; расписание ожидает подтверждения
+ 3 files changed, 171 insertions(+)
+ create mode 100644 docs/PLAN.md
+ create mode 100644 docs/runs/1432-plan-source-read.log
+ create mode 100644 docs/runs/1433-plan-write.log
+2026-09-23 14:34 | сделано: проект docs/PLAN.md с утверждённым объёмом и стеком, записью браузера и воспроизведением; кандидат запланирован до 16:45 | не сделано: ок на расписание, этап 1, проверка Blackwell, push | коммит b07d7b4

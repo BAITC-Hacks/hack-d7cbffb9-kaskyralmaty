@@ -1,0 +1,16 @@
+$ git add -- .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md .scratch/meeting-protocol/agent-options.md docs/runs/1409-architecture-research-context.log docs/runs/1410-agent-options-context.log docs/runs/1410-agent-options-instructions.log docs/runs/1411-agent-options-existing.log docs/runs/1412-agent-options-write-check.log docs/runs/1412-architecture-findings-review.log docs/runs/1412-architecture-proposal-write.log docs/runs/1413-architecture-scope-correction.log
+$ git diff --cached --check -- .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md .scratch/meeting-protocol/agent-options.md
+$ git commit --only -m Исследованы агенты и подключение встреч; архитектура и стек ещё не выбраны -- .scratch/meeting-protocol/spec.md .scratch/meeting-protocol/architecture.md .scratch/meeting-protocol/agent-options.md docs/runs/1409-architecture-research-context.log docs/runs/1410-agent-options-context.log docs/runs/1410-agent-options-instructions.log docs/runs/1411-agent-options-existing.log docs/runs/1412-agent-options-write-check.log docs/runs/1412-architecture-findings-review.log docs/runs/1412-architecture-proposal-write.log docs/runs/1413-architecture-scope-correction.log
+[main bf1d014] Исследованы агенты и подключение встреч; архитектура и стек ещё не выбраны
+ 11 files changed, 301 insertions(+)
+ create mode 100644 .scratch/meeting-protocol/agent-options.md
+ create mode 100644 .scratch/meeting-protocol/architecture.md
+ create mode 100644 docs/runs/1409-architecture-research-context.log
+ create mode 100644 docs/runs/1410-agent-options-context.log
+ create mode 100644 docs/runs/1410-agent-options-instructions.log
+ create mode 100644 docs/runs/1411-agent-options-existing.log
+ create mode 100644 docs/runs/1412-agent-options-write-check.log
+ create mode 100644 docs/runs/1412-architecture-findings-review.log
+ create mode 100644 docs/runs/1412-architecture-proposal-write.log
+ create mode 100644 docs/runs/1413-architecture-scope-correction.log
+2026-09-23 14:13 | сделано: исследованы Hermes/PydanticAI/smolagents и Jitsi/Zoom, описана архитектура, исправлена атрибуция требований | не сделано: выбор стека/плана, проверка gRPC-реализации (ожидается ссылка), запуск и push | коммит bf1d014
