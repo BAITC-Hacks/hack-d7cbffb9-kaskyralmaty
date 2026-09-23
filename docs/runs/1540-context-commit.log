@@ -1,0 +1,25 @@
+[main 2be64b0] Добавить контекст имён и темы, постоянный dev-стек; M6 ещё не реализован
+ 35 files changed, 2825 insertions(+), 86 deletions(-)
+ create mode 100644 data/meeting-context.json
+ create mode 100644 docs/runs/1521-stage1-close-commit.log
+ create mode 100644 docs/runs/1527-stage2-context.log
+ create mode 100644 docs/runs/1528-dev-inspection.log
+ create mode 100644 docs/runs/1528-name-context-source.log
+ create mode 100644 docs/runs/1531-dev-start.log
+ create mode 100644 docs/runs/1531-reference-context.log
+ create mode 100644 docs/runs/1536-context-diff.log
+ create mode 100644 docs/runs/1536-context-edit.log
+ create mode 100644 docs/runs/1536-dev-context-gpu.log
+ create mode 100644 docs/runs/1537-dev-sync.log
+ create mode 100644 docs/runs/1538-callers-check.log
+ create mode 100644 docs/runs/1538-dev-health.log
+ create mode 100644 docs/runs/1538-progress-log.log
+ create mode 100644 docs/runs/1538-verify-sync.log
+ create mode 100644 docs/runs/1540-canonical-owner-inspection.log
+ create mode 100644 docs/runs/1540-canonical-owners.log
+ create mode 100644 docs/runs/1540-dev-update-and-tests.log
+ create mode 100644 docs/runs/1540-fixture-refresh.log
+ create mode 100644 docs/runs/1541-context-review.log
+ create mode 100644 docs/runs/1541-context-tests-and-deploy.log
+ create mode 100644 docs/runs/1541-updated-fixture-sync.log
+ create mode 100644 docs/runs/1542-precommit-context.log
