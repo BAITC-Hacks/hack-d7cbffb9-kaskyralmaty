@@ -2,22 +2,34 @@
 import os
 import json
 import tempfile
+import re
 import threading
 import uuid
-from collections import OrderedDict
-from datetime import date
+from datetime import date, datetime, timezone
 from html import escape
 from pathlib import Path
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.responses import HTMLResponse, RedirectResponse, Response
-from .protocol import Protocol, export_docx, meeting_presets, replay, resolve_context
+from .protocol import ROOT, Protocol, export_docx, meeting_presets, replay, resolve_context
 
 app = FastAPI(title="Протокол совещания")
 processing = threading.Lock()
-# Results live only in this process memory: nothing is written to disk, restart clears them.
-results: "OrderedDict[str, tuple[Protocol, bool]]" = OrderedDict()
-MAX_RESULTS = 20
+KEY = re.compile(r"^[0-9a-f]{32}$")
+
+
+def store_dir() -> Path:
+    """Protocols (text only) are kept on the server; uploaded audio is deleted after processing."""
+    path = Path(os.environ.get("PROTOCOL_DIR", ROOT / "outputs" / "protocols"))
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def save(protocol: Protocol, replay_mode: bool) -> str:
+    key = uuid.uuid4().hex
+    record = {"replay": replay_mode, "saved_at": datetime.now(timezone.utc).isoformat(), "protocol": protocol.model_dump(mode="json")}
+    (store_dir() / f"{key}.json").write_text(json.dumps(record, ensure_ascii=False, indent=1), encoding="utf-8")
+    return key
 
 UI = Path(__file__).parent / "ui"
 STATUS_CLASS = {"просрочено": "s-late", "скоро срок": "s-soon", "в работе": "s-ok", "без даты": "s-none"}
@@ -30,7 +42,7 @@ def asset(name: str) -> str:
 
 def header(replay_mode: bool) -> str:
     chip = '<span class="chip">Воспроизведение, не проверка моделей</span>' if replay_mode else '<span class="chip live">Локальные модели · GPU</span>'
-    return f'<header class="top"><div class="top-in"><a class="logo" href="/"><span class="logo-mark">Х</span>Хаттама</a><span class="spacer"></span>{chip}</div></header>'
+    return f'<header class="top"><div class="top-in"><a class="logo" href="/"><span class="logo-mark">Х</span>Хаттама</a><a class=nav href="/history">История</a><span class="spacer"></span>{chip}</div></header>'
 
 
 def initials(name: str) -> str:
@@ -126,10 +138,7 @@ def protocol(audio: UploadFile = File(...), meeting_date: date = Form(...),
             else:
                 from .pipeline import process
                 result = process(path, meeting_date, context)
-            key = uuid.uuid4().hex
-            results[key] = (result, mode == "replay")
-            while len(results) > MAX_RESULTS:
-                results.popitem(last=False)
+            key = save(result, mode == "replay")
             return RedirectResponse(f"/result/{key}", status_code=303)
     except ValueError as error:
         raise HTTPException(422, str(error)) from error
@@ -139,9 +148,38 @@ def protocol(audio: UploadFile = File(...), meeting_date: date = Form(...),
 
 
 def stored(key: str) -> tuple[Protocol, bool]:
-    if key not in results:
-        raise HTTPException(404, "Результат не найден: после перезапуска сервиса обработайте запись заново")
-    return results[key]
+    path = store_dir() / f"{key}.json"
+    if not KEY.match(key) or not path.exists():
+        raise HTTPException(404, "Протокол не найден или удалён")
+    record = json.loads(path.read_text(encoding="utf-8"))
+    return Protocol.model_validate(record["protocol"]), record["replay"]
+
+
+@app.get("/history", response_class=HTMLResponse)
+def history():
+    rows = []
+    for path in sorted(store_dir().glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True):
+        if not KEY.match(path.stem):
+            continue
+        record = json.loads(path.read_text(encoding="utf-8"))
+        p = Protocol.model_validate(record["protocol"])
+        statuses = [a.status(date.today()) for a in p.assignments]
+        rows.append(f"""<article class=task><div class=task-what><a href="/result/{path.stem}">{escape(p.context.topic or p.source_name)}</a></div>
+        <div class=task-when>{p.meeting_date:%d.%m.%Y}</div>
+        <div class="task-who muted">{escape(p.source_name)}. Поручений: {len(p.assignments)}, скоро срок: {statuses.count('скоро срок')}, просрочено: {statuses.count('просрочено')}{'. Воспроизведение' if record['replay'] else ''}</div>
+        <div class=task-when><form method=post action="/result/{path.stem}/delete" onsubmit="return confirm('Удалить протокол без возможности восстановления?')"><button class="btn ghost">Удалить</button></form></div></article>""")
+    return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>История протоколов</title><style>{asset('style.css')}</style></head><body>{header(os.environ.get("APP_MODE", "replay") == "replay")}<main>
+    <section class=hero><h1>История протоколов</h1><p>Хранится только текст протокола на сервере. Аудио удаляется сразу после обработки.</p></section>
+    <div class=tasks>{''.join(rows) or '<section class=card><p class=muted style="margin:0">Протоколов пока нет. <a href="/">Обработайте первую запись</a>.</p></section>'}</div>
+    </main></body></html>"""
+
+
+@app.post("/result/{key}/delete")
+def delete(key: str):
+    stored(key)
+    (store_dir() / f"{key}.json").unlink()
+    return RedirectResponse("/history", status_code=303)
 
 
 @app.get("/result/{key}.docx")

@@ -99,7 +99,7 @@ def test_context_reaches_agent_but_not_asr(monkeypatch, tmp_path):
         return Extraction(summary='Договор', assignments=[Assignment(task='Подготовить договор', responsible=context.participants[0], deadline_text=None, evidence=[0])])
 
     monkeypatch.setattr(pipeline, 'transcribe', asr)
-    monkeypatch.setattr(pipeline, 'diarize', lambda path, found: found)
+    monkeypatch.setattr(pipeline, 'diarize', lambda path, found, max_speakers=None: found)
     monkeypatch.setattr(pipeline, 'extract', agent)
     result = pipeline.process(audio, date(2026, 9, 23), context)
     assert seen['context'] == context
@@ -220,3 +220,30 @@ def test_deadline_status_relative_to_date():
     assert task.status(date(2026, 9, 26)) == 'просрочено'
     assert task.status(date(2026, 9, 1)) == 'в работе'
     assert Assignment(task='x', responsible=None, deadline_text=None, evidence=[0]).status(date(2026, 9, 23)) == 'без даты'
+
+
+def test_clustering_respects_speaker_cap():
+    np = pytest.importorskip("numpy")
+    from meeting_protocol.diarization import cluster
+    rng = np.random.default_rng(1)
+    centres = [rng.normal(size=192) for _ in range(4)]
+    vectors = [c + rng.normal(scale=0.1, size=192) for c in centres for _ in range(3)]
+    assert len(set(cluster(vectors))) == 4
+    assert len(set(cluster(vectors, max_clusters=2))) == 2
+
+
+def test_protocols_persist_in_history_and_can_be_deleted():
+    from fastapi.testclient import TestClient
+    from meeting_protocol.web import app
+    audio = Path('docs/Трек 8 Инновации/Совещание №1.mp3')
+    context = resolve_context(audio)
+    with TestClient(app) as client:
+        response = client.post('/protocol', files={'audio': ('m.mp3', audio.read_bytes(), 'audio/mpeg')},
+                               data={'meeting_date': '2026-09-23', 'participants': '\n'.join(context.participants), 'topic': context.topic})
+        key = response.url.path.rsplit('/', 1)[1]
+        history = client.get('/history').text
+        assert context.topic in history and f'/result/{key}' in history
+        assert client.get(f'/result/{key}').status_code == 200
+        assert client.post(f'/result/{key}/delete').status_code == 200
+        assert client.get(f'/result/{key}').status_code == 404
+        assert client.get('/result/../../etc').status_code == 404

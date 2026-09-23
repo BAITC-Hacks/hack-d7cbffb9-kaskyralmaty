@@ -31,6 +31,8 @@ a { color: var(--accent); }
 .chip { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--surface-2); color: var(--muted); }
 .chip.live { background: var(--accent-soft); color: var(--accent); }
 .spacer { flex: 1; }
+.nav { color: var(--muted); text-decoration: none; font-weight: 600; font-size: 14px; margin-left: 12px; }
+.nav:hover { color: var(--accent); }
 main { max-width: 1080px; margin: 0 auto; padding: 24px 16px 64px; }
 .hero h1 { font-size: 30px; line-height: 1.2; margin: 8px 0 6px; letter-spacing: -.01em; }
 .hero p { color: var(--muted); margin: 0 0 20px; max-width: 640px; }

@@ -200,7 +200,7 @@ def extract(segments: list[Segment], meeting_date: date, context: MeetingContext
 
 
 def process(audio: Path, meeting_date: date, context: MeetingContext) -> Protocol:
-    segments = diarize(audio, transcribe(audio))
+    segments = diarize(audio, transcribe(audio), max_speakers=len(context.participants) or None)
     extracted = extract(segments, meeting_date, context)
     return Protocol(
         **extracted.model_dump(), segments=segments, source_sha256=audio_hash(audio),

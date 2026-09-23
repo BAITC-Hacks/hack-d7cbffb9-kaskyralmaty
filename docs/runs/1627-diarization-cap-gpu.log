@@ -1,0 +1,24 @@
+# 2026-09-23 16:27:56 speaker cap + small-group absorption, storage; GPU run of 4 recordings
+ Image meeting-dev-app Built 
+ Container meeting-dev-app-1 Started 
+Реальный запуск ASR и LLM
+Реплик: 47; поручений: 10; DOCX: outputs/meeting-1.docx
+meeting-1: 64.77 s
+Реальный запуск ASR и LLM
+Реплик: 65; поручений: 8; DOCX: outputs/meeting-2.docx
+meeting-2: 43.75 s
+Реальный запуск ASR и LLM
+Реплик: 17; поручений: 3; DOCX: outputs/kz_01.docx
+kz_01: 33.91 s
+Реальный запуск ASR и LLM
+Реплик: 26; поручений: 3; DOCX: outputs/mix_01.docx
+mix_01: 15.79 s
+Документ №1: 47 реплик, 10 поручений
+Документ №2: 65 реплик, 8 поручений
+kz_01: WER 11.1%; языки окон ['kk']; поручения: найдено 3/3 (recall), верных 3/3 (precision)
+mix_01: WER 36.3%; языки окон ['ru']; поручения: найдено 3/4 (recall), верных 3/3 (precision)
+meeting-1 {'SPEAKER_1': 26, 'SPEAKER_2': 3, 'SPEAKER_3': 4, 'SPEAKER_4': 6, 'SPEAKER_5': 8} [('SPEAKER_1', None), ('SPEAKER_2', 'Гульмира Сериковна'), ('SPEAKER_3', 'Тимур Болатович'), ('SPEAKER_4', 'Айнур Каировна'), ('SPEAKER_5', 'Нурлан Сагатович')]
+meeting-2 {'SPEAKER_1': 38, 'SPEAKER_2': 3, 'SPEAKER_3': 5, 'SPEAKER_4': 13, 'SPEAKER_5': 6} [('SPEAKER_1', 'Данияр Серикович'), ('SPEAKER_2', 'Ботагоз Нурлановна'), ('SPEAKER_3', 'Жандос Талгатович'), ('SPEAKER_4', 'Ерболат Мухтарович'), ('SPEAKER_5', 'Салтанат Ерболовна')]
+kz_01 {'SPEAKER_1': 17} [('SPEAKER_1', None)]
+mix_01 {'SPEAKER_1': 19, 'SPEAKER_2': 7} [('SPEAKER_1', None), ('SPEAKER_2', None)]
+done
