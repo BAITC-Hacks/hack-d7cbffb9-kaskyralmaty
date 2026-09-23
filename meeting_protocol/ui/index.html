@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Хаттама — протокол совещания</title>
+<title>Хаттама: протокол совещания</title>
 <style>__STYLE__</style>
 </head>
 <body>
@@ -14,8 +14,8 @@
 </div></header>
 <main>
   <section class="hero">
-    <h1>Протокол совещания — без ручной работы секретаря</h1>
-    <p>Запись встречи на русском, казахском или вперемешку → транскрипт с говорящими → поручения «кто / что / срок» со ссылкой на исходную реплику → DOCX. Всё обрабатывается локально, данные не уходят во внешние сервисы.</p>
+    <h1>Протокол совещания без ручной работы секретаря</h1>
+    <p>Русский, казахский и смешанная речь. Поручения «кто, что, срок» со ссылкой на реплику. Всё локально, на вашем сервере.</p>
   </section>
 
   <div class="grid">
@@ -34,15 +34,15 @@
       </div>
 
       <div data-panel="record" hidden>
-        <div class="notice">⚠️ <div><b>Встреча записывается и транскрибируется ИИ.</b> Объявите об этом участникам до начала записи.</div></div>
+        <div class="notice"><div><b>Встреча записывается и транскрибируется ИИ.</b> Объявите об этом участникам до начала записи.</div></div>
         <label class="check"><input type="checkbox" id="consent"> Я объявил(а) участникам о записи и ИИ-транскрибации</label>
-        <label class="check"><input type="checkbox" id="with-tab" checked> Записывать и звук собеседников — вкладку Meet/Teams/Zoom в браузере или экран (Chrome/Edge: отметьте «Поделиться звуком»)</label>
+        <label class="check"><input type="checkbox" id="with-tab" checked> Записывать и звук собеседников: вкладку Meet, Teams или Zoom в браузере либо экран. В Chrome и Edge отметьте «Поделиться звуком»</label>
         <div class="rec" id="rec">
           <div class="rec-row">
             <span class="dot"></span><span class="timer" id="timer">00:00</span>
             <span class="spacer"></span>
-            <button type="button" class="btn" id="rec-start" disabled>● Начать запись</button>
-            <button type="button" class="btn danger" id="rec-stop" hidden>■ Остановить</button>
+            <button type="button" class="btn" id="rec-start" disabled>Начать запись</button>
+            <button type="button" class="btn danger" id="rec-stop" hidden>Остановить</button>
           </div>
           <div class="meter"><i id="level"></i></div>
           <div id="rec-note" class="muted small" aria-live="polite">Для записи нужен режим GPU: в режиме воспроизведения обрабатываются только два комплектных MP3.</div>
@@ -60,21 +60,22 @@
       <div id="error" class="notice error" hidden></div>
       <button id="submit" class="btn wide" disabled>Получить протокол</button>
       <div class="steps" id="steps">
-        <div class="step"><span class="spin"></span>Распознаём речь (RU — Whisper, KZ — SeamlessM4T)</div>
-        <div class="step"><span class="spin"></span>Разделяем голоса и узнаём участников</div>
-        <div class="step"><span class="spin"></span>Агент извлекает поручения и сроки, проверяет по репликам</div>
-        <p class="muted small">Обычно 30–90 секунд на 5 минут записи.</p>
+        <div class="progress"><i></i></div>
+        <div class="step">Распознаём речь: русский через Whisper, казахский через SeamlessM4T</div>
+        <div class="step">Разделяем голоса и узнаём участников</div>
+        <div class="step">Агент извлекает поручения и сроки, сверяет с репликами</div>
+        <p class="muted small">Обычно 30-90 секунд на 5 минут записи.</p>
       </div>
     </form>
 
     <aside class="card">
       <h2>Как это работает</h2>
       <div class="how">
-        <div><b>1</b><span>Запись с совещания: файл или прямо из браузера — микрофон и звук Meet/Teams/Zoom.</span></div>
-        <div><b>2</b><span>Локальное распознавание речи: русская речь — Whisper, казахская — SeamlessM4T.</span></div>
-        <div><b>3</b><span>Голоса разделяются, агент узнаёт участников по обращениям в разговоре.</span></div>
-        <div><b>4</b><span>Поручения «кто / что / срок» с датой, статусом и ссылкой на реплику, из которой они взяты.</span></div>
-        <div><b>5</b><span>Проверка секретарём на странице и выгрузка протокола в DOCX.</span></div>
+        <div><b>Запись</b><span>Файл или прямо из браузера: микрофон и звук Meet, Teams, Zoom.</span></div>
+        <div><b>Речь</b><span>Русский распознаёт Whisper, казахский SeamlessM4T. Локально.</span></div>
+        <div><b>Голоса</b><span>Разделяются по тембру, имена агент берёт из обращений в разговоре.</span></div>
+        <div><b>Поручения</b><span>Кто, что, срок, статус и реплика, из которой взято поручение.</span></div>
+        <div><b>Протокол</b><span>Секретарь проверяет на странице и выгружает DOCX.</span></div>
       </div>
       <p class="muted small" style="margin-bottom:0">Черновик ИИ требует проверки человеком. Аудио и текст не покидают сервер.</p>
     </aside>

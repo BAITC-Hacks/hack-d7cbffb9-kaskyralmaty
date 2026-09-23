@@ -29,7 +29,7 @@ def asset(name: str) -> str:
 
 
 def header(replay_mode: bool) -> str:
-    chip = '<span class="chip">Воспроизведение — не проверка моделей</span>' if replay_mode else '<span class="chip live">Локальные модели · GPU</span>'
+    chip = '<span class="chip">Воспроизведение, не проверка моделей</span>' if replay_mode else '<span class="chip live">Локальные модели · GPU</span>'
     return f'<header class="top"><div class="top-in"><a class="logo" href="/"><span class="logo-mark">Х</span>Хаттама</a><span class="spacer"></span>{chip}</div></header>'
 
 
@@ -59,11 +59,11 @@ def render_result(key: str, protocol: Protocol, replay_mode: bool, as_of: date) 
         f"<span class=speaker><span class=avatar style='background:{color(sp.label)}'>{escape(initials(sp.name or sp.label[-1:]))}</span>{escape(protocol.speaker_title(sp.label))}</span>"
         for sp in protocol.speakers) or "<span class=muted>не определены</span>"
     duration = protocol.segments[-1].end
-    notice = "<div class='notice'>▶ Воспроизведение заранее вычисленного результата — не проверка моделей.</div>" if replay_mode else ""
+    notice = "<div class='notice'>Воспроизведение заранее вычисленного результата, не проверка моделей.</div>" if replay_mode else ""
     return f"""<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Протокол — {escape(protocol.source_name)}</title><style>{asset('style.css')}</style></head><body>{header(replay_mode)}<main>
+    <title>Протокол: {escape(protocol.source_name)}</title><style>{asset('style.css')}</style></head><body>{header(replay_mode)}<main>
     <section class=hero><h1>{escape(protocol.context.topic or 'Протокол совещания')}</h1></section>
-    <div class=meta><span>📅 {protocol.meeting_date:%d.%m.%Y}</span><span>🎧 {escape(protocol.source_name)}</span><span>⏱ {int(duration // 60)} мин {int(duration % 60)} с</span></div>
+    <div class=meta><span>Дата встречи {protocol.meeting_date:%d.%m.%Y}</span><span>Запись {escape(protocol.source_name)}</span><span>Длительность {int(duration // 60)} мин {int(duration % 60)} с</span></div>
     {notice}
     <div class=kpis><div class=kpi><b>{len(protocol.assignments)}</b><span>поручений</span></div>
     <div class=kpi><b style="color:var(--soon)">{statuses.count('скоро срок')}</b><span>скоро срок (≤ 3 дней)</span></div>
@@ -71,7 +71,7 @@ def render_result(key: str, protocol: Protocol, replay_mode: bool, as_of: date) 
     <div class=kpi><b>{len({s.speaker for s in protocol.segments if s.speaker})}</b><span>голосов в записи</span></div></div>
     <div class=grid><div>
     <section class=card><h2>Поручения <span class=count>{len(protocol.assignments)}</span><span class=spacer></span>
-    <a class=btn href="/result/{key}.docx">⬇ Скачать DOCX</a></h2>
+    <a class=btn href="/result/{key}.docx">Скачать DOCX</a></h2>
     <p class="muted small">Статус на {as_of:%d.%m.%Y}. Нажмите «→ #N», чтобы увидеть реплику, из которой взято поручение.</p>
     <div class=tasks>{tasks or '<p class=muted>Поручения не найдены</p>'}</div></section>
     <section class=card><h2>Саммари</h2><p style="margin:0">{escape(protocol.summary or 'Не сформировано')}</p></section>
@@ -79,7 +79,7 @@ def render_result(key: str, protocol: Protocol, replay_mode: bool, as_of: date) 
     <section class=card><h2>Транскрипт <span class=count>{len(protocol.segments)}</span></h2>
     <div class=speakers style="margin-bottom:12px">{speakers}</div>
     <div class=transcript>{transcript}</div>
-    <p class="muted small">Голоса размечены автоматически, имена — по обращениям в разговоре. KZ — фрагмент распознан SeamlessM4T.</p></section>
+    <p class="muted small">Голоса размечены автоматически, имена взяты из обращений в разговоре. Метка KZ: фрагмент распознан SeamlessM4T.</p></section>
     </div></div>
     <p class="muted small">Черновик ИИ: проверьте имена, сроки и содержание по записи. <a href="/">Обработать другую запись</a></p>
     </main></body></html>"""
@@ -92,7 +92,7 @@ def index():
     return (asset("index.html").replace("__STYLE__", asset("style.css")).replace("__SCRIPT__", asset("app.js"))
             .replace("__PRESETS__", presets).replace("__REPLAY__", "true" if replay_mode else "false")
             .replace("__MODE_CLASS__", "" if replay_mode else "live")
-            .replace("__MODE_LABEL__", "Воспроизведение — не проверка моделей" if replay_mode else "Локальные модели · GPU"))
+            .replace("__MODE_LABEL__", "Воспроизведение, не проверка моделей" if replay_mode else "Локальные модели · GPU"))
 
 
 @app.get("/health")
@@ -122,7 +122,7 @@ def protocol(audio: UploadFile = File(...), meeting_date: date = Form(...),
             if mode == "replay":
                 result = replay(path, context=context)
                 if result.meeting_date != meeting_date:
-                    raise ValueError("Для сохранённых примеров дата встречи — 2026-09-23")
+                    raise ValueError("Для сохранённых примеров дата встречи 2026-09-23")
             else:
                 from .pipeline import process
                 result = process(path, meeting_date, context)
