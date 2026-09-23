@@ -17,7 +17,9 @@ def main():
         import ctranslate2
         from faster_whisper import WhisperModel
         print("CTranslate2", ctranslate2.__version__, "CUDA devices", ctranslate2.get_cuda_device_count(), flush=True)
-        model = WhisperModel("large-v3", device="cuda", compute_type="float16")
+        from huggingface_hub import snapshot_download
+        path = snapshot_download("Systran/faster-whisper-large-v3", revision="edaa852ec7e145841d8ffdb056a99866b5f0a478")
+        model = WhisperModel(path, device="cuda", compute_type="float16")
         segments, info = model.transcribe(audio, beam_size=1)
         text = " ".join(s.text for s in segments)
         result = {"engine": args.engine, "language": info.language, "text": text}
@@ -25,9 +27,9 @@ def main():
         import torch
         from transformers import AutoProcessor, SeamlessM4Tv2ForSpeechToText
         print("PyTorch", torch.__version__, "CUDA", torch.version.cuda, "GPU", torch.cuda.get_device_name(), flush=True)
-        processor = AutoProcessor.from_pretrained("facebook/seamless-m4t-v2-large")
+        processor = AutoProcessor.from_pretrained("facebook/seamless-m4t-v2-large", revision="5f8cc790b19fc3f67a61c105133b20b34e3dcb76")
         model = SeamlessM4Tv2ForSpeechToText.from_pretrained(
-            "facebook/seamless-m4t-v2-large", torch_dtype=torch.float16
+            "facebook/seamless-m4t-v2-large", revision="5f8cc790b19fc3f67a61c105133b20b34e3dcb76", torch_dtype=torch.float16
         ).to("cuda").eval()
         inputs = processor(audio=audio, sampling_rate=16000, return_tensors="pt").to("cuda")
         inputs["input_features"] = inputs["input_features"].to(torch.float16)

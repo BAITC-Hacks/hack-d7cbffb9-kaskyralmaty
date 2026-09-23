@@ -21,8 +21,8 @@ class Segment(BaseModel):
 
 class Assignment(BaseModel):
     task: str = Field(min_length=1)
-    responsible: str | None = None
-    deadline_text: str | None = None
+    responsible: str | None = Field(description="Ответственный человек или подразделение из транскрипта; null только если не указан")
+    deadline_text: str | None = Field(description="Окончательный согласованный срок исходными словами; null только если не указан")
     evidence: list[int] = Field(min_length=1)
 
 

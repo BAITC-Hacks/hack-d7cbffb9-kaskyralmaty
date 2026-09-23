@@ -28,3 +28,27 @@ def test_replay_rejects_unknown_audio(tmp_path):
     audio.write_bytes(b"not a known recording")
     with pytest.raises(ValueError, match="Нет сохранённого результата"):
         replay(audio)
+
+
+def test_web_rejects_unknown_recording():
+    from fastapi.testclient import TestClient
+    from meeting_protocol.web import app
+    with TestClient(app) as client:
+        response = client.post("/protocol", files={"audio": ("other.mp3", b"unknown", "audio/mpeg")}, data={"meeting_date": "2026-09-23"})
+    assert response.status_code == 422
+    assert "Нет сохранённого результата" in response.json()["detail"]
+
+
+def test_replay_works_without_model_imports():
+    import subprocess
+    import sys
+    script = """
+import sys
+from pathlib import Path
+from meeting_protocol.protocol import replay
+for n in (1, 2):
+    p = replay(Path(f'docs/Трек 8 Инновации/Совещание №{n}.mp3'))
+    assert p.assignments
+assert not {'torch', 'faster_whisper', 'pydantic_ai'} & sys.modules.keys()
+"""
+    subprocess.run([sys.executable, "-c", script], check=True)

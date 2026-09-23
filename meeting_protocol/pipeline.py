@@ -14,7 +14,9 @@ from .protocol import Extraction, Protocol, Segment, audio_hash
 @lru_cache(maxsize=1)
 def whisper_model():
     from faster_whisper import WhisperModel
-    return WhisperModel("large-v3", device="cuda", compute_type="float16")
+    from huggingface_hub import snapshot_download
+    path = snapshot_download("Systran/faster-whisper-large-v3", revision="edaa852ec7e145841d8ffdb056a99866b5f0a478")
+    return WhisperModel(path, device="cuda", compute_type="float16")
 
 
 def transcribe(audio: Path) -> list[Segment]:
@@ -64,7 +66,10 @@ def extract(segments: list[Segment], meeting_date: date) -> Extraction:
     )
     by_id = {s.id: s for s in segments}
 
-    @agent.tool_plain
+    async def limit_context_reads(ctx, tool):
+        return tool if ctx.usage.requests < 2 else None
+
+    @agent.tool_plain(prepare=limit_context_reads)
     def get_segment(segment_id: int) -> str:
         """Прочитать реплику и соседние реплики для проверки контекста."""
         return "\n".join(by_id[i].model_dump_json() for i in range(segment_id - 1, segment_id + 2) if i in by_id)
