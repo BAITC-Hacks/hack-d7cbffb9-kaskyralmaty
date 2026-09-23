@@ -40,7 +40,7 @@ if [[ "$mode" == gpu || "$mode" == all ]]; then
     mkdir -p outputs
     docker compose build app
     compose_started=1
-    docker compose up -d --wait --wait-timeout 900 llm
+    docker compose up -d --wait --wait-timeout 1800 llm
     docker compose run --rm app -m meeting_protocol 'docs/Трек 8 Инновации/Совещание №1.mp3' --mode gpu --date 2026-09-23 --output outputs/meeting-1
     docker compose run --rm app -m meeting_protocol 'docs/Трек 8 Инновации/Совещание №2.mp3' --mode gpu --date 2026-09-23 --output outputs/meeting-2
     docker compose run --rm app scripts/verify_outputs.py
