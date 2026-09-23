@@ -1,0 +1,17 @@
+(EngineCore pid=189) INFO 09-23 10:11:08 [deep_gemm.py:192] deep_gemm not found in site-packages, trying vendored vllm.third_party.deep_gemm
+(EngineCore pid=189) INFO 09-23 10:11:08 [deep_gemm.py:219] DeepGEMM PDL enabled on vllm.third_party.deep_gemm.
+(EngineCore pid=189) INFO 09-23 10:11:08 [deep_gemm.py:136] DeepGEMM E8M0 enabled on current platform.
+(EngineCore pid=189) INFO 09-23 10:11:08 [__init__.py:758] Selected FlashInferFP8ScaledMMLinearKernel for RowParallelLinear
+(EngineCore pid=189) INFO 09-23 10:11:08 [qwen_gdn_linear_attn.py:176] Using FlashInfer GDN prefill kernel (requested=auto, head_k_dim=128).
+(EngineCore pid=189) INFO 09-23 10:11:08 [qwen_gdn_linear_attn.py:528] GDN decode kernel: cuda
+(EngineCore pid=189) INFO 09-23 10:11:08 [__init__.py:1180] Using FlashInferCutlassNvFp4LinearKernel for NVFP4 GEMM
+(EngineCore pid=189) INFO 09-23 10:11:08 [__init__.py:758] Selected FlashInferFP8ScaledMMLinearKernel for QKVParallelLinear
+(APIServer pid=1) [transformers] Qwen3VL video processing does not apply the per-frame pixel cap the reference implementation (qwen-vl-utils) applies, so some videos cost far more tokens than they would there. In v5.22 the capped behavior will become the default and `cap_pixels_per_frame` will be removed. Pass `cap_pixels_per_frame=True` to adopt the reference behavior now, or `False` to keep the current behavior and silence this warning.
+(APIServer pid=1) INFO 09-23 10:11:14 [base.py:261] Multi-modal warmup completed in 14.559s
+(APIServer pid=1) INFO 09-23 10:11:15 [base.py:261] Readonly multi-modal warmup completed in 1.437s
+(EngineCore pid=189) INFO 09-23 10:11:16 [cuda.py:538] Using FLASHINFER attention backend out of potential backends: ['FLASHINFER', 'TRITON_ATTN'].
+(EngineCore pid=189) INFO 09-23 10:11:16 [weight_utils.py:895] Filesystem type for checkpoints: EXT4. Checkpoint size: 20.42 GiB. Available RAM: 54.55 GiB.
+(EngineCore pid=189) INFO 09-23 10:11:16 [weight_utils.py:918] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(EngineCore pid=189) Loading safetensors checkpoint shards:   0% Completed | 0/3 [00:00<?, ?it/s]
+(EngineCore pid=189) Loading safetensors checkpoint shards:  33% Completed | 1/3 [01:07<02:15, 67.55s/it]
+running starting

@@ -1,0 +1,5 @@
+PyTorch 2.8.0+cu128 CUDA 12.8 GPU NVIDIA RTX PRO 6000 Blackwell Server Edition
+`torch_dtype` is deprecated! Use `dtype` instead!
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [01:17<01:17, 77.41s/it]Fetching 2 files: 100%|██████████| 2/2 [01:24<00:00, 42.16s/it]Fetching 2 files: 100%|██████████| 2/2 [01:24<00:00, 42.16s/it]
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  3.41it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.22it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.24it/s]
+{"engine": "seamless", "language": "kaz", "text": "қайырлы күн әріптестер бүгін екі мәселені талқылаймыз жаңа кеңсеге көш және тоқсандық есеп күші бойынша жиһаз жеткізушісімен келісімшартқа әлі қол қойылған жоқ динара келісімшартты жұма күнге дейін қол қоюға дайындаңдаршы жақсы жұмаға дейін дайындаймын", "seconds": 106.24}

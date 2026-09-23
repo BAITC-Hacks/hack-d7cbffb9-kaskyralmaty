@@ -1,0 +1,38 @@
+[main 2d475e4] Добавлены тестовые записи и защита секретов; конвейер ещё не реализован
+ 7 files changed, 118 insertions(+), 2 deletions(-)
+ create mode 100644 .env.example
+ create mode 100644 .gitignore
+ create mode 100644 data/test/kz_01.m4a
+ create mode 100644 data/test/kz_01.reference.md
+ create mode 100644 data/test/mix_01.m4a
+ create mode 100644 data/test/mix_01.reference.md
+2d475e4
+/Users/aleka/.local/bin/uv
+/opt/homebrew/bin/brev
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+brev-dtmjf61w
+Wed Sep 23 09:48:27 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 595.91.07              Driver Version: 595.91.07      CUDA Version: 13.2     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA RTX PRO 6000 Blac...    On  |   00000000:2B:00.0 Off |                    0 |
+| N/A   25C    P8             32W /  600W |       3MiB /  97887MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+llm vllm/vllm-openai:latest Up 24 seconds
+/usr/bin/python3
+/home/ubuntu/.cache
+/home/ubuntu/hf-cache
+curl: (56) Recv failure: Connection reset by peer

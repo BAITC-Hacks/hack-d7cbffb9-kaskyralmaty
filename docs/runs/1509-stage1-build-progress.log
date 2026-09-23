@@ -1,0 +1,11 @@
+Wed Sep 23 10:09:20 UTC 2026
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/root       248G  157G   92G  64% /
+COMMAND         %CPU     ELAPSED
+dockerd          5.8    01:33:39
+containerd       2.6    01:35:53
+nv-hostengine    0.3    01:36:11
+grafana          0.3    01:32:50
+kworker/u16:4-e  0.2       11:24
+systemd          0.1    01:36:37
+kswapd0          0.1    01:36:36

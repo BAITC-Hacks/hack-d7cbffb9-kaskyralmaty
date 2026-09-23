@@ -1,0 +1,143 @@
+(EngineCore pid=109) ERROR 09-23 09:48:00 [core.py:1366]     self.model_runner.initialize_kv_cache(
+(EngineCore pid=109) ERROR 09-23 09:48:00 [core.py:1366]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/worker/gpu/model_runner.py", line 705, in initialize_kv_cache
+(EngineCore pid=109) ERROR 09-23 09:48:00 [core.py:1366]     cudagraph_mode = self.compilation_config.resolve_cudagraph_mode_and_sizes(
+(EngineCore pid=109) ERROR 09-23 09:48:00 [core.py:1366]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=109) ERROR 09-23 09:48:00 [core.py:1366]   File "/usr/local/lib/python3.12/dist-packages/vllm/config/compilation.py", line 1535, in resolve_cudagraph_mode_and_sizes
+(EngineCore pid=109) ERROR 09-23 09:48:00 [core.py:1366]     raise ValueError(
+(EngineCore pid=109) ERROR 09-23 09:48:00 [core.py:1366] ValueError: max_num_seqs (1024) exceeds available Mamba cache blocks (373). Each decode sequence requires one Mamba cache block, so CUDA graph capture cannot proceed. Please lower max_num_seqs to at most 373 or increase gpu_memory_utilization.
+(EngineCore pid=109) Traceback (most recent call last):
+(EngineCore pid=109)   File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=109)     self.run()
+(EngineCore pid=109)   File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+(EngineCore pid=109)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=109)   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 1370, in run_engine_core
+(EngineCore pid=109)     raise e
+(EngineCore pid=109)   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 1328, in run_engine_core
+(EngineCore pid=109)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=109)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=109)   File "/usr/local/lib/python3.12/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=109)     return func(*args, **kwargs)
+--
+(EngineCore pid=109)     self.model_runner.initialize_kv_cache(
+(EngineCore pid=109)   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/worker/gpu/model_runner.py", line 705, in initialize_kv_cache
+(EngineCore pid=109)     cudagraph_mode = self.compilation_config.resolve_cudagraph_mode_and_sizes(
+(EngineCore pid=109)                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=109)   File "/usr/local/lib/python3.12/dist-packages/vllm/config/compilation.py", line 1535, in resolve_cudagraph_mode_and_sizes
+(EngineCore pid=109)     raise ValueError(
+(EngineCore pid=109) ValueError: max_num_seqs (1024) exceeds available Mamba cache blocks (373). Each decode sequence requires one Mamba cache block, so CUDA graph capture cannot proceed. Please lower max_num_seqs to at most 373 or increase gpu_memory_utilization.
+[rank0]:[W923 09:48:01.601139701 ProcessGroupNCCL.cpp:1624] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=1) INFO 09-23 09:48:01 [utils.py:632] [shutdown] Process manager: send sigterm to process EngineCore
+(APIServer pid=1) Traceback (most recent call last):
+(APIServer pid=1)   File "/usr/local/bin/vllm", line 10, in <module>
+(APIServer pid=1)     sys.exit(main())
+(APIServer pid=1)              ^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/cli/main.py", line 106, in main
+(APIServer pid=1)     args.dispatch_function(args)
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/cli/serve.py", line 154, in cmd
+(APIServer pid=1)     uvloop.run(run_server(args))
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/uvloop/__init__.py", line 96, in run
+(APIServer pid=1)     return __asyncio.run(
+--
+(APIServer pid=1)   File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+(APIServer pid=1)     next(self.gen)
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/utils.py", line 1240, in launch_core_engines
+(APIServer pid=1)     wait_for_engine_startup(
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/utils.py", line 1320, in wait_for_engine_startup
+(APIServer pid=1)     raise RuntimeError(
+(APIServer pid=1) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+WARNING 09-23 09:48:09 [argparse_utils.py:276] With `vllm serve`, you should provide the model as a positional argument or in a config file instead of via the `--model` option. The `--model` option will be removed in a future version.
+(APIServer pid=1) INFO 09-23 09:48:09 [api_utils.py:347] 
+(APIServer pid=1) INFO 09-23 09:48:09 [api_utils.py:347]        █     █     █▄   ▄█
+(APIServer pid=1) INFO 09-23 09:48:09 [api_utils.py:347]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.30.0
+(APIServer pid=1) INFO 09-23 09:48:09 [api_utils.py:347]   █▄█▀ █     █     █     █  model   nvidia/Qwen3.8-27B-NVFP4
+(APIServer pid=1) INFO 09-23 09:48:09 [api_utils.py:347]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=1) INFO 09-23 09:48:09 [api_utils.py:347] 
+(APIServer pid=1) INFO 09-23 09:48:09 [api_utils.py:286] non-default args: {'model_tag': 'nvidia/Qwen3.8-27B-NVFP4', 'enable_auto_tool_choice': True, 'tool_call_parser': 'qwen3_xml', 'model': 'nvidia/Qwen3.8-27B-NVFP4', 'max_model_len': 32768, 'served_model_name': ['qwen3.8-27b'], 'reasoning_parser': 'qwen3', 'gpu_memory_utilization': 0.45, 'kv_cache_dtype': 'fp8'}
+(APIServer pid=1) INFO 09-23 09:48:09 [model.py:692] Resolved architecture: Qwen3_5ForConditionalGeneration
+(APIServer pid=1) INFO 09-23 09:48:09 [model.py:2030] Using max model len 32768
+(APIServer pid=1) INFO 09-23 09:48:11 [cache.py:343] Using fp8 data type to store kv cache. It reduces the GPU memory footprint and boosts the performance. Meanwhile, it may cause accuracy drop without a proper scaling factor
+(APIServer pid=1) INFO 09-23 09:48:11 [scheduler.py:288] Chunked prefill is enabled with max_num_batched_tokens=8192.
+--
+(EngineCore pid=109) Capturing CUDA graphs (FULL):   0%|          | 0/2 [00:00<?, ?it/s]Capturing CUDA graphs (FULL):  50%|█████     | 1/2 [00:00<00:00,  5.66it/s]Capturing CUDA graphs (FULL): 100%|██████████| 2/2 [00:00<00:00,  5.68it/s]Capturing CUDA graphs (FULL): 100%|██████████| 2/2 [00:00<00:00,  5.68it/s]
+(EngineCore pid=109) INFO 09-23 09:49:05 [model_runner.py:1066] Graph capturing finished in 12 secs, took 1.12 GiB
+(EngineCore pid=109) INFO 09-23 09:49:05 [gpu_worker.py:640] Available KV cache memory: 17.85 GiB
+(EngineCore pid=109) INFO 09-23 09:49:05 [gpu_worker.py:655] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.4500 is equivalent to --gpu-memory-utilization=0.4367 without CUDA graph memory profiling. To maintain the same effective KV cache size as before, increase --gpu-memory-utilization to 0.4633. To disable, set VLLM_MEMORY_PROFILER_ESTIMATE_CUDAGRAPHS=0.
+(EngineCore pid=109) INFO 09-23 09:49:05 [kv_cache_utils.py:2395] GPU KV cache size: 452,683 tokens, Maximum concurrency for 32,768 tokens per request: 13.81x
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366] EngineCore failed to start.
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366] Traceback (most recent call last):
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 1328, in run_engine_core
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]   File "/usr/local/lib/python3.12/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]     return func(*args, **kwargs)
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 1085, in __init__
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]     super().__init__(
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 145, in __init__
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]     kv_cache_config = self._initialize_kv_caches(vllm_config)
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+--
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]     self.model_runner.initialize_kv_cache(
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/worker/gpu/model_runner.py", line 705, in initialize_kv_cache
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]     cudagraph_mode = self.compilation_config.resolve_cudagraph_mode_and_sizes(
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]   File "/usr/local/lib/python3.12/dist-packages/vllm/config/compilation.py", line 1535, in resolve_cudagraph_mode_and_sizes
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366]     raise ValueError(
+(EngineCore pid=109) ERROR 09-23 09:49:05 [core.py:1366] ValueError: max_num_seqs (1024) exceeds available Mamba cache blocks (373). Each decode sequence requires one Mamba cache block, so CUDA graph capture cannot proceed. Please lower max_num_seqs to at most 373 or increase gpu_memory_utilization.
+(EngineCore pid=109) Traceback (most recent call last):
+(EngineCore pid=109)   File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=109)     self.run()
+(EngineCore pid=109)   File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+(EngineCore pid=109)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=109)   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 1370, in run_engine_core
+(EngineCore pid=109)     raise e
+(EngineCore pid=109)   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/core.py", line 1328, in run_engine_core
+(EngineCore pid=109)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=109)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=109)   File "/usr/local/lib/python3.12/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=109)     return func(*args, **kwargs)
+--
+(EngineCore pid=109)     self.model_runner.initialize_kv_cache(
+(EngineCore pid=109)   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/worker/gpu/model_runner.py", line 705, in initialize_kv_cache
+(EngineCore pid=109)     cudagraph_mode = self.compilation_config.resolve_cudagraph_mode_and_sizes(
+(EngineCore pid=109)                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=109)   File "/usr/local/lib/python3.12/dist-packages/vllm/config/compilation.py", line 1535, in resolve_cudagraph_mode_and_sizes
+(EngineCore pid=109)     raise ValueError(
+(EngineCore pid=109) ValueError: max_num_seqs (1024) exceeds available Mamba cache blocks (373). Each decode sequence requires one Mamba cache block, so CUDA graph capture cannot proceed. Please lower max_num_seqs to at most 373 or increase gpu_memory_utilization.
+[rank0]:[W923 09:49:05.352450897 ProcessGroupNCCL.cpp:1624] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+(APIServer pid=1) INFO 09-23 09:49:06 [utils.py:632] [shutdown] Process manager: send sigterm to process EngineCore
+(APIServer pid=1) Traceback (most recent call last):
+(APIServer pid=1)   File "/usr/local/bin/vllm", line 10, in <module>
+(APIServer pid=1)     sys.exit(main())
+(APIServer pid=1)              ^^^^^^
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/cli/main.py", line 106, in main
+(APIServer pid=1)     args.dispatch_function(args)
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/entrypoints/cli/serve.py", line 154, in cmd
+(APIServer pid=1)     uvloop.run(run_server(args))
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/uvloop/__init__.py", line 96, in run
+(APIServer pid=1)     return __asyncio.run(
+--
+(APIServer pid=1)   File "/usr/lib/python3.12/contextlib.py", line 144, in __exit__
+(APIServer pid=1)     next(self.gen)
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/utils.py", line 1240, in launch_core_engines
+(APIServer pid=1)     wait_for_engine_startup(
+(APIServer pid=1)   File "/usr/local/lib/python3.12/dist-packages/vllm/v1/engine/utils.py", line 1320, in wait_for_engine_startup
+(APIServer pid=1)     raise RuntimeError(
+(APIServer pid=1) RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
+WARNING 09-23 09:49:13 [argparse_utils.py:276] With `vllm serve`, you should provide the model as a positional argument or in a config file instead of via the `--model` option. The `--model` option will be removed in a future version.
+(APIServer pid=1) INFO 09-23 09:49:13 [api_utils.py:347] 
+(APIServer pid=1) INFO 09-23 09:49:13 [api_utils.py:347]        █     █     █▄   ▄█
+(APIServer pid=1) INFO 09-23 09:49:13 [api_utils.py:347]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.30.0
+(APIServer pid=1) INFO 09-23 09:49:13 [api_utils.py:347]   █▄█▀ █     █     █     █  model   nvidia/Qwen3.8-27B-NVFP4
+(APIServer pid=1) INFO 09-23 09:49:13 [api_utils.py:347]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=1) INFO 09-23 09:49:13 [api_utils.py:347] 
+(APIServer pid=1) INFO 09-23 09:49:13 [api_utils.py:286] non-default args: {'model_tag': 'nvidia/Qwen3.8-27B-NVFP4', 'enable_auto_tool_choice': True, 'tool_call_parser': 'qwen3_xml', 'model': 'nvidia/Qwen3.8-27B-NVFP4', 'max_model_len': 32768, 'served_model_name': ['qwen3.8-27b'], 'reasoning_parser': 'qwen3', 'gpu_memory_utilization': 0.45, 'kv_cache_dtype': 'fp8'}
+(APIServer pid=1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+(APIServer pid=1) INFO 09-23 09:49:14 [model.py:692] Resolved architecture: Qwen3_5ForConditionalGeneration
+(APIServer pid=1) INFO 09-23 09:49:14 [model.py:2030] Using max model len 32768
+(APIServer pid=1) INFO 09-23 09:49:16 [cache.py:343] Using fp8 data type to store kv cache. It reduces the GPU memory footprint and boosts the performance. Meanwhile, it may cause accuracy drop without a proper scaling factor
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'torch'
+["vllm/vllm-openai@sha256:8a69ffad015f138d7170c4ddc429e230a3bc1c1719f67e14324749df200a4b90"]
+2.13.0+cu130 13.0

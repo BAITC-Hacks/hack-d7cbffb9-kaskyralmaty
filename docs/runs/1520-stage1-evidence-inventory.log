@@ -1,0 +1,72 @@
+docs/runs/1453-stage1-seamless-smoke.log
+docs/runs/1504-stage1-fresh-replay-check.log
+docs/runs/1453-stage1-whisper-smoke.log
+docs/runs/1504-stage1-fresh-all-check.log
+ M docs/LOG.md
+ M docs/runs/1425-scope-commit-result.log
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+?? docs/runs/1402-track8-setup-commit.log
+?? docs/runs/1413-architecture-research-commit.log
+?? docs/runs/1419-meeting-decisions-commit.log
+?? docs/runs/1421-audio-input-planning.log
+?? docs/runs/1434-plan-commit-result.log
+?? docs/runs/1446-stage1-start-context.log
+?? docs/runs/1447-plan-approved-commit.log
+?? docs/runs/1447-plan-approved-update.log
+?? docs/runs/1448-stage1-foundation-server.log
+?? docs/runs/1448-stage1-foundation-write.log
+?? docs/runs/1448-stage1-inputs.log
+?? docs/runs/1448-stage1-model-inspect.log
+?? docs/runs/1449-stage1-package-versions-retry.log
+?? docs/runs/1449-stage1-package-versions.log
+?? docs/runs/1449-stage1-vllm-root-error.log
+?? docs/runs/1450-stage1-local-install.log
+?? docs/runs/1450-stage1-runtime-write.log
+?? docs/runs/1450-stage1-vllm-start.log
+?? docs/runs/1451-stage1-agent-api.log
+?? docs/runs/1451-stage1-server-install-retry.log
+?? docs/runs/1451-stage1-server-install.log
+?? docs/runs/1451-stage1-test-red.log
+?? docs/runs/1451-stage1-vllm-health.log
+?? docs/runs/1453-stage1-seamless-smoke.log
+?? docs/runs/1453-stage1-test-green.log
+?? docs/runs/1453-stage1-whisper-smoke.log
+?? docs/runs/1455-stage1-meeting1-real.log
+?? docs/runs/1455-stage1-model-revisions.log
+?? docs/runs/1455-stage1-scaffold-commit.log
+?? docs/runs/1455-stage1-web-runtime-check.log
+?? docs/runs/1457-stage1-check-script-validation.log
+?? docs/runs/1457-stage1-docker-build.log
+?? docs/runs/1457-stage1-meeting2-real.log
+?? docs/runs/1457-stage1-pin-models.log
+?? docs/runs/1457-stage1-replay-first.log
+?? docs/runs/1459-stage1-readme-check.log
+?? docs/runs/1500-stage1-agent-bound-write.log
+?? docs/runs/1500-stage1-agent-loop-diagnosis.log
+?? docs/runs/1500-stage1-first-result-inspect.log
+?? docs/runs/1500-stage1-meeting2-bounded-agent.log
+?? docs/runs/1501-stage1-extraction-fields-diagnosis.log
+?? docs/runs/1501-stage1-extraction-fields-fix.log
+?? docs/runs/1501-stage1-required-fields-real.log
+?? docs/runs/1502-stage1-local-tests-partial.log
+?? docs/runs/1502-stage1-runtime-resources.log
+?? docs/runs/1502-stage1-schema-status.log
+?? docs/runs/1503-stage1-pinned-uv.log
+?? docs/runs/1503-stage1-replay-and-tests.log
+?? docs/runs/1503-stage1-results-inspect.log
+?? docs/runs/1504-stage1-fresh-all-check.log
+?? docs/runs/1504-stage1-fresh-replay-check.log
+?? docs/runs/1504-stage1-known-quality-note.log
+?? docs/runs/1505-stage1-web-scenario.log
+?? docs/runs/1506-stage1-local-boundary-check.log
+?? docs/runs/1509-stage1-build-progress.log
+?? docs/runs/1511-stage1-compose-model-progress.log
+?? docs/runs/1512-stage1-output-directory-fix.log
+?? docs/runs/1513-stage1-compose-readiness.log
+?? docs/runs/1513-stage1-output-directory-commit.log
+?? docs/runs/1515-stage1-compose-warmup.log
+?? docs/runs/1518-stage1-final-gpu-progress.log
+?? docs/runs/1520-stage1-evidence-inventory.log
+15:20:17

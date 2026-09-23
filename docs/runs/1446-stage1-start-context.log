@@ -1,0 +1,292 @@
+2026-09-23 14:46:29 +05
+ M docs/LOG.md
+ M docs/runs/1425-scope-commit-result.log
+?? .DS_Store
+?? .scratch/.DS_Store
+?? data/
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+?? docs/runs/1402-track8-setup-commit.log
+?? docs/runs/1413-architecture-research-commit.log
+?? docs/runs/1419-meeting-decisions-commit.log
+?? docs/runs/1421-audio-input-planning.log
+?? docs/runs/1434-plan-commit-result.log
+?? docs/runs/1446-stage1-start-context.log
+?? "docs/\320\242\321\200\320\265\320\272 8 \320\230\320\275\320\275\320\276\320\262\320\260\321\206\320\270\320\270/"
+# План хакатона: автопротоколирование совещаний
+
+Статус: **проект расписания, ожидает одного явного «ок» пользователя**.
+Дата: 23 сентября 2026. Время: Астана / Алматы, UTC+5.
+Состав продукта, порядок «сначала MP3 целиком» и стек утверждены пользователем в текущем обсуждении. Расписание ниже предложено в 14:32; реализация начнётся после подтверждения. Спецификацию не расширяем.
+
+Источники: `docs/CASE.md`, разделы 4–5 `docs/HANDOFF.md` и последние прямые решения пользователя. При расхождении с прежними предложениями в HANDOFF, spec.md и architecture.md действуют последние решения пользователя, записанные ниже. Исходные требования кейса от этого не меняются.
+
+## Утверждённый результат и границы
+
+Основной сценарий: **MP3 → транскрипт с говорящими → поручения (кто / что / срок) и саммари → DOCX**. Результат показываем после завершения встречи. Сервис получает и хранит запись; агент разбирает стенограмму. Неизвестные исполнители и сроки не выдумываются, говорящий не обязательно является исполнителем.
+
+Сразу после рабочего пути на MP3 добавляем запись в браузере: микрофон + звук выбранной вкладки/системы через getDisplayMedia и Web Audio, затем тот же конвейер обработки. Доступность звука зависит от браузера и выбранного источника. Если захват экрана не содержит аудиодорожки, интерфейс явно предупреждает об отсутствии звука встречи; запись только микрофона не выдаётся за полный захват. Полученный браузерный аудиоформат приводится к входу общего конвейера.
+
+Перед стартом записи показываем баннер: **«Встреча записывается и транскрибируется ИИ, объявите участникам»**. Баннер просит секретаря уведомить людей, не считается автоматической доставкой уведомления участникам.
+
+Для поручений показываем «скоро срок / просрочено» относительно даты встречи. Предлагаемое точное правило для этого плана: дата исполнения раньше даты встречи — «просрочено»; от даты встречи до трёх календарных дней включительно — «скоро срок»; дальше — «позже». Неуказанный или неоднозначный срок не получает выдуманную дату и автоматический статус просрочки. Дата встречи также служит базой для нормализации относительных сроков. Это статическая оценка по дате встречи, не автоматические напоминания по текущему времени.
+
+Экспорт — DOCX. PDF допускается только при запасе времени после обязательных проверок и до заморозки кандидата. Казахские и смешанные тестовые записи предоставляет пользователь; для этапа 3 они нужны к 16:10.
+
+Все модели работают локально/self-hosted. Brev принимается как «сервер заказчика» по решению пользователя; пользователь подтвердил, что vLLM с Qwen уже работает. Передача аудио и текста внешним облачным API не допускается.
+
+## Утверждённый стек
+
+Перенесён из раздела 4 HANDOFF по прямому решению пользователя; повторный выбор не проводится.
+
+| Слой | Решение |
+|---|---|
+| Язык, зависимости | Python 3.11, uv, pyproject.toml и uv.lock |
+| Сервис и интерфейс | FastAPI, одна HTML-страница |
+| Основной ASR | faster-whisper large-v3 |
+| Казахская речь | SeamlessM4T-v2-large для повторного распознавания казахских фрагментов |
+| Диаризация | SpeechBrain ECAPA, эмбеддинги и кластеризация |
+| Языковая модель | Qwen3.8-27B NVFP4 в vLLM на Brev |
+| Агент | PydanticAI, схемы Assignment и Protocol, предметные инструменты |
+| Экспорт | python-docx |
+| Оценка | jiwer для WER, сравнение precision/recall поручений с эталонами |
+| Развёртывание | docker compose на GPU-машине, ASR-сервис и vLLM |
+
+Точные версии библиотек, образов и ревизии моделей фиксируем при реализации. Наличие языка на уровне записи не считаем доказательством языка каждого сегмента: способ выделения казахских фрагментов и качество на смешанной речи проверяем в этапе 3. Не обещаем точность из чужих измерений как результат на наших данных.
+
+По последнему прямому указанию пользователя **основной путь README — docker compose на GPU-машине**. Это согласованное исключение из прежнего правила AGENTS.md о plain-командах как первом пути. Для экспертов без GPU предусмотрен отдельный режим воспроизведения результатов двух предоставленных MP3, без персональных аккаунтов и платных подписок.
+
+## Расписание и критерии завершения
+
+Начало отсчёта — 14:32. Это сжатие оставшихся этапов HANDOFF до рубежа кандидата 16:45, а не механическое прибавление времени к старому расписанию. Окончания этапов фиксированы; если «ок» приходит раньше 14:42, этап 1 начинается сразу. Если время согласования или блокер делают расписание невыполнимым, сообщаем пользователю; требования и время молча не меняем.
+
+| Этап | Время | Результат и порядок | Критерий закрытия |
+|---|---|---|---|
+| 0. Фиксация | 14:32–14:42 | Согласовать этот PLAN.md; CASE.md уже есть; актуализировать README и LOG.md. Подготовку .gitignore и .env.example из старого этапа 0 выполняем первым изменением этапа 1 до работы с данными и настройками. | Явное «ок» на план, фактический статус документов, коммит и push. |
+| 1. MP3 целиком | 14:42–15:25 | Первым техническим действием проверить faster-whisper/CTranslate2 на Blackwell реальным распознаванием короткого фрагмента на GPU. Затем каркас на Brev: MP3 → транскрипт → поручения через работающий vLLM и PydanticAI → DOCX. Закрепить зависимости, добавить docker compose, README, scripts/check.sh. Получить реальные результаты двух MP3 и режим их воспроизведения без GPU. | scripts/check.sh проходит из свежего клона; оба MP3 проходят реальный конвейер на Brev, DOCX открываются; воспроизведение работает без вызова моделей. Отсутствие диаризации и остальных функций этапа 2 явно обозначено. Коммит и push. |
+| 2. Запись и полный протокол | 15:25–16:10 | Первым пунктом после этапа 1: браузерная запись микрофона + звука вкладки/системы, предупреждение об отсутствии аудиодорожки и баннер R3. Далее ECAPA-диаризация, сопоставление имён, нормализация сроков, саммари, страница результата и статусы R4. Обновить сохранённые результаты двух MP3 и README. | scripts/check.sh проходит; оба совещания дают полный протокол; проверены говорящие/исполнители, изменения сроков и повторы; браузерная запись доходит до того же DOCX, предупреждение воспроизводится; статусы сроков проверены. Коммит и push. |
+| 3. RU/KZ/смешанная речь и оценка | 16:10–16:40 | Проверить записи пользователя; подключить и проверить Seamless для казахских фрагментов; оценить WER на проверенной текстовой разметке и precision/recall поручений по эталонам. В README записать фактические результаты, ресурсы, ограничения и сторонние компоненты. | scripts/check.sh проходит; реальные проверки трёх языковых режимов задокументированы; нет подмены проверки моделей воспроизведением; DOCX сохраняет русский и казахский текст. Коммит и push. |
+| Рубеж кандидата | 16:40–16:45 | Представить пользователю результаты и оставшиеся ограничения; запросить команду «candidate». | Кандидат объявляется только пользователем и не позже 16:45. При незавершённых обязательных проверках сообщить об этом, не объявлять готовность. |
+| Приёмка и исправления | После «candidate»–17:15 | Заморозить функциональность; QA и Security; показать находки пользователю с предложением по каждой. После его решения — исправления и повторные относящиеся к ним проверки; окончательный README к 17:15. | Нет скрытых провалов основного сценария; решения по находкам приняты пользователем; scripts/check.sh проходит; коммит и push. |
+| Финальная проверка и доставка | 17:15–17:45 | Проверить свежий клон и демонстрацию по README, комплект данных и результатов, журналы и актуальность удалённого репозитория. | Финальный push не позже 17:45, проверен его результат; готовность подтверждается фактами проверки. |
+| Завершение | 17:45–18:00 | Резерв на согласованные исправления. По команде «stop» прекратить изменения; в 18:00 остановить инстанс Brev по правилу HANDOFF. | Финальная версия в репозитории до 18:00; факт остановки сервера проверен. |
+
+Расписание не создаёт автоматических действий по часам: контрольные команды подаёт пользователь. Если к моменту рубежа нет его команды «candidate», самостоятельно кандидата не объявляем.
+
+## Проверяемость и доказательства
+
+- scripts/check.sh клонирует репозиторий во временную директорию, выполняет точные команды соответствующего режима из README и проверяет основной сценарий. Режимы GPU и воспроизведения проверяются раздельно и обозначаются в выводе.
+- GPU-проверка использует реальные ASR и LLM, ошибки моделей не превращаются в успешное воспроизведение. DOCX содержит результаты именно обрабатываемой записи.
+- Воспроизведение использует заранее вычисленные результаты двух комплектных MP3 с указанием происхождения и связи с исходными файлами. На странице и в README написано: **«не проверка моделей»**. Произвольное новое аудио не выдаётся за обработанное в этом режиме.
+- Эталонные DOCX используются для сравнения, не как скрытая замена результатов моделей. Отсутствие разметки или тестовой записи отмечается как отсутствие проверки, а не успешный тест.
+- README обновляется на каждом этапе: что реализовано, архитектура, установка/запуск, пример проверки, данные/сервисы, ресурсы, сторонние компоненты, ограничения и развёрнутый адрес при наличии.
+- Вывод команд сохраняется автоматически в docs/runs/. После завершённых задач — коммит, затем строка с его хешем в docs/LOG.md; не реже раза в час. Каждый закрытый этап завершается push. Пока scripts/check.sh не проходит, этапы 1–3 не закрываются.
+- Секреты — только в .env, шаблон переменных — .env.example, .env исключён из git. Записи и результаты не отправляются сторонним API обработки.
+
+## Покрытие требований и честные ограничения
+
+| Требование | Решение и этап |
+|---|---|
+| M1–M2: распознавание, русский | Реальный ASR в этапе 1; проверка качества в этапе 3. |
+| M3–M4: казахский и смешанный | Этап 3, записи предоставляет пользователь. |
+| M5: поручения | Извлечение в этапе 1; имена, сроки, повторы и проверка качества в этапах 2–3. |
+| M6: диаризация и человек | ECAPA + сопоставление в этапе 2; один SPEAKER_N без связи с человеком не считается полным выполнением. |
+| M7: экспорт | DOCX в этапе 1; PDF необязателен для принятого объёма. |
+| R1–R2: саммари и полный результат | Этап 2. |
+| R3: уведомление | Баннер перед записью в этапе 2; объявляет секретарь. |
+| R4: напоминания | По решению пользователя только статусы относительно даты встречи в этапе 2. Автоматические напоминания и рассылки отсутствуют; это ограничение полного сценария ТЗ записывается в README. |
+| R5: входы | MP3 в этапе 1; браузерная запись в этапе 2. Нативные участники Teams/Zoom/Meet отсутствуют и прямо указаны как ограничение README. Отдельную загрузку видео и обработку live-потока в реальном времени не обещаем. |
+| C1–C5: закрытый контур, защита и данные | Self-hosted на Brev, отсутствие внешней обработки, описание доступа/хранения, демонстрационные данные и проверка анонимизации. |
+
+## After the hackathon
+
+- Нативное подключение участника-бота к Teams, Zoom и Google Meet.
+- Автоматические напоминания и рассылка ответственным, контроль сроков по текущему времени.
+- Обработка live-потока в реальном времени и отдельный сценарий загрузки видео.
+- Полноценная СЭД, промышленное развёртывание, отдельный дашборд и голосовая биометрия.
+- PDF, если не выполнен до заморозки и после обязательных проверок.
+
+Блокер совместимости faster-whisper с Blackwell сообщается сразу с точной ошибкой. Стек не меняется молча. Уже работающий vLLM не перезапускается для проверки ASR без технической необходимости; точный образ и конфигурация фиксируются после осмотра. Отсутствие пользовательских KZ/смешанных записей не заменяется заявлением о проверенном качестве.
+---
+name: implement
+description: "Implement a piece of work based on a spec or set of tickets."
+disable-model-invocation: true
+---
+
+Implement the work described by the user in the spec or tickets.
+
+Use /tdd where possible, at pre-agreed seams.
+
+Run typechecking regularly, single test files regularly, and the full test suite once at the end.
+
+Once done, use /code-review to review the work.
+
+Commit your work to the current branch.
+---
+name: tdd
+description: Test-driven development. Use when the user wants to build features or fix bugs test-first, mentions "red-green-refactor", or wants integration tests.
+---
+
+# Test-Driven Development
+
+TDD is the red → green loop. This skill is the reference that makes that loop produce tests worth keeping: what a good test is, where tests go, the anti-patterns, and the rules of the loop. Every section applies on every cycle: consult them before and during the loop, not after.
+
+When exploring the codebase, read `CONTEXT.md` (if it exists) so test names and interface vocabulary match the project's domain language, and respect ADRs in the area you're touching.
+
+## What a good test is
+
+Tests verify behavior through public interfaces, not implementation details. Code can change entirely; tests shouldn't. A good test reads like a specification: "user can checkout with valid cart" tells you exactly what capability exists, and it survives refactors because it doesn't care about internal structure.
+
+See [tests.md](tests.md) for examples and [mocking.md](mocking.md) for mocking guidelines.
+
+## Seams: where tests go
+
+A **seam** is the public boundary you test at: the interface where you observe behavior without reaching inside. Tests live at seams, never against internals.
+
+**Test only at pre-agreed seams.** Before writing any test, write down the seams under test and confirm them with the user. No test is written at an unconfirmed seam. You can't test everything, so agreeing the seams up front is how testing effort lands on the critical paths and complex logic instead of every edge case.
+
+Ask: "What's the public interface, and which seams should we test?"
+
+When the shape of that interface is itself in question (how deep the module is, where the seam belongs, what the interface should expose), call the Skill tool with "codebase-design" for the vocabulary. It is the shared source of the module, interface, depth, seam, adapter, leverage and locality terms, and it is a reference to consult, not a session to run.
+
+## Anti-patterns
+
+- **Implementation-coupled**: mocks internal collaborators, tests private methods, or verifies through a side channel (querying the database instead of using the interface). The tell: the test breaks when you refactor but behavior hasn't changed.
+- **Tautological**: the assertion recomputes the expected value the way the code does (`expect(add(a, b)).toBe(a + b)`, a snapshot derived by hand the same way, a constant asserted equal to itself), so it passes by construction and can never disagree with the code. Expected values must come from an independent source of truth: a known-good literal, a worked example, the spec.
+- **Horizontal slicing**: writing all tests first, then all implementation. Bulk tests verify _imagined_ behavior: you test the _shape_ of things rather than user-facing behavior, the tests go insensitive to real changes, and you commit to test structure before understanding the implementation. Work in **vertical slices** instead: one test → one implementation → repeat, each test a **tracer bullet** that responds to what the last cycle taught you.
+
+## Rules of the loop
+
+- **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
+- **One slice at a time.** One seam, one test, one minimal implementation per cycle.
+- **Refactoring is not part of the loop.** It belongs to the review stage (see the `code-review` skill), not the red → green implementation cycle.
+---
+name: code-review
+description: "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/spec asked for?). Runs both reviews in parallel sub-agents and reports them side by side. Use when the user wants to review a branch, a PR, work-in-progress changes, or asks to \"review since X\"."
+---
+
+Two-axis review of the diff between `HEAD` and a fixed point the user supplies:
+
+- **Standards**: does the code conform to this repo's documented coding standards?
+- **Spec**: does the code faithfully implement the originating issue / spec?
+
+Both axes run as **parallel sub-agents** so they don't pollute each other's context, then this skill aggregates their findings.
+
+The issue tracker should have been provided to you. If `docs/agents/issue-tracker.md` is missing, tell the user to run `/setup-matt-pocock-skills`.
+
+## Process
+
+### 1. Pin the fixed point
+
+Whatever the user said is the fixed point (a commit SHA, branch name, tag, `main`, `HEAD~5`, etc.). If they didn't specify one, ask for it.
+
+Capture the diff command once: `git diff <fixed-point>...HEAD` (three-dot, so the comparison is against the merge-base). Also note the list of commits via `git log <fixed-point>..HEAD --oneline`.
+
+Before going further, confirm the fixed point resolves (`git rev-parse <fixed-point>`) and the diff is non-empty. A bad ref or empty diff should fail here, not inside two parallel sub-agents.
+
+### 2. Identify the spec source
+
+Look for the originating spec, in this order:
+
+1. Issue references in the commit messages (`#123`, `Closes #45`, GitLab `!67`, etc.), fetched via the workflow in `docs/agents/issue-tracker.md`.
+2. A path the user passed as an argument.
+3. A spec file under `docs/`, `specs/`, or `.scratch/` matching the branch name or feature.
+4. If nothing is found, ask the user where the spec is. If they say there isn't one, the **Spec** sub-agent will skip and report "no spec available".
+
+### 3. Identify the standards sources
+
+Anything in the repo that documents how code should be written, such as `CODING_STANDARDS.md` or `CONTRIBUTING.md`.
+
+On top of whatever the repo documents, the Standards axis always carries the **smell baseline** below: a fixed set of Fowler code smells (_Refactoring_, ch.3) that applies even when a repo documents nothing. Two rules bind it:
+
+- **The repo overrides.** A documented repo standard always wins; where it endorses something the baseline would flag, suppress the smell.
+- **Always a judgement call.** Each smell is a labelled heuristic ("possible Feature Envy"), never a hard violation. Like any standard here, skip anything tooling already enforces.
+
+Each smell reads *what it is* → *how to fix*; match it against the diff:
+
+- **Mysterious Name**: a function, variable, or type whose name doesn't reveal what it does or holds. → rename it; if no honest name comes, the design's murky.
+- **Duplicated Code**: the same logic shape appears in more than one hunk or file in the change. → extract the shared shape, call it from both.
+- **Feature Envy**: a method that reaches into another object's data more than its own. → move the method onto the data it envies.
+- **Data Clumps**: the same few fields or params keep travelling together (a type wanting to be born). → bundle them into one type, pass that.
+- **Primitive Obsession**: a primitive or string standing in for a domain concept that deserves its own type. → give the concept its own small type.
+- **Repeated Switches**: the same `switch`/`if`-cascade on the same type recurs across the change. → replace with polymorphism, or one map both sites share.
+- **Shotgun Surgery**: one logical change forces scattered edits across many files in the diff. → gather what changes together into one module.
+- **Divergent Change**: one file or module is edited for several unrelated reasons. → split so each module changes for one reason.
+- **Speculative Generality**: abstraction, parameters, or hooks added for needs the spec doesn't have. → delete it; inline back until a real need shows.
+- **Message Chains**: long `a.b().c().d()` navigation the caller shouldn't depend on. → hide the walk behind one method on the first object.
+- **Middle Man**: a class or function that mostly just delegates onward. → cut it, call the real target direct.
+- **Refused Bequest**: a subclass or implementer that ignores or overrides most of what it inherits. → drop the inheritance, use composition.
+
+### 4. Spawn both sub-agents in parallel
+
+**Standards sub-agent prompt** should include:
+
+- The full diff command and commit list.
+- The list of standards-source files you found in step 3, **plus the smell baseline from step 3** pasted in full (the sub-agent has no other access to it).
+- The brief: "Report, per file/hunk where relevant, (a) every place the diff violates a documented standard: cite the standard (file + the rule); and (b) any baseline smell you spot: name it and quote the hunk. Distinguish hard violations from judgement calls: documented-standard breaches can be hard, but baseline smells are always judgement calls, and a documented repo standard overrides the baseline. Skip anything tooling enforces. Under 400 words."
+
+**Spec sub-agent prompt** should include:
+
+- The diff command and commit list.
+- The path or fetched contents of the spec.
+- The brief: "Report: (a) requirements the spec asked for that are missing or partial; (b) behaviour in the diff that wasn't asked for (scope creep); (c) requirements that look implemented but where the implementation looks wrong. Quote the spec line for each finding. Under 400 words."
+
+If the spec is missing, skip the Spec sub-agent and note this in the final report.
+
+### 5. Aggregate
+
+Present the two reports under `## Standards` and `## Spec` headings, verbatim or lightly cleaned. Do **not** merge or rerank findings, because the two axes are deliberately separate (see _Why two axes_).
+
+End with a one-line summary: total findings per axis, and the worst issue _within each axis_ (if any). Don't pick a single winner across axes: that's the reranking the separation exists to prevent.
+
+## Why two axes
+
+A change can pass one axis and fail the other:
+
+- Code that follows every standard but implements the wrong thing → **Standards pass, Spec fail.**
+- Code that does exactly what the issue asked but breaks the project's conventions → **Spec pass, Standards fail.**
+
+Reporting them separately stops one axis from masking the other.
+# Domain docs
+
+## Перед исследованием кода
+
+Прочитай корневой `CONTEXT.md` и относящиеся к задаче ADR из `docs/adr/`. Если появится `CONTEXT-MAP.md`, следуй его ссылкам на контексты и учитывай ADR соответствующих контекстов.
+
+При отсутствии документов продолжай работу. Создавай их через domain-modeling по мере появления согласованных терминов и решений.
+
+## Структура
+
+Single-context: один `CONTEXT.md` в корне, архитектурные решения в `docs/adr/`.
+
+## Терминология и решения
+
+Используй термины из CONTEXT.md в задачах, коде и проверках. Недостающие понятия отмечай для domain-modeling. Противоречие существующему ADR укажи явно с объяснением; пересмотр решения требует отдельного согласования.
+# Протоколирование совещаний
+
+Фиксация содержания встречи и поручений, по которым участники контролируют исполнение.
+
+## Термины
+
+**Транскрипт**:
+Текст произнесённых на совещании реплик с указанием говорящих, когда они определены.
+_Не использовать_: саммари как синоним транскрипта.
+
+**Поручение**:
+Задача, поставленная на совещании: что сделать, кто отвечает и к какому сроку. Неозвученный исполнитель или срок остаётся неуказанным.
+_Не использовать_: вызов инструмента агента как синоним поручения.
+
+**Ответственный**:
+Человек или подразделение, которому поручено выполнение задачи. Ответственный может отличаться от говорящего, сформулировавшего поручение.
+
+**Саммари**:
+Краткое изложение основных тем, фактов и решений совещания.
+_Не использовать_: полный транскрипт как синоним саммари.
+
+**Итоговый протокол**:
+Результат обработки завершённого совещания, объединяющий текст встречи, структурированные поручения и саммари.
+data/test/mix_01.m4a
+data/test/kz_01.m4a
+data/test/kz_01.reference.md
+data/test/mix_01.reference.md

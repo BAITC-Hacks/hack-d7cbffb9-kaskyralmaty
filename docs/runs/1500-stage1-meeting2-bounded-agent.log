@@ -1,0 +1,4 @@
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+Fetching 7 files:   0%|          | 0/7 [00:00<?, ?it/s]Fetching 7 files: 100%|██████████| 7/7 [00:00<00:00, 4869.01it/s]
+Реальный запуск ASR и LLM
+Реплик: 65; поручений: 9; DOCX: outputs/meeting-2.docx

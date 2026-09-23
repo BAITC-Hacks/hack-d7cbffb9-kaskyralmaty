@@ -1,0 +1,6 @@
+Публичный IP для LLM отклонён — PASS
+Локальный адрес для LLM принят — PASS
+.DS_Store
+.env
+.cache/model.bin
+15:06:17

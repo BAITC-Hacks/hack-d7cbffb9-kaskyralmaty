@@ -1,0 +1,71 @@
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+Fetching 7 files:   0%|          | 0/7 [00:00<?, ?it/s]Fetching 7 files:  86%|████████▌ | 6/7 [00:00<00:00, 47.57it/s]Fetching 7 files: 100%|██████████| 7/7 [00:00<00:00, 51.41it/s]
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/meeting_protocol/__main__.py", line 34, in <module>
+    main()
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/meeting_protocol/__main__.py", line 25, in main
+    protocol = process(args.audio, args.date)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/meeting_protocol/pipeline.py", line 87, in process
+    extracted = extract(segments, meeting_date)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/meeting_protocol/pipeline.py", line 82, in extract
+    return agent.run_sync(prompt, usage_limits=UsageLimits(request_limit=6)).output
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/agent/abstract.py", line 804, in run_sync
+    return _utils.run_until_complete(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/_utils.py", line 112, in run_until_complete
+    return _graph_run_until_complete(coro)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_graph/_utils.py", line 115, in run_until_complete
+    return loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/.local/share/uv/python/cpython-3.11.13-linux-x86_64-gnu/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/agent/abstract.py", line 664, in run
+    node = await agent_run.next(node)  # pyright: ignore[reportArgumentType]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/run.py", line 554, in next
+    return await self._run_node_with_hooks(node, self._stream_and_advance)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/run.py", line 476, in _run_node_with_hooks
+    return await self._wrap_and_advance(run_context, node, step_fn)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/run.py", line 422, in _wrap_and_advance
+    result = await step_fn(node)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/run.py", line 568, in _stream_and_advance
+    return await self._advance_graph(node)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/run.py", line 396, in _advance_graph
+    task = await self._graph_run.next(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_graph/graph_builder.py", line 584, in next
+    return await anext(self)
+           ^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_graph/graph_builder.py", line 561, in __anext__
+    raise self._next.error
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_graph/graph_builder.py", line 860, in _run_tracked_task
+    result = await self._run_task(t_)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_graph/graph_builder.py", line 911, in _run_task
+    output = await node.call(step_context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_graph/step.py", line 253, in _call_node
+    return await node.run(GraphRunContext(state=ctx.state, deps=ctx.deps))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/_agent_graph.py", line 1238, in run
+    return await self._make_request(ctx)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/_agent_graph.py", line 1488, in _make_request
+    model, model_settings, model_request_parameters, message_history, run_context = await self._prepare_request(
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/_agent_graph.py", line 1783, in _prepare_request
+    ctx.deps.usage_limits.check_before_request(usage)
+  File "/home/ubuntu/hack-d7cbffb9-kaskyralmaty/.venv/lib/python3.11/site-packages/pydantic_ai/usage.py", line 524, in check_before_request
+    raise UsageLimitExceeded(f'The next request would exceed the request_limit of {request_limit}')
+pydantic_ai.exceptions.UsageLimitExceeded: The next request would exceed the request_limit of 6. Consider raising the limit, or see the docs on usage limits for budget-aware patterns: https://pydantic.dev/docs/ai/core-concepts/agent/#usage-limits
