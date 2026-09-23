@@ -1,0 +1,49 @@
+# Issue tracker: Local Markdown
+
+Задачи и спецификации хранятся в `.scratch/`.
+
+- Одна функциональность: `.scratch/<feature-slug>/`.
+- Спецификация: `spec.md` внутри этой директории.
+- Каждая задача: `issues/<NN>-<slug>.md`, нумерация с 01.
+- Статус triage: строка `Status:` в начале задачи; значения определены в `triage-labels.md`.
+- Обсуждение дописывается в конец под `## Comments`.
+
+«Опубликовать в трекере» означает создать локальный Markdown-файл.
+«Получить задачу» означает прочитать файл по указанному пути.
+
+## Wayfinder
+
+- Карта: `.scratch/<effort>/map.md`, разделы Notes, Decisions-so-far и Fog.
+- Дочерние задачи: `issues/NN-<slug>.md`.
+- `Type:`: research / prototype / grilling / task.
+- В workflow wayfinder `Status:` отражает claimed / resolved; это состояния выполнения, отдельные от triage.
+- `Blocked by: NN, NN` перечисляет зависимости. Задача доступна, когда все зависимости resolved.
+- Следующая задача: первая по номеру незавершённая, свободная задача без открытых зависимостей.
+- Перед работой сохранить `Status: claimed`.
+- По завершении добавить `## Answer`, установить resolved, дописать краткий результат и ссылку в Decisions-so-far карты.
+docs/HANDOFF.md
+.scratch/meeting-protocol/agent-options.md
+.scratch/meeting-protocol/spec.md
+.scratch/meeting-protocol/architecture.md
+docs/TRACKS.md
+docs/LOG.md
+docs/CASE.md
+docs/agents/issue-tracker.md
+docs/agents/triage-labels.md
+docs/agents/domain.md
+b95b8f2 Зафиксированы ответы о сервисе и агенте; способы интеграции ещё не выбраны
+bf1d014 Исследованы агенты и подключение встреч; архитектура и стек ещё не выбраны
+fc1e166 Уточнено ТЗ трека 8 и настроены локальные задачи; реализация ещё не проверена
+85c51a3 docs: сохранены навыки, материалы трека 8 и журналы; реализация и проверка запуска ещё не готовы
+39df265 docs: изучены 12 треков, выбран трек 8; план и стек не утверждены
+AGENTS.md
+README.md
+docs/HANDOFF.md
+docs/TRACKS.md
+docs/LOG.md
+docs/agents/issue-tracker.md
+docs/agents/triage-labels.md
+docs/agents/domain.md
+docs/CASE.md
+CONTEXT.md
+skills-lock.json

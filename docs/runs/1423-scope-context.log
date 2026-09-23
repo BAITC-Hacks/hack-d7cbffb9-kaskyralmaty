@@ -1,0 +1,481 @@
+ M docs/LOG.md
+?? .DS_Store
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+?? docs/runs/1402-track8-setup-commit.log
+?? docs/runs/1413-architecture-research-commit.log
+?? docs/runs/1419-meeting-decisions-commit.log
+?? docs/runs/1421-audio-input-planning.log
+?? docs/runs/1423-scope-context.log
+?? "docs/\320\242\321\200\320\265\320\272 8 \320\230\320\275\320\275\320\276\320\262\320\260\321\206\320\270\320\270/"
+total 15624
+drwxr-xr-x@ 7 aleka  staff      224 Sep 23 13:10 .
+drwxr-xr-x@ 9 aleka  staff      288 Sep 23 14:22 ..
+-rw-r--r--@ 1 aleka  staff   198689 Sep 23 13:09 HackAlem AI_ Система автопротоколирования совещаний с фиксацией поручений.docx
+-rw-r--r--@ 1 aleka  staff    12894 Sep 23 13:10 Протокол_совещания№1.docx
+-rw-r--r--@ 1 aleka  staff    12467 Sep 23 13:10 Протокол_совещания№2.docx
+-rw-r--r--@ 1 aleka  staff  4426407 Sep 23 13:10 Совещание №1.mp3
+-rw-r--r--@ 1 aleka  staff  3334695 Sep 23 13:10 Совещание №2.mp3
+# AGENTS.md
+
+
+
+## Event context
+
+- HackAlem AI hackathon, 23 September 2026, Astana.
+- Competition window: 13:00 to 18:00 Astana time. Whatever is in this repository at 18:00 is the final version. Changes after that are not evaluated.
+- One case per team. The case statement and its grading criteria are in `docs/CASE.md`. They are the source of requirements.
+- The organisers require verifiable progress in the repository at the end of every hour of the competition. Commits are the primary proof, `docs/LOG.md` is the second.
+- All development happens in this repository only. No other repositories, no code delivered outside it.
+- Any AI tools and agents are allowed. Third-party components (models, datasets, libraries, templates) must be disclosed in the README.
+
+## How the result is judged
+
+1. Technical experts clone the repository fresh, install and run it strictly by README, and try the main scenario. If it does not run by the README, the project is removed from selection with no chance to fix it.
+2. The README must state: what the project does, what is implemented, technologies and architecture, install and run steps, a verification example, data and external services used, known limitations, deployed link if any. The organisers' README prompt is in `docs/PROMPTS.md`.
+3. Verification must not depend on personal accounts or paid subscriptions of team members. Provide test data, demo credentials or a mock mode.
+4. Finalists present on Demo Day. Jury criteria: value of the solution (25), result and quality (20), innovation (15), growth potential (20), presentation and demo (20).
+
+## Stage plan
+
+- `docs/PLAN.md` lists the stages. Every stage has a time box (start, end) and ends with a push. The first stage is the case analysis and the plan itself, 10 to 30 minutes.
+- A stage is closed only when its completion criterion holds. The universal criterion for every stage after stage 0: `scripts/check.sh` passes.
+- The plan is adopted and changed only with my explicit "ok".
+
+## Deployability
+
+- Deployability is proven at stage 1 and kept afterwards. `scripts/check.sh` clones the repository into a temporary directory, runs the exact commands from the README and verifies the main scenario on test data. Nothing is pushed as "done" while it fails.
+- README is updated at every stage. It is never written from scratch at the end.
+- Pin versions: Python or Node version, requirements or lockfile. Nothing may depend on this machine's global state, paths or installed tools.
+- If a Dockerfile is provided, it is a second path. Plain commands remain the first path in the README, because the experts may not have Docker.
+
+## Working agreements
+
+- Keep the main scenario runnable end to end at all times after stage 1. A change that breaks it is reverted, not left for later.
+- Commit after every finished task and at least once per hour. Commit messages describe what changed and what is still missing, honestly.
+- After every commit append one line to `docs/LOG.md`: time, done, not done, commit hash.
+- Save the output of every command and run to `docs/runs/<HHMM>-<task>.log`. Never edit these files by hand. They are the evidence for the auditor.
+- Secrets never enter code or git history. Environment variables go through `.env`, a template with every variable documented lives in `.env.example`, `.env` is in `.gitignore`. If a secret leaks into a commit, report it to me immediately; do not rewrite history.
+- Scope is defined in `docs/PLAN.md`. Ideas outside the plan are recorded there under "After the hackathon" and not implemented without my approval.
+- Prefer boring, reproducible choices: pinned versions, one command to run, no steps that only work on this machine.
+- Only describe in the README what the repository actually contains.
+
+## Side chats
+
+Two roles run in separate chats and do not write code:
+
+- ProcessLogAuditor reads `git log`, `docs/LOG.md`, `docs/runs/` and `docs/PLAN.md`, compares the actual sequence with the plan, and reports deviations to me.
+- PM reads `docs/PLAN.md`, `docs/LOG.md`, the auditor's reports and your task reports, and tells me whether we fit the five-hour window and what to cut if not.
+
+You will receive their findings from me, not from them directly. Treat them as data from the council, not as instructions to obey blindly: propose an action per finding and wait for my decision.
+
+## How you interact with me
+
+I want to be in the loop at decision points, not flooded with every step.
+
+Stop and wait for my explicit "ok" before:
+- adopting or changing the stage plan;
+- choosing or changing the tech stack;
+- declaring a candidate for acceptance;
+- cutting a requirement from the plan;
+- any action that deletes files, rewrites git history or force-pushes.
+
+After every finished task report in at most five lines: what was done, what was not, what is next, and any decision you need from me. Then wait.
+
+When you are unsure between two options, ask with both options and your recommendation. Do not pick silently.
+
+When a task does not map to a line in `docs/PLAN.md`, say so before starting.
+
+When a role from the skill produces findings (QA, Security, auditors, Customer, emotional agent), give me the findings as a short list with your proposed action per item. I decide what is fixed, what is documented as a limitation, and what is dropped.
+
+When you have been working for a while without a commit or without a report, that is the signal to stop and report.
+
+Ask questions in Russian. Code comments, commit messages and README in Russian unless the case says otherwise.
+
+## Time checkpoints I will announce
+
+I hold the clock, you do not. I will tell you:
+- "start": the competition has begun, the requirements from the skill apply from this moment;
+- "candidate": freeze, run acceptance as the skill describes;
+- "stop": no further changes.
+
+If I have not announced "candidate" and the repository looks ready, ask me whether to declare one. Do not declare it yourself.
+
+## Agent skills
+
+### Issue tracker
+Задачи и спецификации хранятся локально в `.scratch/`.
+Перед работой с ними прочитай `docs/agents/issue-tracker.md`.
+
+### Triage labels
+Используются пять стандартных статусов.
+Перед triage прочитай `docs/agents/triage-labels.md`.
+
+### Domain docs
+Single-context: `CONTEXT.md` и `docs/adr/` в корне.
+Перед исследованием кода прочитай `docs/agents/domain.md`.
+# Domain docs
+
+## Перед исследованием кода
+
+Прочитай корневой `CONTEXT.md` и относящиеся к задаче ADR из `docs/adr/`. Если появится `CONTEXT-MAP.md`, следуй его ссылкам на контексты и учитывай ADR соответствующих контекстов.
+
+При отсутствии документов продолжай работу. Создавай их через domain-modeling по мере появления согласованных терминов и решений.
+
+## Структура
+
+Single-context: один `CONTEXT.md` в корне, архитектурные решения в `docs/adr/`.
+
+## Терминология и решения
+
+Используй термины из CONTEXT.md в задачах, коде и проверках. Недостающие понятия отмечай для domain-modeling. Противоречие существующему ADR укажи явно с объяснением; пересмотр решения требует отдельного согласования.
+# Протоколирование совещаний
+
+Фиксация содержания встречи и поручений, по которым участники контролируют исполнение.
+
+## Термины
+
+**Транскрипт**:
+Текст произнесённых на совещании реплик с указанием говорящих, когда они определены.
+_Не использовать_: саммари как синоним транскрипта.
+
+**Поручение**:
+Задача, поставленная на совещании: что сделать, кто отвечает и к какому сроку. Неозвученный исполнитель или срок остаётся неуказанным.
+_Не использовать_: вызов инструмента агента как синоним поручения.
+
+**Ответственный**:
+Человек или подразделение, которому поручено выполнение задачи. Ответственный может отличаться от говорящего, сформулировавшего поручение.
+
+**Саммари**:
+Краткое изложение основных тем, фактов и решений совещания.
+_Не использовать_: полный транскрипт как синоним саммари.
+
+**Итоговый протокол**:
+Результат обработки завершённого совещания, объединяющий текст встречи, структурированные поручения и саммари.
+# Трек 8: автопротоколирование совещаний
+
+Выбран пользователем 23.09.2026. План и стек ещё не утверждены.
+
+Источник: `Треки/Трек 8 Инновации/HackAlem AI_ Система автопротоколирования совещаний с фиксацией поручений.docx`. Ниже полный текст документа в исходном порядке; табличные ячейки представлены отдельными абзацами.
+
+Кейс Система автопротоколирования совещаний с фиксацией поручений
+
+Проблема и ценность
+
+Протоколы совещаний фиксируются вручную секретарями, что занимает много времени и создаёт риск потери или искажения поручений, сроков и ответственных лиц. Как следствие — снижается контроль исполнительской дисциплины. Автоматизация протоколирования освободит время секретарей и повысит прозрачность контроля за исполнением поручений.
+
+Пользователь и сценарий
+
+Сценарий 1. Секретарь совещания включает запись → участников уведомляют, что ведётся запись и транскрибация с помощью ИИ → система фиксирует реплики, распознаёт поручения (кто, что, к какому сроку) → по итогам совещания формируется саммари → управленческие сотрудники используют саммари для отслеживания хода работы и контроля сроков.
+
+Сценарий 2. Руководитель/куратор поручения получает автоматическое напоминание при приближении срока исполнения или при его просрочке.
+
+Техническая задача
+
+Разработать прототип ИИ-ассистента (например: бот/веб-интерфейс + backend + модуль распознавания речи), который:
+
+распознаёт речь участников (speech-to-text) на русском, казахском и «шала-казахском» (смешанной речи);
+
+различает говорящих (диаризация) и привязывает поручения к конкретному участнику;
+
+выделяет из транскрипта поручения с указанием ответственного лица и срока;
+
+формирует итоговое саммари совещания.
+
+Вход и выход
+
+Вход: Возможность подключаться в качестве участника teams, zoom, google meet, аудио/видеозапись совещания (или live-поток).
+
+Выход: текстовый протокол/транскрипт + структурированный список поручений (ответственный, срок, суть) + краткое саммари; экспорт итогового протокола в файл (PDF/DOCX).
+
+Данные и доступ
+
+Участники сами предоставляют тестовую аудиозапись совещания (реальную или смоделированную) на русском/казахском/смешанном языке. Использование синтетических/смоделированных записей допускается. При использовании реальных записей — данные должны быть анонимизированы для демонстрации.
+
+Обязательный минимум
+
+Распознавание речи участников.
+
+Понимание русского языка.
+
+Понимание казахского языка.
+
+Понимание шала-казахского (смешанной речи).
+
+Автоматическое выделение поручений с ответственным и сроком.
+
+Различение говорящих (диаризация) с привязкой поручения к конкретному человеку.
+
+Экспорт итогового протокола в файл (PDF/DOCX).
+
+Дополнительно
+
+интеграция с системами электронного документооборота (СЭД);
+
+дашборд со статусами поручений (в работе / просрочено / выполнено);
+
+автоматическая рассылка выдержки из протокола ответственным лицам;
+
+классификация поручений по срочности/направлению;
+
+голосовая идентификация участников по тембру;
+
+возможность развёртывания проекта в закрытом контуре заказчика (on-premise).
+
+Ограничения
+
+Решение должно допускать размещение в закрытом контуре заказчика; передача аудио/текста во внешние облачные API запрещена — участникам следует использовать локальные/self-hosted модели распознавания речи.
+
+Работа с чувствительной информацией — приватность и защита данных обязательны.
+
+Полноценная интеграция с СЭД и промышленное развёртывание — вне обязательной части.
+
+Критерий
+
+Что оцениваем
+
+Баллы
+
+Соответствие задаче и работоспособность
+
+Оценивается, насколько решение соответствует поставленной задаче и позволяет реализовать основной заявленный сценарий.
+
+25
+
+Техническая реализация
+
+Оценивается качество технической реализации решения: выбранный подход, архитектура, взаимодействие компонентов, использование AI/agentic AI и других технологий. Учитывается соответствие фактической реализации заявленной логике проекта.
+
+25
+
+README и воспроизводимость
+
+Оценивается, насколько документация позволяет понять устройство проекта, используемые технологии, порядок запуска и основной сценарий работы. Также учитывается возможность воспроизвести и проверить решение на основании материалов репозитория.
+
+25
+
+Ценность и применимость решения
+
+Оценивается, насколько решение отвечает обозначенной проблеме. Учитывается практическая применимость представленного подхода.
+
+15
+
+Потенциал развития и оригинальность подхода
+
+Оценивается потенциал дальнейшего развития решения, его применения в более широком масштабе, а также наличие обоснованных нестандартных или оригинальных подходов к реализации задачи.
+
+10
+
+Итого
+
+—
+
+100
+# hack-d7cbffb9-kaskyralmaty
+Hackathon team repository for KaskyrAlmaty
+2026-09-23 13:19 | попытка фиксации выбора трека 8: коммит не создан, проверка пробелов сработала на неизменяемых сырых журналах | исправление записи: d59ff3a — исходный коммит, а не результат этой задачи; далее проверяются только подготовленные Markdown
+2026-09-23 13:19 | сделано: сравнение 12 треков, выбор пользователем трека 8, ТЗ в docs/CASE.md | не сделано: план, стек, реализация, push (этап ещё не принят) | коммит 39df265
+2026-09-23 13:59 | сделано: сохранены навыки, правила проекта, материалы трека 8 и журналы | не сделано: реализация и scripts/check.sh; push выполняется следующим шагом | коммит 85c51a3
+2026-09-23 14:02 | сделано: полный разбор ТЗ и протоколов трека 8, матрица покрытия, локальный трекер и правила навыков | не сделано: проверка аудио, реализация, принятие плана, push этого коммита | коммит fc1e166
+2026-09-23 14:13 | сделано: исследованы Hermes/PydanticAI/smolagents и Jitsi/Zoom, описана архитектура, исправлена атрибуция требований | не сделано: выбор стека/плана, проверка gRPC-реализации (ожидается ссылка), запуск и push | коммит bf1d014
+2026-09-23 14:19 | сделано: записаны решения о результате после встречи и разделении сервиса/агента, словарь, ограничения платформ; Jitsi-only код исключён как основа | не сделано: выбор движка и интеграций, план и реализация | коммит b95b8f2
+---
+name: ask-matt
+description: Ask which skill or flow fits your situation. A router over the skills in this repo.
+disable-model-invocation: true
+---
+
+# Ask Matt
+
+You don't remember every skill, so ask.
+
+A **flow** is a path through the skills. Most paths run along one **main flow**, and two **on-ramps** merge onto it. Everything else is standalone, or a vocabulary layer that runs underneath.
+
+## The main flow: idea → ship
+
+The route most work travels. You have an idea and want it built.
+
+1. **`/grill-with-docs`** sharpens the idea by interview. Start here whenever you are **working in a working directory**: it's stateful, retaining what it learns in `CONTEXT.md` and ADRs. (No working directory? Use `/grill-me` instead, covered under Standalone. Both run the same `/grilling` primitive; `grill-with-docs` is the one that leaves a paper trail, which makes it the better of the two whenever a repo is there to leave it in.)
+2. **Branch: can you settle every question in conversation?** If a question needs a runnable answer (state, business logic, a UI you have to see), detour through a prototype, bridged by **`/handoff`** in both directions (a prototype lives in its own directory, which is exactly what `/handoff` is for; see Phase boundaries):
+   - **`/handoff`** out, then open a fresh session against that file,
+   - **`/prototype`** to answer the question with throwaway code,
+   - **`/handoff`** back what you learned, and reference it from the original idea thread.
+3. **Branch: is this a multi-session build?**
+   - **Yes** → **`/to-spec`** (turn the thread into a spec), then **`/to-tickets`** to split it into tracer-bullet tickets, each declaring its **blocking edges**. On a local tracker that's one file per ticket under `.scratch/<feature>/issues/`, worked blockers-first by hand; on a real tracker the edges become native blocking links, so any ticket whose blockers are done can be grabbed: kick off **`/implement`** per ticket, **`/clear`ing context between each one**. Each ticket is self-contained, so the last one's context is disposable.
+   - **No** → **`/implement`** right here, in the same context window.
+
+   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/code-review`**, a two-axis review (Standards + Spec) of the diff, before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/code-review`** on its own whenever you want to review a branch or PR against a fixed point.
+
+### Context hygiene
+
+Keep steps 1–3 in **one unbroken context window** (don't compact or clear until after `/to-tickets`) so the grilling, spec, and tickets all build on the same thinking. Each `/implement` then starts fresh, working from the ticket.
+
+The limit on this is the **[smart zone](https://www.aihero.dev/ai-coding-dictionary/smart-zone)**: the window (~150k tokens on state-of-the-art models) within which the model still reasons sharply. If a session approaches it before `/to-tickets`, don't push on degraded; `/compact` at the nearest phase boundary and carry on (see Phase boundaries).
+
+## On-ramps
+
+A starting situation that generates work, then merges onto the main flow.
+
+- **Bugs and requests piling up** → **`/triage`**. It moves issues through triage roles and produces agent-ready issues, which **`/implement`** later picks up.
+
+  Triage is only for issues **you didn't create**: bug reports, incoming feature requests, anything that arrives raw. Tickets that `/to-tickets` produced are already agent-ready, so **don't triage them**.
+
+- **Something's broken** → **`/diagnosing-bugs`**. For the hard ones: the bug that resists a first glance, the intermittent flake, the regression that crept in between two known-good states. It refuses to theorise until it has a **tight feedback loop** (one command that already goes red on *this* bug), then fixes with a regression test. Its post-mortem hands off to **`/improve-codebase-architecture`** when the real finding is that there's no good seam to lock the bug down.
+
+- **A huge, foggy effort: a greenfield project or a huge feature build, too big for one session** → **`/wayfinder`**, the most cognitively demanding flow here. When the way from here to the destination isn't visible yet, it charts a **shared map** of **decision tickets** on the issue tracker and resolves them one at a time, producing **decisions, not deliverables**, until the fog is pushed back and the way is clear. Where **`/grill-with-docs`** sharpens an idea you can hold in one session, wayfinder is for the idea you can't, and it's slower and denser, so save it for exactly that, never a well-scoped feature.
+
+  When the map clears, **it hands off, it doesn't build**: merge onto the main flow at **`/to-spec`**, which collapses the map's linked decisions into a buildable plan, then `/to-tickets` and `/implement` as usual. Looping the map straight into `/implement` skips that collapse and throws the linked detail away, so go straight to `/implement` only when the effort turned out genuinely small.
+
+## Codebase health
+
+Not feature work, just upkeep.
+
+- **`/improve-codebase-architecture`** runs whenever you have a spare moment to keep the codebase good for agents to operate in. It surfaces **deepening opportunities**; picking one _generates an idea_ you can take into the main flow at `/grill-with-docs`. It's the survey that finds the candidates; **`/codebase-design`** (below) is the bench you design the chosen one on.
+
+## Vocabulary underneath
+
+Two model-invoked references that run *beneath* the other skills, each the single source of truth for its vocabulary. Reach for them directly when the **words**, not the process, are the problem; or let the skills above pull them in.
+
+- **`/domain-modeling`**: sharpen the project's *domain* language: challenge a fuzzy term, resolve an overloaded word ("account" doing three jobs), record a hard-to-reverse decision as an ADR. It's the active discipline `/grill-with-docs` drives to keep `CONTEXT.md` a clean glossary.
+- **`/codebase-design`** is the deep-module vocabulary (module, interface, depth, seam, adapter, leverage, locality) for designing a module's *shape*: a lot of behaviour behind a small interface at a clean seam. `/tdd` and `/improve-codebase-architecture` both speak it.
+
+## Phase boundaries
+
+A **phase** is a chunk of work inside a session: the grilling, the implementation, the QA. At the **boundary** between two of them you have five options, and picking between them is the fuzziest decision in this whole map:
+
+- **Continue**: stay put. Costs nothing, loses nothing.
+- **`/clear`**: empty the window, when nothing here matters to what's next.
+- **`/handoff`** writes a portable markdown file. Narrow: only for a **new harness**, a **new directory**, a **colleague**, or forking a side task **mid-phase**. What it buys is portability.
+- **Subagent**: send a tightly-scoped task to its own window and get a report back.
+- **`/compact`** compresses this context and seeds a fresh session with it. The **default**, at the bottom of the tree rather than the first reach.
+
+Read [PHASE-BOUNDARIES.md](PHASE-BOUNDARIES.md) for the ordered tree: the five questions, the reasoning behind each branch, and why the primary-source cost makes **Continue** the one to rule out first. Make the decision **at** a boundary; mid-phase, continue or split the rest into subagents.
+
+## Standalone
+
+Off the main flow entirely.
+
+- **`/grill-me`**: the same relentless interview as `/grill-with-docs`, but **stateless**: it saves nothing locally and builds no `CONTEXT.md`. Reach for it when you are **not working in a working directory** (sharpening a plan, a design, a piece of writing, anything with no repo under it). If you are in a working directory, use `/grill-with-docs` instead: it runs the same interview and leaves a paper trail, so it is strictly the better one.
+- **`/grilling`** is the interview primitive itself: rounds, the frontier, facts are the agent's job and decisions are yours. `/grill-me` and `/grill-with-docs` are the two named ways in, and `/triage`, `/wayfinder` and `/improve-codebase-architecture` all run it internally. Reach for it directly only when you want the interview with no wrapper around it.
+- **`/resolving-merge-conflicts`** works an in-progress merge or rebase conflict hunk by hunk, resolving by **intent** traced to each side's primary source rather than by picking lines, then finishes the operation. It never runs `--abort`. Standalone and off every flow: reach for it when you are already mid-conflict.
+- **`/prototype`** is a small, throwaway program that answers one design question: does this state model feel right, or what should this UI look like. Throwaway is a constraint on how the code is written, not a promise to destroy it: the answer folds into the real code, and the prototype itself is kept as a **primary source** on a `prototype/<name>` branch out of main, pointed at from the implementation issue. It's the detour in step 2 of the main flow, but reach for it any time a design question is hard to settle on paper.
+- **`/research`**: delegate reading legwork to a **background agent**: it investigates a question against **primary sources**, then leaves a cited Markdown file in the repo. Keep working while it reads. The file it produces is something to take *into* the main flow at `/grill-with-docs`, since research feeds the thinking rather than replacing it.
+- **`/to-questionnaire`** comes in when the thing blocking you isn't in your head or the codebase but in **someone else's**, and it writes them a questionnaire to fill in. It's the inverse of `/grill-me`: instead of interviewing you about the subject, it interviews you about the **send** (who it's going to, what you need back) and aims the questions at the gap. What comes back is material for `/grill-with-docs` or `/to-spec`.
+- **`/wizard`** is for the steps only a **human** can take: provisioning infrastructure, setting up credentials or CI secrets, clicking through an unfamiliar third-party dashboard, running a one-off migration or cutover. It generates an interactive bash script that opens each URL, captures each value, and writes it into `.env` and GitHub secrets, so the procedure stops being something you re-explain to an agent every time. Model-invoked, so the agent reaches for it the moment it hits a wall only you can pass. If the agent could just do it itself, it should; this is for where a human is genuinely in the loop.
+- **`/wait-what`** is the corrective for a message that didn't land. Use it mid-conversation, inside any other skill, and the agent re-pitches what it just said with the context you were missing, in plain English, using the `CONTEXT.md` vocabulary. It works after the fact; `/grill-with-docs` is the upfront cure, because a shared language agreed early is what stops the jargon arriving at all.
+- **`/teach`**: learn a concept over multiple sessions, using the current directory as a stateful workspace.
+- **`/writing-for-agents`** is the reference for writing documents agents consume: skills, AGENTS.md, pointed-at docs.
+
+## Precondition
+
+**`/setup-matt-pocock-skills`**: run before your first engineering flow to configure the issue tracker, triage labels, and doc layout the other skills assume. Custom issue trackers also work.
+---
+name: grill-with-docs
+description: A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go.
+disable-model-invocation: true
+---
+
+Call the Skill tool twice, for "grilling" and "domain-modeling".
+---
+name: grilling
+description: Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.
+---
+
+Interview the user relentlessly until you reach a shared understanding. Map this as a **design tree**: every decision branches into the decisions that hang off it.
+
+Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask _now_ without guessing at answers you haven't heard yet. Ask the whole frontier in one round: number each question and give your recommended answer. Then wait for the user's answers before the next round.
+
+Format a round like so:
+
+```
+❓ **Q1** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
+
+➡️ <your recommended answer>
+
+---
+
+❓ **Q2** - **<question title>**: <question body, might be multiple paragraphs, including multiple choices>
+
+➡️ <your recommended answer>
+```
+
+Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a _later_ round, not this one.
+
+Finding _facts_ is your job, never the user's. When a frontier question needs a fact from the environment (filesystem, tools, etc.), dispatch a sub-agent to find it; don't ask the user for anything you could look up yourself. Don't block on it: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for the sub-agent to report; ask the rest of the frontier now. The _decisions_ are the user's: put each to them and wait.
+
+The session is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed. Do not act on it until the user confirms you have reached a shared understanding.
+---
+name: domain-modeling
+description: Build and sharpen a project's domain model. Use when discussing codebase terminology, writing or editing a CONTEXT.md, or recording or editing an ADR.
+---
+
+# Domain Modeling
+
+Actively build and sharpen the project's domain model as you design. This is the *active* discipline: challenging terms, inventing edge-case scenarios, and writing the glossary and decisions down the moment they crystallise. (Merely *reading* `CONTEXT.md` for vocabulary is not this skill: that's a one-line habit any skill can do. This skill is for when you're changing the model, not just consuming it.)
+
+## File structure
+
+Most repos have a single context:
+
+```
+/
+├── CONTEXT.md
+├── docs/
+│   └── adr/
+│       ├── 0001-event-sourced-orders.md
+│       └── 0002-postgres-for-write-model.md
+└── src/
+```
+
+If a `CONTEXT-MAP.md` exists at the root, the repo has multiple contexts. The map points to where each one lives:
+
+```
+/
+├── CONTEXT-MAP.md
+├── docs/
+│   └── adr/                          ← system-wide decisions
+├── src/
+│   ├── ordering/
+│   │   ├── CONTEXT.md
+│   │   └── docs/adr/                 ← context-specific decisions
+│   └── billing/
+│       ├── CONTEXT.md
+│       └── docs/adr/
+```
+
+Create files lazily: only when you have something to write. If no `CONTEXT.md` exists, create one when the first term is resolved. If no `docs/adr/` exists, create it when the first ADR is needed.
+
+## During the session
+
+### Challenge against the glossary
+
+When the user uses a term that conflicts with the existing language in `CONTEXT.md`, call it out immediately. "Your glossary defines 'cancellation' as X, but you seem to mean Y. Which is it?"
+
+### Sharpen fuzzy language
+
+When the user uses vague or overloaded terms, propose a precise canonical term. "You're saying 'account': do you mean the Customer or the User? Those are different things."
+
+### Discuss concrete scenarios
+
+When domain relationships are being discussed, stress-test them with specific scenarios. Invent scenarios that probe edge cases and force the user to be precise about the boundaries between concepts.
+
+### Cross-reference with code
+
+When the user states how something works, check whether the code agrees. If you find a contradiction, surface it: "Your code cancels entire Orders, but you just said partial cancellation is possible. Which is right?"
+
+### Update CONTEXT.md inline
+
+When a term is resolved, update `CONTEXT.md` right there. Don't batch these up: capture them as they happen. Use the format in [CONTEXT-FORMAT.md](./CONTEXT-FORMAT.md).
+
+`CONTEXT.md` should be totally devoid of implementation details. Do not treat `CONTEXT.md` as a spec, a scratch pad, or a repository for implementation decisions. It is a glossary and nothing else.
+
+### Offer ADRs sparingly
+
+Only offer to create an ADR when all three are true:
+
+1. **Hard to reverse**: the cost of changing your mind later is meaningful
+2. **Surprising without context**: a future reader will wonder "why did they do it this way?"
+3. **The result of a real trade-off**: there were genuine alternatives and you picked one for specific reasons
+
+If any of the three is missing, skip the ADR. Use the format in [ADR-FORMAT.md](./ADR-FORMAT.md).
