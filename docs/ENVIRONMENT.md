@@ -51,3 +51,31 @@ Brev использован как эмуляция сервера заказч�
 | `mix_01` (55 с) | 16-19 с |
 
 Время холодного старта (скачивание образов и моделей на пустой машине) фиксируется при проверке на новой машине; журнал будет в `docs/runs`.
+
+## Постоянный dev-стек на Brev (для команды)
+
+Все рабочие прогоны и тесты выполняются на Brev. До первого старта остановите другие vLLM. На сервере для уже скачанных весов задаём `LLM_CACHE_DIR=/home/ubuntu/hf-cache` и `ASR_CACHE_DIR=/home/ubuntu/.cache/huggingface`; на новой машине используются стандартные каталоги из `.env.example`.
+
+```bash
+mkdir -p outputs
+docker compose -p meeting-dev up -d
+```
+
+Между прогонами vLLM остаётся запущенным. После правки кода обновляйте только приложение:
+
+```bash
+docker compose -p meeting-dev build app
+docker compose -p meeting-dev up -d --no-deps app
+bash scripts/check.sh replay
+docker compose -p meeting-dev exec -T app bash scripts/gpu-python.sh -m meeting_protocol "docs/Трек 8 Инновации/Совещание №1.mp3" --mode gpu --date 2026-09-23 --output outputs/meeting-1
+docker compose -p meeting-dev exec -T app bash scripts/gpu-python.sh -m meeting_protocol "docs/Трек 8 Инновации/Совещание №2.mp3" --mode gpu --date 2026-09-23 --output outputs/meeting-2
+docker compose -p meeting-dev exec -T app bash scripts/gpu-python.sh scripts/verify_outputs.py
+```
+
+Полный `check.sh gpu` со своим vLLM — только при закрытии этапа и перед кандидатом. Проверка отказывается стартовать, если уже работает контейнер vLLM. Два vLLM одновременно не запускаем:
+
+```bash
+docker compose -p meeting-dev stop
+bash scripts/check.sh gpu
+docker compose -p meeting-dev up -d
+```

@@ -1,0 +1,289 @@
+{
+  "assignments": [
+    {
+      "task": "Закрыть оставшиеся баги по тестированию релиза сайта (осталось ~20 багов)",
+      "responsible": "Нурлан",
+      "deadline_text": "до следующей среды",
+      "deadline_date": "2026-09-30",
+      "evidence": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        22
+      ]
+    },
+    {
+      "task": "Собрать более 3 коммерческих предложений на закупку ноутбуков",
+      "responsible": "Салтанат",
+      "deadline_text": "конец месяца",
+      "deadline_date": "2026-09-30",
+      "evidence": [
+        9,
+        10,
+        11,
+        12,
+        23,
+        24
+      ]
+    },
+    {
+      "task": "Подготовить бюджет на закупку ноутбуков",
+      "responsible": "Бауыржан",
+      "deadline_text": "к 25 числу",
+      "deadline_date": "2026-09-25",
+      "evidence": [
+        13,
+        14,
+        15,
+        16,
+        24,
+        25
+      ]
+    }
+  ],
+  "summary": "На совещании согласованы три задачи: Нурлан закрывает оставшиеся баги по тестированию релиза сайта до следующей среды (30.09.2026); Салтанат собирает более трёх коммерческих предложений на закупку ноутбуков до конца месяца (30.09.2026); Бауыржан готовит бюджет на закупку к 25.09.2026. Перенос релиза не планируется; при сдвиге Салтанат сама уведомит клиентов.",
+  "speakers": [
+    {
+      "label": "SPEAKER_1",
+      "name": null,
+      "evidence": []
+    },
+    {
+      "label": "SPEAKER_2",
+      "name": null,
+      "evidence": []
+    }
+  ],
+  "source_sha256": "dcdfdb754e804394a0fefc1e3504be9033cfe7409329eeb6d9803dbd3013116e",
+  "source_name": "mix_01.m4a",
+  "meeting_date": "2026-09-23",
+  "segments": [
+    {
+      "id": 0,
+      "start": 0.59,
+      "end": 2.41,
+      "text": "Так, коллеги, давайте начнем.",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 1,
+      "start": 3.17,
+      "end": 4.05,
+      "text": "Другим здесь их срок.",
+      "speaker": "SPEAKER_2",
+      "language": "ru"
+    },
+    {
+      "id": 2,
+      "start": 4.51,
+      "end": 6.63,
+      "text": "Сайт релиза и закупка ноутбуков.",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 3,
+      "start": 7.29,
+      "end": 8.55,
+      "text": "По релизу тестирование",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 4,
+      "start": 8.55,
+      "end": 10.51,
+      "text": "алибетпеда. Бактар",
+      "speaker": "SPEAKER_2",
+      "language": "ru"
+    },
+    {
+      "id": 5,
+      "start": 10.51,
+      "end": 12.49,
+      "text": "куб. Штук 20 осталось.",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 6,
+      "start": 13.31,
+      "end": 14.63,
+      "text": "Нурлан, сейн, бактар",
+      "speaker": "SPEAKER_2",
+      "language": "ru"
+    },
+    {
+      "id": 7,
+      "start": 14.63,
+      "end": 16.29,
+      "text": "закрой до следующей среды жарай, ма?",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 8,
+      "start": 17.07,
+      "end": 18.57,
+      "text": "Хорошо, до среды жарай, ма.",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 9,
+      "start": 19.27,
+      "end": 20.45,
+      "text": "Салтанат, ноутбуктар",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 10,
+      "start": 20.45,
+      "end": 22.37,
+      "text": "больше 3 коммерческих приложения",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 11,
+      "start": 22.37,
+      "end": 24.53,
+      "text": "собери. Брахасахпа, срок",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 12,
+      "start": 24.53,
+      "end": 26.63,
+      "text": "конец месяца. Понятно.",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 13,
+      "start": 26.87,
+      "end": 28.09,
+      "text": "Бухгалтерияга айту керек, ма?",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 14,
+      "start": 29.15,
+      "end": 30.41,
+      "text": "Я бауржанга айт.",
+      "speaker": "SPEAKER_2",
+      "language": "ru"
+    },
+    {
+      "id": 15,
+      "start": 30.41,
+      "end": 32.75,
+      "text": "Пусть он подготовит бюджет на закупку",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 16,
+      "start": 32.75,
+      "end": 34.51,
+      "text": "к 25 числу.",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 17,
+      "start": 35.25,
+      "end": 36.31,
+      "text": "Если релиз сдвинется,",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 18,
+      "start": 36.49,
+      "end": 37.63,
+      "text": "клиентки к мхабарлайда.",
+      "speaker": "SPEAKER_2",
+      "language": "ru"
+    },
+    {
+      "id": 19,
+      "start": 38.43,
+      "end": 40.57,
+      "text": "Если сдвинется, я сама клиентки жазаман.",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 20,
+      "start": 40.95,
+      "end": 42.37,
+      "text": "Но пока релиз не переносим.",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 21,
+      "start": 43.75,
+      "end": 44.53,
+      "text": "Итак, кортнда.",
+      "speaker": "SPEAKER_2",
+      "language": "ru"
+    },
+    {
+      "id": 22,
+      "start": 44.99,
+      "end": 46.59,
+      "text": "Нурлан, баги до среды.",
+      "speaker": "SPEAKER_2",
+      "language": "ru"
+    },
+    {
+      "id": 23,
+      "start": 47.17,
+      "end": 48.51,
+      "text": "Салтанат, 3кп до",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 24,
+      "start": 48.51,
+      "end": 50.69,
+      "text": "конца месяца. Бауржан, бюджет",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    },
+    {
+      "id": 25,
+      "start": 50.69,
+      "end": 52.65,
+      "text": "к 25. Всем рахмет.",
+      "speaker": "SPEAKER_1",
+      "language": "ru"
+    }
+  ],
+  "provenance": {
+    "asr": "faster-whisper 1.2.1 / large-v3 / CUDA float16; окна kk → SeamlessM4T-v2-large 5f8cc790b19f",
+    "llm": "qwen3.8-27b",
+    "agent": "PydanticAI 2.48.0",
+    "created_at": "2026-09-23T11:30:41.632156+00:00",
+    "diarization": "SpeechBrain ECAPA 0f99f2d0ebe8 / average-linkage cosine 0.5"
+  },
+  "context": {
+    "participants": [
+      "Айгерим",
+      "Нурлан",
+      "Салтанат",
+      "Бауыржан"
+    ],
+    "topic": "Релиз сайта и закупка ноутбуков"
+  }
+}
