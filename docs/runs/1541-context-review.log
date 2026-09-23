@@ -1,0 +1,10 @@
+Wed Sep 23 15:36:28 +05 2026
+.git
+.env
+.venv
+.cache
+outputs
+.DS_Store
+docs
+.agents
+.scratch

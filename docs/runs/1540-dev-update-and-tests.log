@@ -1,0 +1,76 @@
+NAME                IMAGE                                                                                      COMMAND                  SERVICE   CREATED         STATUS                   PORTS
+meeting-dev-app-1   meeting-dev-app                                                                            "bash scripts/gpu-py…"   app       4 minutes ago   Up 2 minutes             127.0.0.1:8001->8001/tcp
+meeting-dev-llm-1   vllm/vllm-openai@sha256:8a69ffad015f138d7170c4ddc429e230a3bc1c1719f67e14324749df200a4b90   "vllm serve nvidia/Q…"   llm       4 minutes ago   Up 4 minutes (healthy)   
+d828975f776b9d597ebe35ac536242daea045720a09f53bc64c66e2cf3b28251 2026-09-23T10:31:28.882721413Z
+.........                                                                [100%]
+9 passed in 0.60s
+ Image meeting-dev-app Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 526B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 673B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/python:3.11.13-slim-bookworm@sha256:86adf8dbadc3d6e82ee5dd2c74bec2e1c2467cdad47886280501df722372d2e1
+#3 DONE 0.0s
+
+#4 [internal] load metadata for ghcr.io/astral-sh/uv:0.12.18@sha256:3adc3706091ce7c2fe595e669628caedd6d951551b92b258b7e7dbe06d9440bc
+#4 DONE 0.0s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 103B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 66.57kB done
+#6 DONE 0.0s
+
+#7 [stage-1 1/8] FROM docker.io/library/python:3.11.13-slim-bookworm@sha256:86adf8dbadc3d6e82ee5dd2c74bec2e1c2467cdad47886280501df722372d2e1
+#7 resolve docker.io/library/python:3.11.13-slim-bookworm@sha256:86adf8dbadc3d6e82ee5dd2c74bec2e1c2467cdad47886280501df722372d2e1 0.0s done
+#7 DONE 0.0s
+
+#8 [uv 1/1] FROM ghcr.io/astral-sh/uv:0.12.18@sha256:3adc3706091ce7c2fe595e669628caedd6d951551b92b258b7e7dbe06d9440bc
+#8 resolve ghcr.io/astral-sh/uv:0.12.18@sha256:3adc3706091ce7c2fe595e669628caedd6d951551b92b258b7e7dbe06d9440bc 0.0s done
+#8 DONE 0.0s
+
+#9 [stage-1 4/8] COPY pyproject.toml uv.lock .python-version ./
+#9 CACHED
+
+#10 [stage-1 2/8] COPY --from=uv /uv /usr/local/bin/uv
+#10 CACHED
+
+#11 [stage-1 3/8] WORKDIR /app
+#11 CACHED
+
+#12 [stage-1 5/8] RUN uv sync --locked --extra gpu --no-dev
+#12 CACHED
+
+#13 [stage-1 6/8] COPY meeting_protocol ./meeting_protocol
+#13 DONE 0.1s
+
+#14 [stage-1 7/8] COPY scripts ./scripts
+#14 DONE 0.0s
+
+#15 [stage-1 8/8] COPY data ./data
+#15 DONE 0.0s
+
+#16 exporting to image
+#16 exporting layers
+#16 exporting layers 0.2s done
+#16 exporting manifest sha256:ce103bc1e1b43297d10fb521533eaa50f5fd604bed54d323fc44a95a77bcc408 0.0s done
+#16 exporting config sha256:aa67e431a9afbb90ff774ab5c69ad4e0f51e97af2b745f4a58df3721c61bfc71 0.0s done
+#16 exporting attestation manifest sha256:8de4602e857ee646f080d7ebe2c46326cf8bf090b34488e9c0086763adf416dd 0.0s done
+#16 exporting manifest list sha256:1d4ed53086ea6d4d70b1fbb7e59f077042f655c8c0281fd0284297a734032a67 0.0s done
+#16 naming to docker.io/library/meeting-dev-app:latest done
+#16 unpacking to docker.io/library/meeting-dev-app:latest 0.1s done
+#16 DONE 0.3s
+
+#17 resolving provenance for metadata file
+#17 DONE 0.0s
+ Image meeting-dev-app Built 
+ Container meeting-dev-app-1 Recreate 
+ Container meeting-dev-app-1 Recreated 
+ Container meeting-dev-app-1 Starting 
+ Container meeting-dev-app-1 Started 

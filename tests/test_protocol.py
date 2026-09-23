@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from docx import Document
 
-from meeting_protocol.protocol import Assignment, Protocol, Segment, export_docx, replay
+from meeting_protocol.protocol import Assignment, MeetingContext, Protocol, Segment, export_docx, replay, resolve_context
 
 
 def test_docx_preserves_kazakh_and_assignment():
@@ -52,3 +52,105 @@ for n in (1, 2):
 assert not {'torch', 'faster_whisper', 'pydantic_ai'} & sys.modules.keys()
 """
     subprocess.run([sys.executable, "-c", script], check=True)
+
+
+def test_context_by_audio_content_and_explicit_override(tmp_path):
+    original = Path('docs/Трек 8 Инновации/Совещание №2.mp3')
+    renamed = tmp_path / 'renamed.mp3'
+    renamed.write_bytes(original.read_bytes())
+    context = resolve_context(renamed)
+    assert 'Ботагоз Нурлановна' in context.participants
+    assert 'Жандос Талгатович' in context.participants
+    assert context.topic == 'Доклады по производственным показателям направлений'
+    custom = resolve_context(renamed, ' Динара ; Айбек\nДинара ', ' Новая тема ')
+    assert custom == MeetingContext(participants=['Динара', 'Айбек'], topic='Новая тема')
+    with pytest.raises(ValueError, match='не пересчитывает'):
+        replay(renamed, context=custom)
+
+
+def test_person_must_match_roster_but_department_is_preserved():
+    from meeting_protocol.pipeline import AgentAssignment, AgentExtraction, validate_names
+    context = MeetingContext(participants=['Ботагоз Нурлановна'])
+    task = dict(task='Подготовить договор', deadline_text=None, evidence=[0])
+    result = AgentExtraction(summary='', assignments=[AgentAssignment(**task, responsible='Батагус Нурлановна', responsible_type='person')])
+    with pytest.raises(ValueError, match='точно совпадать'):
+        validate_names(result, context)
+    result.assignments[0].responsible = 'Ботагоз Нурлановна'
+    validate_names(result, context)
+    result.assignments.append(AgentAssignment(**task, responsible='Юридический департамент', responsible_type='department'))
+    validate_names(result, context)
+
+
+def test_context_reaches_agent_but_not_asr(monkeypatch, tmp_path):
+    from meeting_protocol import pipeline
+    from meeting_protocol.protocol import Extraction
+    audio = tmp_path / 'test.mp3'
+    audio.write_bytes(b'regression boundary')
+    segments = [Segment(id=0, start=0, end=1, text='Батагус, подготовьте договор.')]
+    context = MeetingContext(participants=['Ботагоз Нурлановна'], topic='Договор')
+    seen = {}
+
+    def asr(path):
+        assert path == audio
+        return segments
+
+    def agent(transcript, meeting_date, received_context):
+        seen['context'] = received_context
+        return Extraction(summary='Договор', assignments=[Assignment(task='Подготовить договор', responsible=context.participants[0], deadline_text=None, evidence=[0])])
+
+    monkeypatch.setattr(pipeline, 'transcribe', asr)
+    monkeypatch.setattr(pipeline, 'extract', agent)
+    result = pipeline.process(audio, date(2026, 9, 23), context)
+    assert seen['context'] == context
+    assert result.segments == segments
+    assert result.context == context
+    assert result.assignments[0].responsible == 'Ботагоз Нурлановна'
+
+
+def test_web_form_context_and_replay_mismatch():
+    from fastapi.testclient import TestClient
+    from meeting_protocol.web import app
+    audio = Path('docs/Трек 8 Инновации/Совещание №2.mp3')
+    with TestClient(app) as client:
+        page = client.get('/').text
+        assert 'name="participants"' in page and 'name="topic"' in page
+        response = client.post('/protocol', files={'audio': ('meeting.mp3', audio.read_bytes(), 'audio/mpeg')},
+                               data={'meeting_date': '2026-09-23', 'participants': 'Другой человек', 'topic': 'Изменено'})
+        assert response.status_code == 422
+        assert 'не пересчитывает' in response.json()['detail']
+
+
+def test_web_replay_accepts_prefilled_context():
+    from fastapi.testclient import TestClient
+    from meeting_protocol.web import app
+    audio = Path('docs/Трек 8 Инновации/Совещание №2.mp3')
+    context = resolve_context(audio)
+    with TestClient(app) as client:
+        response = client.post('/protocol', files={'audio': ('meeting.mp3', audio.read_bytes(), 'audio/mpeg')},
+                               data={'meeting_date': '2026-09-23', 'participants': '\n'.join(context.participants), 'topic': context.topic})
+    assert response.status_code == 200
+    doc = Document(BytesIO(response.content))
+    owners = {row.cells[1].text for row in doc.tables[0].rows[1:]}
+    assert 'Ботагоз Нурлановна' in owners
+    assert 'Жандос Талгатович' in owners
+
+
+def test_web_gpu_forwards_form_fields(monkeypatch):
+    from fastapi.testclient import TestClient
+    from meeting_protocol import pipeline
+    from meeting_protocol.web import app
+    monkeypatch.setenv('APP_MODE', 'gpu')
+    seen = {}
+
+    def process(audio, meeting_date, context):
+        seen['context'] = context
+        return Protocol(source_sha256='a' * 64, source_name=audio.name, meeting_date=meeting_date,
+                        segments=[Segment(id=0, start=0, end=1, text='Текст')], assignments=[],
+                        summary='Саммари', provenance={}, context=context)
+
+    monkeypatch.setattr(pipeline, 'process', process)
+    with TestClient(app) as client:
+        response = client.post('/protocol', files={'audio': ('new.mp3', b'new', 'audio/mpeg')},
+                               data={'meeting_date': '2026-09-23', 'participants': 'Динара\nАйбек', 'topic': 'Договор'})
+    assert response.status_code == 200
+    assert seen['context'] == MeetingContext(participants=['Динара', 'Айбек'], topic='Договор')

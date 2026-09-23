@@ -1,0 +1,8 @@
+./meeting_protocol/__main__.py:28:        protocol = process(args.audio, args.date, context)
+./tests/test_protocol.py:103:    result = pipeline.process(audio, date(2026, 9, 23), context)
+./tests/test_protocol.py:130:    def process(audio, meeting_date, context):
+./meeting_protocol/web.py:90:                result = process(path, meeting_date, context)
+./meeting_protocol/pipeline.py:62:def extract(segments: list[Segment], meeting_date: date, context: MeetingContext) -> Extraction:
+./meeting_protocol/pipeline.py:121:def process(audio: Path, meeting_date: date, context: MeetingContext) -> Protocol:
+./meeting_protocol/pipeline.py:123:    extracted = extract(segments, meeting_date, context)
+Wed Sep 23 15:37:19 +05 2026

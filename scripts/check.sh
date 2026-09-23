@@ -28,6 +28,15 @@ if [[ "$mode" == replay || "$mode" == all ]]; then
     echo 'PASS replay: не проверка моделей'
 fi
 if [[ "$mode" == gpu || "$mode" == all ]]; then
+    # Dev vLLM останавливает оператор; проверка не трогает чужие контейнеры.
+    running_llm="$(docker ps -q | while IFS= read -r container_id; do
+        docker inspect --format '{{.Name}} {{.Config.Image}} {{index .Config.Labels "com.docker.compose.service"}}' "$container_id"
+    done | awk 'tolower($0) ~ /vllm/ || $NF == "llm"')"
+    if [[ -n "$running_llm" ]]; then
+        echo 'GPU-проверка не запущена: уже работает vLLM. Сначала: docker compose -p meeting-dev stop' >&2
+        echo "$running_llm" >&2
+        exit 1
+    fi
     mkdir -p outputs
     docker compose build app
     compose_started=1

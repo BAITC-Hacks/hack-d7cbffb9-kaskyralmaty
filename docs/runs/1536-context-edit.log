@@ -1,32 +1,3 @@
-"""Минимальный вход в общий конвейер; сервер слушает localhost по README."""
-import os
-import json
-import tempfile
-import threading
-from datetime import date
-from pathlib import Path
-
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
-from fastapi.responses import HTMLResponse, Response
-from .protocol import export_docx, meeting_presets, replay, resolve_context
-
-app = FastAPI(title="Протокол совещания")
-processing = threading.Lock()
-
-
-@app.get("/", response_class=HTMLResponse)
-def index():
-    mode = os.environ.get("APP_MODE", "replay")
-    label = "Воспроизведение — не проверка моделей" if mode == "replay" else "Локальные модели на GPU"
-    presets = json.dumps(meeting_presets(), ensure_ascii=False).replace("<", "\\u003c")
-    return f"""<!doctype html><html lang="ru"><meta charset="utf-8"><title>Протокол совещания</title>
-    <style>body{{font:18px system-ui;max-width:760px;margin:60px auto;padding:20px;color:#17302b;background:#f5f5ef}}form{{display:grid;gap:20px;padding:28px;background:white;border-radius:16px}}button{{padding:14px;background:#195e4b;color:white;border:0;border-radius:8px;font-size:18px}}</style>
-    <h1>Протокол совещания</h1><p>{label}</p>
-    <p>MP3 → транскрипт → поручения → DOCX. В этапе 1 говорящие ещё не разделяются.</p>
-    <form action="/protocol" method="post" enctype="multipart/form-data">
-    <label>Аудиозапись <input id="audio" name="audio" type="file" accept="audio/*" required></label>
-    <label>Дата встречи <input name="meeting_date" type="date" value="2026-09-23" required></label>
-    <label>Тема <input id="topic" name="topic" maxlength="1000" style="width:100%"></label>
     <label>Участники <textarea id="participants" name="participants" rows="6" style="width:100%" placeholder="Каждое ФИО с новой строки"></textarea></label>
     <small>Укажите участников и известных ответственных, в том числе не выступавших. Тема и имена передаются только агенту для разбора, не в распознавание речи. Для двух комплектных MP3 поля заполняются по эталонным протоколам; фамилии, которых нет в источнике, не добавлены.</small>
     <p id="context-note" aria-live="polite"></p>
@@ -48,7 +19,7 @@ def index():
         }}
         if (current !== selection) return;
         document.getElementById('topic').value = preset?.topic || '';
-        document.getElementById('participants').value = (preset?.participants || []).join('\\n');
+        document.getElementById('participants').value = (preset?.participants || []).join('\u005cn');
         document.getElementById('context-note').textContent = preset ? 'Тема и имена заполнены: ' + preset.label + '. Проверьте перед отправкой.' : 'Введите тему и участников своей встречи.';
       }} catch {{
         if (current === selection) document.getElementById('context-note').textContent = 'Не удалось заполнить поля автоматически; введите тему и участников вручную.';
@@ -64,7 +35,7 @@ def health():
 
 @app.post("/protocol")
 def protocol(audio: UploadFile = File(...), meeting_date: date = Form(...),
-             participants: str = Form(""), topic: str = Form("")):
+             participants: str | None = Form(None), topic: str | None = Form(None)):
     mode = os.environ.get("APP_MODE", "replay")
     if mode not in {"replay", "gpu"}:
         raise HTTPException(503, "Некорректный режим сервиса")
@@ -93,6 +64,12 @@ def protocol(audio: UploadFile = File(...), meeting_date: date = Form(...),
                             headers={"Content-Disposition": 'attachment; filename="protocol.docx"'})
     except ValueError as error:
         raise HTTPException(422, str(error)) from error
-    finally:
-        audio.file.close()
-        processing.release()
+ docs/LOG.md                            |  1 +
+ docs/PLAN.md                           |  4 +++
+ docs/runs/1425-scope-commit-result.log | 19 ++++++++++++
+ meeting_protocol/__main__.py           |  9 ++++--
+ meeting_protocol/pipeline.py           | 53 +++++++++++++++++++++++++++-------
+ meeting_protocol/protocol.py           | 35 +++++++++++++++++++++-
+ meeting_protocol/web.py                | 44 ++++++++++++++++++++++++----
+ scripts/check.sh                       |  7 +++++
+ 8 files changed, 152 insertions(+), 20 deletions(-)

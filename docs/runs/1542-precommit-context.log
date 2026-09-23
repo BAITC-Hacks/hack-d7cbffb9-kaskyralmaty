@@ -1,0 +1,45 @@
+Wed Sep 23 15:40:20 +05 2026
+ M README.md
+ M data/replay/meeting-1.json
+ M data/replay/meeting-2.json
+ M docs/LOG.md
+ M docs/PLAN.md
+ M docs/runs/1425-scope-commit-result.log
+ M meeting_protocol/__main__.py
+ M meeting_protocol/pipeline.py
+ M meeting_protocol/protocol.py
+ M meeting_protocol/web.py
+ M scripts/check.sh
+ M scripts/verify_outputs.py
+ M tests/test_protocol.py
+?? data/meeting-context.json
+?? docs/runs/1359-commit-push-result.log
+?? docs/runs/1359-push-result.log
+?? docs/runs/1359-push-verification.log
+?? docs/runs/1402-track8-setup-commit.log
+?? docs/runs/1413-architecture-research-commit.log
+?? docs/runs/1419-meeting-decisions-commit.log
+?? docs/runs/1421-audio-input-planning.log
+?? docs/runs/1434-plan-commit-result.log
+?? docs/runs/1521-stage1-close-commit.log
+?? docs/runs/1527-stage2-context.log
+?? docs/runs/1528-dev-inspection.log
+?? docs/runs/1528-name-context-source.log
+?? docs/runs/1531-dev-start.log
+?? docs/runs/1531-reference-context.log
+?? docs/runs/1536-context-diff.log
+?? docs/runs/1536-context-edit.log
+?? docs/runs/1536-dev-context-gpu.log
+?? docs/runs/1537-dev-sync.log
+?? docs/runs/1538-callers-check.log
+?? docs/runs/1538-dev-health.log
+?? docs/runs/1538-progress-log.log
+?? docs/runs/1538-verify-sync.log
+?? docs/runs/1540-canonical-owner-inspection.log
+?? docs/runs/1540-canonical-owners.log
+?? docs/runs/1540-dev-update-and-tests.log
+?? docs/runs/1540-fixture-refresh.log
+?? docs/runs/1541-context-review.log
+?? docs/runs/1541-context-tests-and-deploy.log
+?? docs/runs/1541-updated-fixture-sync.log
+?? docs/runs/1542-precommit-context.log

@@ -1,0 +1,12 @@
+Wed Sep 23 10:37:04 UTC 2026
+{"status":"ok","mode":"gpu"}meeting-dev-app-1 meeting-dev-app
+asr-exp d4fcd452547a
+meeting-dev-llm-1 8a69ffad015f
+(APIServer pid=1) INFO:     127.0.0.1:57098 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:56892 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:47130 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:43134 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:43342 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:37656 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:39498 - "GET /v1/models HTTP/1.1" 200 OK
+(APIServer pid=1) INFO:     127.0.0.1:51300 - "GET /v1/models HTTP/1.1" 200 OK
