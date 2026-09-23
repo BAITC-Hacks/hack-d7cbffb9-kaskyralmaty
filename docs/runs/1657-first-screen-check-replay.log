@@ -1,0 +1,60 @@
+Проверяется коммит 90d7f1e7e38927a178b24416fff2dd055fea028e; режим replay
+Using CPython 3.11.13
+Creating virtual environment at: .venv
+Resolved 95 packages in 3ms
+Installed 41 packages in 90ms
+ + annotated-doc==0.0.5
+ + annotated-types==0.8.0
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + charset-normalizer==3.5.1
+ + click==8.5.0
+ + fastapi==0.141.1
+ + genai-prices==0.1.8
+ + griffelib==2.3.0
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpcore2==2.13.1
+ + httpx==0.28.1
+ + httpx2==2.13.1
+ + idna==3.20
+ + iniconfig==2.3.0
+ + jiter==0.17.0
+ + logfire-api==5.1.0
+ + lxml==6.1.3
+ + openai==3.19.0
+ + opentelemetry-api==1.44.0
+ + packaging==26.3
+ + pluggy==1.6.0
+ + pydantic==2.13.5
+ + pydantic-ai-slim==2.48.0
+ + pydantic-core==2.46.5
+ + pydantic-graph==2.48.0
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + python-docx==1.2.0
+ + python-multipart==0.0.32
+ + regex==2026.9.10
+ + requests==2.34.2
+ + sniffio==1.3.1
+ + starlette==1.7.0
+ + tiktoken==0.14.0
+ + truststore==0.10.4
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.4
+ + urllib3==2.8.0
+ + uvicorn==0.53.0
+Воспроизведение — не проверка моделей
+Реплик: 47; поручений: 10; DOCX: outputs/meeting-1.docx
+Воспроизведение — не проверка моделей
+Реплик: 65; поручений: 8; DOCX: outputs/meeting-2.docx
+............s..s.                                                        [100%]
+15 passed, 2 skipped in 0.59s
+Документ №1: 47 реплик, 10 поручений
+Документ №2: 65 реплик, 8 поручений
+PASS replay: не проверка моделей
+exit=0
+# evaluate from data/eval
+kz_01: WER 11.1%; языки окон ['kk']; поручения: найдено 3/3 (recall), верных 3/3 (precision)
+mix_01: WER 36.3%; языки окон ['ru']; поручения: найдено 3/4 (recall), верных 3/3 (precision)
+exit=0
