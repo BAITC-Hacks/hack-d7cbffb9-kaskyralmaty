@@ -129,8 +129,9 @@ def test_web_replay_accepts_prefilled_context():
     with TestClient(app) as client:
         response = client.post('/protocol', files={'audio': ('meeting.mp3', audio.read_bytes(), 'audio/mpeg')},
                                data={'meeting_date': '2026-09-23', 'participants': '\n'.join(context.participants), 'topic': context.topic})
-    assert response.status_code == 200
-    doc = Document(BytesIO(response.content))
+        assert response.status_code == 200
+        docx = client.get(response.url.path + '.docx')
+    doc = Document(BytesIO(docx.content))
     owners = {row.cells[1].text for row in doc.tables[0].rows[1:]}
     assert 'Ботагоз Нурлановна' in owners
     assert 'Жандос Талгатович' in owners
@@ -194,3 +195,28 @@ def test_clustering_separates_distinct_voices():
     vectors = [a + rng.normal(scale=0.1, size=192) for _ in range(4)] + [b + rng.normal(scale=0.1, size=192) for _ in range(3)]
     labels = cluster(vectors)
     assert len(set(labels[:4])) == 1 and len(set(labels[4:])) == 1 and labels[0] != labels[4]
+
+
+def test_web_result_page_links_assignments_to_replicas():
+    from fastapi.testclient import TestClient
+    from meeting_protocol.web import app
+    audio = Path('docs/Трек 8 Инновации/Совещание №2.mp3')
+    context = resolve_context(audio)
+    with TestClient(app) as client:
+        response = client.post('/protocol', files={'audio': ('meeting.mp3', audio.read_bytes(), 'audio/mpeg')},
+                               data={'meeting_date': '2026-09-23', 'participants': '\n'.join(context.participants), 'topic': context.topic})
+        assert response.status_code == 200 and response.url.path.startswith('/result/')
+        page = response.text
+        assert 'Ботагоз Нурлановна' in page and 'Скачать DOCX' in page and 'не проверка моделей' in page
+        assert 'href=#seg-' in page and 'id=seg-0' in page
+        docx = client.get(response.url.path + '.docx')
+        assert docx.status_code == 200 and docx.content[:2] == b'PK'
+        assert client.get('/result/missing').status_code == 404
+
+
+def test_deadline_status_relative_to_date():
+    task = Assignment(task='x', responsible=None, deadline_text='до пятницы', deadline_date=date(2026, 9, 25), evidence=[0])
+    assert task.status(date(2026, 9, 23)) == 'скоро срок'
+    assert task.status(date(2026, 9, 26)) == 'просрочено'
+    assert task.status(date(2026, 9, 1)) == 'в работе'
+    assert Assignment(task='x', responsible=None, deadline_text=None, evidence=[0]).status(date(2026, 9, 23)) == 'без даты'

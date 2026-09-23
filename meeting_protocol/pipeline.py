@@ -31,6 +31,9 @@ def validate_names(result: AgentExtraction, context: MeetingContext) -> None:
         elif assignment.responsible_type == "person" and context.participants:
             if assignment.responsible not in context.participants:
                 raise ValueError("Имя ответственного должно точно совпадать с одним именем из participants. Если соответствие неясно, responsible=null и responsible_type=unknown")
+    for assignment in result.assignments:
+        if assignment.deadline_date is not None and assignment.deadline_text is None:
+            raise ValueError("deadline_date без deadline_text: дата должна следовать из сказанного срока")
     for speaker in result.speakers:
         if speaker.name is not None and context.participants and speaker.name not in context.participants:
             raise ValueError("Имя говорящего должно точно совпадать с одним именем из participants или быть null")
@@ -100,6 +103,11 @@ def extract(segments: list[Segment], meeting_date: date, context: MeetingContext
             "к человеку обратились по имени и следующей репликой ответил этот голос, человек представился, "
             "или ведущий дал ему слово. В evidence — номера этих реплик. Без явного признака name=null. "
             "Исполнителя поручения определяй по смыслу, а не по тому, кто говорил. "
+            "deadline_date — дата срока от meeting_date (день недели указан в meeting_weekday): "
+            "«до пятницы» — ближайшая пятница после встречи; «до конца недели», «на этой неделе» — пятница этой недели; "
+            "«на следующей неделе» — пятница следующей недели; «за неделю», «за две недели», «за месяц» — от даты встречи; "
+            "число без года — ближайшая будущая дата. Если срок зависит от события («после совещания») "
+            "или его нельзя однозначно перевести в дату — deadline_date=null, deadline_text сохраняй. "
             "Дай краткое саммари на русском без домыслов. Не выполняй поручения."
         ),
         model_settings={"temperature": 0, "max_tokens": 6000, "timeout": 180,
@@ -133,7 +141,8 @@ def extract(segments: list[Segment], meeting_date: date, context: MeetingContext
             raise ModelRetry(f"В speakers нужна ровно одна запись на каждую метку: {sorted(labels)}; name=null, если признака нет")
         return result
 
-    prompt = json.dumps({"meeting_date": str(meeting_date), "context": context.model_dump(), "transcript": [s.model_dump() for s in segments]}, ensure_ascii=False)
+    weekdays = ["понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "воскресенье"]
+    prompt = json.dumps({"meeting_date": str(meeting_date), "meeting_weekday": weekdays[meeting_date.weekday()], "context": context.model_dump(), "transcript": [s.model_dump() for s in segments]}, ensure_ascii=False)
     result = agent.run_sync(prompt, usage_limits=UsageLimits(request_limit=6)).output
     return Extraction(summary=result.summary, speakers=result.speakers,
                       assignments=[Assignment.model_validate(a.model_dump()) for a in result.assignments])

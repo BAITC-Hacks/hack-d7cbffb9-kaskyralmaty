@@ -24,7 +24,18 @@ class Assignment(BaseModel):
     task: str = Field(min_length=1)
     responsible: str | None = Field(description="Ответственный человек или подразделение из транскрипта; null только если не указан")
     deadline_text: str | None = Field(description="Окончательный согласованный срок исходными словами; null только если не указан")
+    deadline_date: date | None = Field(default=None, description="Календарная дата срока, вычисленная от даты встречи; null, если срок не указан, зависит от события или неоднозначен")
     evidence: list[int] = Field(min_length=1)
+
+    def status(self, as_of: date) -> str:
+        """R4: deadline status relative to as_of (today in the UI, export date in DOCX)."""
+        if self.deadline_date is None:
+            return "без даты"
+        days = (self.deadline_date - as_of).days
+        return "просрочено" if days < 0 else "скоро срок" if days <= DUE_SOON_DAYS else "в работе"
+
+
+DUE_SOON_DAYS = 3
 
 
 class SpeakerName(BaseModel):
@@ -108,7 +119,8 @@ def replay(audio: Path, *, context: MeetingContext | None = None) -> Protocol:
     raise ValueError("Нет сохранённого результата для этого аудио. Нужен режим GPU.")
 
 
-def export_docx(protocol: Protocol, *, replay_mode: bool = False) -> bytes:
+def export_docx(protocol: Protocol, *, replay_mode: bool = False, as_of: date | None = None) -> bytes:
+    as_of = as_of or date.today()
     doc = Document()
     doc.styles["Normal"].font.name = "Arial"
     doc.styles["Normal"].font.size = Pt(11)
@@ -127,12 +139,14 @@ def export_docx(protocol: Protocol, *, replay_mode: bool = False) -> bytes:
     doc.add_heading("Саммари", 1)
     doc.add_paragraph(protocol.summary or "Не сформировано")
     doc.add_heading("Поручения", 1)
-    table = doc.add_table(rows=1, cols=4)
+    table = doc.add_table(rows=1, cols=6)
     table.style = "Table Grid"
-    for cell, title in zip(table.rows[0].cells, ["Суть", "Ответственный", "Срок (как сказано)", "Реплики"]):
+    for cell, title in zip(table.rows[0].cells, ["Суть", "Ответственный", "Срок (как сказано)", "Дата", f"Статус на {as_of:%d.%m.%Y}", "Реплики"]):
         cell.text = title
     for assignment in protocol.assignments:
-        values = [assignment.task, assignment.responsible or "Не указан", assignment.deadline_text or "Не указан", ", ".join(map(str, assignment.evidence))]
+        values = [assignment.task, assignment.responsible or "Не указан", assignment.deadline_text or "Не указан",
+                  f"{assignment.deadline_date:%d.%m.%Y}" if assignment.deadline_date else "—", assignment.status(as_of),
+                  ", ".join(map(str, assignment.evidence))]
         for cell, value in zip(table.add_row().cells, values):
             cell.text = value
     doc.add_heading("Транскрипт", 1)
