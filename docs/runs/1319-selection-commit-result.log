@@ -1,0 +1,32 @@
+[main 39df265] docs: изучены 12 треков, выбран трек 8; план и стек не утверждены
+ 30 files changed, 11991 insertions(+)
+ create mode 100644 docs/CASE.md
+ create mode 100644 docs/LOG.md
+ create mode 100644 docs/TRACKS.md
+ create mode 100644 docs/runs/1300-feasibility-agents.log
+ create mode 100644 docs/runs/1300-feasibility-skill.log
+ create mode 100644 docs/runs/1314-customer-inventory.log
+ create mode 100644 docs/runs/1314-customer-rules.log
+ create mode 100644 docs/runs/1314-track-context.log
+ create mode 100644 docs/runs/1314-track-inventory.log
+ create mode 100644 docs/runs/1315-case-text.log
+ create mode 100644 docs/runs/1315-cases-4-9.log
+ create mode 100644 docs/runs/1315-customer-cases-rest.log
+ create mode 100644 docs/runs/1315-customer-cases.log
+ create mode 100644 docs/runs/1315-customer-sol.log
+ create mode 100644 docs/runs/1315-feasibility-requirements.log
+ create mode 100644 docs/runs/1315-read-11-12-2.log
+ create mode 100644 docs/runs/1315-read-5-8.log
+ create mode 100644 docs/runs/1316-customer-sol.log
+ create mode 100644 docs/runs/1316-education-read.log
+ create mode 100644 docs/runs/1316-education-source.log
+ create mode 100644 docs/runs/1316-feasibility-sol.log
+ create mode 100644 docs/runs/1316-shortlist-inputs.log
+ create mode 100644 docs/runs/1316-supporting-inputs.log
+ create mode 100644 docs/runs/1318-track-report.log
+ create mode 100644 docs/runs/1319-log-correction.log
+ create mode 100644 docs/runs/1319-select-track-8.log
+ create mode 100644 docs/runs/1319-selection-check.log
+ create mode 100644 docs/runs/1319-selection-commit-result.log
+ create mode 100644 docs/runs/1319-selection-commit.log
+ create mode 100644 docs/runs/1319-selection-log.log

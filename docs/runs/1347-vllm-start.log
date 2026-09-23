@@ -1,0 +1,114 @@
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+Unable to find image 'vllm/vllm-openai:latest' locally
+latest: Pulling from vllm/vllm-openai
+cf57d2112d89: Pulling fs layer
+e2f3b94fa5cb: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+51b9a07d42b7: Pulling fs layer
+70f87b6ed43e: Pulling fs layer
+0b3b5bd92824: Pulling fs layer
+c567a87f21d2: Pulling fs layer
+0db1731e65c7: Pulling fs layer
+526d5438c009: Pulling fs layer
+469e56fbf4cf: Pulling fs layer
+1c8ea55558c7: Pulling fs layer
+8fe4c16e900e: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+6eafdbb2831f: Pulling fs layer
+ebe179b7baa9: Pulling fs layer
+8d9eafa6ba97: Pulling fs layer
+e2f3b94fa5cb: Pulling fs layer
+37f38cbce67f: Pulling fs layer
+08725c661696: Pulling fs layer
+d4819562c6f5: Pulling fs layer
+72a6c87f05fc: Pulling fs layer
+8d3e49ac60ed: Pulling fs layer
+9de8dd59a787: Pulling fs layer
+573620a6ecbf: Pulling fs layer
+046662402faa: Pulling fs layer
+1287aade4630: Pulling fs layer
+d6aca52e827f: Pulling fs layer
+b28e8d812378: Pulling fs layer
+4c9be88c471d: Pulling fs layer
+38df1ab86f60: Pulling fs layer
+7060cfcdc2e7: Pulling fs layer
+8ba2e81f6cfd: Pulling fs layer
+df21006c3cea: Pulling fs layer
+64f463222af7: Pulling fs layer
+0e2088e80f24: Pulling fs layer
+c4e0d1789b0e: Pulling fs layer
+8f7451f008ff: Pulling fs layer
+e2f3b94fa5cb: Download complete
+4f4fb700ef54: Download complete
+cf57d2112d89: Download complete
+0db1731e65c7: Download complete
+51b9a07d42b7: Download complete
+70f87b6ed43e: Download complete
+c567a87f21d2: Download complete
+526d5438c009: Download complete
+469e56fbf4cf: Download complete
+0b3b5bd92824: Download complete
+37f38cbce67f: Download complete
+8fe4c16e900e: Download complete
+6eafdbb2831f: Download complete
+ebe179b7baa9: Download complete
+8d9eafa6ba97: Download complete
+cf57d2112d89: Pull complete
+c567a87f21d2: Pull complete
+08725c661696: Download complete
+70f87b6ed43e: Pull complete
+0b3b5bd92824: Pull complete
+0db1731e65c7: Pull complete
+526d5438c009: Pull complete
+469e56fbf4cf: Pull complete
+8d3e49ac60ed: Download complete
+9de8dd59a787: Download complete
+046662402faa: Download complete
+1287aade4630: Download complete
+d6aca52e827f: Download complete
+4c9be88c471d: Download complete
+38df1ab86f60: Download complete
+8ba2e81f6cfd: Download complete
+0e2088e80f24: Download complete
+8f7451f008ff: Download complete
+df21006c3cea: Download complete
+c4e0d1789b0e: Download complete
+64f463222af7: Download complete
+7060cfcdc2e7: Download complete
+573620a6ecbf: Download complete
+7060cfcdc2e7: Pull complete
+b28e8d812378: Download complete
+72a6c87f05fc: Download complete
+1c8ea55558c7: Download complete
+1c8ea55558c7: Pull complete
+8fe4c16e900e: Pull complete
+ebe179b7baa9: Pull complete
+51b9a07d42b7: Pull complete
+6eafdbb2831f: Pull complete
+e2f3b94fa5cb: Pull complete
+37f38cbce67f: Pull complete
+8d9eafa6ba97: Pull complete
+d4819562c6f5: Download complete
+d4819562c6f5: Pull complete
+72a6c87f05fc: Pull complete
+8d3e49ac60ed: Pull complete
+9de8dd59a787: Pull complete
+08725c661696: Pull complete
+046662402faa: Pull complete
+1287aade4630: Pull complete
+573620a6ecbf: Pull complete
+4f4fb700ef54: Pull complete
+8f7451f008ff: Pull complete
+64f463222af7: Pull complete
+38df1ab86f60: Pull complete
+8ba2e81f6cfd: Pull complete
+c4e0d1789b0e: Pull complete
+b28e8d812378: Pull complete
+4c9be88c471d: Pull complete
+df21006c3cea: Pull complete
+0e2088e80f24: Pull complete
+d6aca52e827f: Pull complete
+Digest: sha256:8a69ffad015f138d7170c4ddc429e230a3bc1c1719f67e14324749df200a4b90
+Status: Downloaded newer image for vllm/vllm-openai:latest
+5afd74c7bc566e9868780f84e42b8092cfd84401d44088f1d9ff475a4e1713d5
+llm Up 8 seconds vllm/vllm-openai:latest

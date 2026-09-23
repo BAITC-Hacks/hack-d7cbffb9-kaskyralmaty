@@ -1,0 +1,14 @@
+Pseudo-terminal will not be allocated because stdin is not a terminal.
+Warning: Permanently added '[global.prd.ga.run.brev.nvidia.com]:36160' (ED25519) to the list of known hosts.
+name, memory.total [MiB], driver_version, compute_cap
+NVIDIA RTX PRO 6000 Blackwell Server Edition, 97887 MiB, 595.91.07, 12.0
++-----------------------------------------+------------------------+----------------------+
+Build cuda_13.2.r13.2/compiler.37434383_0
+Docker version 29.8.1, build 4a63305
+ Runtimes: nvidia runc io.containerd.runc.v2
+Python 3.10.12
+/dev/root       248G   54G  195G  22% /
+8
+               total        used        free      shared  buff/cache   available
+Mem:              62           0          55           0           5          60
+Ubuntu 22.04.5 LTS

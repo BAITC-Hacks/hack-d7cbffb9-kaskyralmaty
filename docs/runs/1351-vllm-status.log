@@ -1,0 +1,11 @@
+llm Up 19 seconds
+WARNING 09-23 08:51:55 [argparse_utils.py:276] With `vllm serve`, you should provide the model as a positional argument or in a config file instead of via the `--model` option. The `--model` option will be removed in a future version.
+(APIServer pid=1) INFO 09-23 08:51:55 [api_utils.py:347] 
+(APIServer pid=1) INFO 09-23 08:51:55 [api_utils.py:347]        █     █     █▄   ▄█
+(APIServer pid=1) INFO 09-23 08:51:55 [api_utils.py:347]  ▄▄ ▄█ █     █     █ ▀▄▀ █  version 0.30.0
+(APIServer pid=1) INFO 09-23 08:51:55 [api_utils.py:347]   █▄█▀ █     █     █     █  model   nvidia/Qwen3.8-27B-NVFP4
+(APIServer pid=1) INFO 09-23 08:51:55 [api_utils.py:347]    ▀▀  ▀▀▀▀▀ ▀▀▀▀▀ ▀     ▀
+(APIServer pid=1) INFO 09-23 08:51:55 [api_utils.py:347] 
+(APIServer pid=1) INFO 09-23 08:51:55 [api_utils.py:286] non-default args: {'model_tag': 'nvidia/Qwen3.8-27B-NVFP4', 'enable_auto_tool_choice': True, 'tool_call_parser': 'qwen3_xml', 'model': 'nvidia/Qwen3.8-27B-NVFP4', 'max_model_len': 32768, 'served_model_name': ['qwen3.8-27b'], 'reasoning_parser': 'qwen3', 'gpu_memory_utilization': 0.45, 'kv_cache_dtype': 'fp8'}
+(APIServer pid=1) Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+140K	/home/ubuntu/hf-cache
