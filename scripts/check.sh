@@ -28,6 +28,7 @@ if [[ "$mode" == replay || "$mode" == all ]]; then
     echo 'PASS replay: не проверка моделей'
 fi
 if [[ "$mode" == gpu || "$mode" == all ]]; then
+    mkdir -p outputs
     docker compose build app
     compose_started=1
     docker compose up -d --wait --wait-timeout 900 llm

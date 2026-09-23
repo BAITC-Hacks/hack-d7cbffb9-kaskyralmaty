@@ -36,13 +36,14 @@ bash scripts/check.sh replay
 
 ## 2. Полный запуск моделей: Docker Compose и GPU
 
-Нужны Linux x86_64, Docker Engine с Compose v2 и NVIDIA Container Toolkit. Для проверяемой конфигурации используется NVIDIA RTX PRO 6000 Blackwell Server **96 ГБ VRAM**, драйвер 595.91.07, примерно 64 ГБ RAM. Минимальные ресурсы для других GPU не измерены. Планируйте минимум 80 ГБ свободного диска на образы, модели и кэши. Первое скачивание моделей требует интернета, но не аккаунтов; аудио/текст при скачивании не передаются.
+Нужны Linux x86_64, Docker Engine с Compose v2 и NVIDIA Container Toolkit. Для проверяемой конфигурации используется NVIDIA RTX PRO 6000 Blackwell Server **96 ГБ VRAM**, драйвер 595.91.07, примерно 64 ГБ RAM. Минимальные ресурсы для других GPU не измерены. Предусмотрите около 100 ГБ свободного диска на образы, модели и кэши; точный минимум не измерен. Первое скачивание моделей требует интернета, но не аккаунтов; аудио/текст при скачивании не передаются.
 
 В конфигурации фиксированы CUDA-библиотеки для ASR, torch 2.8.0+cu128, точные ревизии моделей и digest образа vLLM. GPU-конвейер не откатывается на воспроизведение при ошибке.
 
 Из корня репозитория:
 
 ```bash
+mkdir -p outputs
 docker compose build app
 docker compose up -d --wait --wait-timeout 900 llm
 docker compose run --rm app -m meeting_protocol 'docs/Трек 8 Инновации/Совещание №1.mp3' --mode gpu --date 2026-09-23 --output outputs/meeting-1
